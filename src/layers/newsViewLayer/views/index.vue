@@ -27,7 +27,7 @@ import HdButton from '@ui/hdButton/hdButton.vue'
             <td>какое-то название новости</td>
             <td>Штаны</td>
             <td>20.03.2024</td>
-            <td><HdBadge text="не опубликовано" type="success" /></td>
+            <td><HdBadge text="не опубликовано" type="danger" /></td>
             <td>...</td>
           </tr>
           <tr>
@@ -35,7 +35,7 @@ import HdButton from '@ui/hdButton/hdButton.vue'
             <td>другая новость</td>
             <td>Штаны</td>
             <td>20.03.2024</td>
-            <td><HdBadge text="опубликовано" type="primary" /></td>
+            <td><HdBadge text="опубликовано" type="success" /></td>
             <td>...</td>
           </tr>
         </tbody>

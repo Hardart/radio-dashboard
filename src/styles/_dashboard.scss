@@ -7,7 +7,7 @@
   &__aside {
     display: grid;
     width: 45px;
-    background-color: var(--color-bg-soft);
+    background-color: var(--color-bg-light);
     transition: width 500ms ease;
 
     &--open {

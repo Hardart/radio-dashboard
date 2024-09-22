@@ -34,7 +34,7 @@
   }
 
   &:hover {
-    color: hsla(var(--color-primary));
+    color: var(--primary);
     cursor: pointer;
   }
 }

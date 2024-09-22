@@ -1,3 +1,5 @@
+@import '@/styles/includes';
+
 .hd-badge {
   display: inline-block;
   padding: 4px 10px;
@@ -7,19 +9,23 @@
   border: 1px solid var(--color-border);
   border-radius: 5px;
 
-  &--primary {
-    background-color: hsla(var(--color-orange), 0.2);
-    border-color: hsla(var(--color-primary), 0.75);
+  &--warning {
+    color: var(--warning);
+    background-color: _scaleAlpha('warning', -80);
+    border-color: _scaleAlpha('warning', -10);
   }
 
-  &--secondary {
-    background-color: hsla(var(--color-secondary), 0.7);
-    border-color: var(--color-border);
+  &--danger {
+    color: var(--danger);
+    background-color: _scaleAlpha('danger', -90);
+    border-color: _scaleAlpha('danger');
+    filter: brightness(2);
   }
 
   &--success {
-    color: var(--color-text-light);
-    background-color: hsla(var(--color-success), 0.3);
-    border-color: hsla(var(--color-success));
+    color: var(--success);
+    background-color: _scaleAlpha('success', -85);
+    border-color: _scaleAlpha('success', -10);
+    filter: brightness(1.5);
   }
 }

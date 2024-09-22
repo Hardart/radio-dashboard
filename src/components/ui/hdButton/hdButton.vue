@@ -3,7 +3,7 @@ import SvgIcon, { type Icon } from '@/components/SvgIcon/SvgIcon.vue'
 
 defineProps<{
   text?: string
-  type?: 'primary'
+  type?: 'primary' | 'success' | 'danger'
   icon?: Icon
   iconClass?: string
 }>()

@@ -7,7 +7,7 @@ import Navigation from '@/components/Navigation/Navigation.vue'
   <Header />
   <main class="main">
     <div class="dashboard">
-      <aside class="dashboard__aside">
+      <aside class="dashboard__aside dashboard__aside--open">
         <div class="dashboard__wrapper">
           <Navigation />
         </div>
