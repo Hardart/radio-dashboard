@@ -61,7 +61,7 @@
 
     &:hover {
       border-radius: 5px;
-      color: var(--color-primary);
+      color: hsla(var(--color-primary));
       background-color: var(--color-bg-mute);
       cursor: pointer;
     }
