@@ -6,7 +6,7 @@ import HdButton from '@ui/hdButton/hdButton.vue'
 <template>
   <header class="header">
     <HdButton icon="menu" icon-class="header__menu-button" />
-    <h3>Header</h3>
+    <h3 class="header__title">Панель управления</h3>
     <HeaderLeft />
   </header>
 </template>
