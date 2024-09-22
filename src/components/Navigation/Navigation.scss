@@ -1,0 +1,31 @@
+.nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px 0;
+  padding: 20px 10px;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: var(--fs-m);
+    font-weight: var(--fw-m);
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--color-bg-mute);
+    }
+
+    &--active {
+      color: hsl(var(--color-orange));
+      background-color: var(--color-bg-mute);
+    }
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+  }
+}
