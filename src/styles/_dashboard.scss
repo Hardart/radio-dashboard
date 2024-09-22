@@ -1,0 +1,25 @@
+.dashboard {
+  position: sticky;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  height: inherit;
+
+  &__aside {
+    display: grid;
+    width: 45px;
+    background-color: var(--color-bg-soft);
+    transition: width 500ms ease;
+
+    &--open {
+      width: 200px;
+    }
+  }
+
+  &__wrapper {
+    overflow: hidden;
+  }
+
+  &__content {
+    overflow-y: auto;
+  }
+}
