@@ -1,0 +1,25 @@
+.hd-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  color: var(--color-text-light);
+  font-size: var(--fs-xs);
+  line-height: 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 5px;
+
+  &--primary {
+    background-color: hsla(var(--color-orange), 0.2);
+    border-color: hsla(var(--color-primary), 0.75);
+  }
+
+  &--secondary {
+    background-color: hsla(var(--color-secondary), 0.7);
+    border-color: var(--color-border);
+  }
+
+  &--success {
+    color: var(--color-text-light);
+    background-color: hsla(var(--color-success), 0.3);
+    border-color: hsla(var(--color-success));
+  }
+}
