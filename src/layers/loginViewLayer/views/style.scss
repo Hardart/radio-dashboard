@@ -1,0 +1,21 @@
+.login {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100vh;
+  height: 100dvh;
+
+  &__cover {
+    height: inherit;
+  }
+
+  &__image {
+    height: inherit;
+    object-fit: cover;
+  }
+
+  &__content {
+    display: grid;
+    place-items: center;
+    height: inherit;
+  }
+}
