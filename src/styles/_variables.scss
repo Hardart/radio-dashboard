@@ -1,0 +1,17 @@
+$orange:           #f15a24;
+$green:            #2f7f48;
+$cyan:             #086f92;
+$red:              #ac1515;
+$light-orange:     #f0be08;
+
+$black:            #171717;
+$white:            #fff;
+
+$main-color:         $black;
+
+$colors: (
+  "primary":         $orange,
+  "success":         $green,
+  "warning":         $light-orange,
+  "danger":          $red,
+);
