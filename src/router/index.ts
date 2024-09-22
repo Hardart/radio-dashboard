@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/layers/mainViewLayer/views/index.vue'
-const views = ['login']
+const views = ['login', 'news']
 const routes = views.map((v) => {
   return {
     path: `/${v}`,
