@@ -4,6 +4,7 @@ defineProps<{
   icon?: Icon
   flipIcon?: Icon
   label?: string
+  iconClass?: string
 }>()
 </script>
 
@@ -11,7 +12,7 @@ defineProps<{
   <div class="hd-input" :class="label && 'hd-input--label'">
     <div class="hd-input__container">
       <div class="hd-input__icon" v-if="icon">
-        <SvgIcon :icon />
+        <SvgIcon :icon :class="iconClass" />
       </div>
       <input
         class="hd-input__field"
@@ -19,7 +20,6 @@ defineProps<{
         type="text"
       />
       <label v-if="label" class="hd-input__label">{{ label }}</label>
-
       <SvgIcon v-if="flipIcon" :icon="flipIcon" class="hd-input__flip-icon" />
     </div>
   </div>

@@ -24,6 +24,12 @@
   @return _toHsl(mix(black, $white, $percentage * 1%));
 }
 
-@function _scaleAlpha($key, $value: 0) {
-  @return _toHsl(color.scale(map-get($colors, $key), $alpha: $value * 1%));
+@function _scaleAlpha($key, $alpha-value: 0, $saturation-value: 0) {
+  @return _toHsl(
+    color.scale(
+      map-get($colors, $key),
+      $alpha: $alpha-value * 1%,
+      $saturation: $saturation-value * 1%
+    )
+  );
 }

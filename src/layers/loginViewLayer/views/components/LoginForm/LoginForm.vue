@@ -7,8 +7,8 @@ import HdInput from '@/components/ui/hdInput/hdInput.vue'
 <template>
   <form class="login-form">
     <h3 class="login-form__title">Войти</h3>
-    <HdInput class="login-form__input" icon="person" />
-    <HdInput class="login-form__input" icon="lock" />
+    <HdInput class="login-form__input" icon="person" label="Логин" />
+    <HdInput class="login-form__input" icon="lock" label="Пароль" />
     <HdButton text="Войти" class="login-form__submit" />
     <div class="login-form__description">
       <RouterLink to="/">Забыли пароль?</RouterLink>

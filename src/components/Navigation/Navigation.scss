@@ -1,3 +1,5 @@
+@import '@/styles/includes';
+
 .nav-list {
   display: flex;
   flex-direction: column;
@@ -15,11 +17,12 @@
     cursor: pointer;
 
     &:hover {
+      color: tint(map-get($colors, 'primary'), 20);
       background-color: var(--color-bg-lighter);
     }
 
     &--active {
-      color: var(--primary);
+      color: tint(map-get($colors, 'primary'), 20);
       background-color: var(--color-bg-lighter);
     }
   }

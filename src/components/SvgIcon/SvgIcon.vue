@@ -13,6 +13,10 @@ export type Icon =
   | 'person'
   | 'lock'
   | 'mail'
+  | 'sort'
+  | 'sort-up'
+  | 'sort-down'
+  | 'search'
 
 const { icon } = defineProps<{
   icon: Icon
