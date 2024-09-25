@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import SvgIcon, { type Icon } from '@/components/SvgIcon/SvgIcon.vue'
+import type { Icon } from '@type/Icon'
+import SvgIcon from '@/components/SvgIcon/SvgIcon.vue'
 
 defineProps<{
   text?: string
