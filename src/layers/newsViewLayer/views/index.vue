@@ -1,50 +1,15 @@
 <script setup lang="ts">
-import SvgIcon from '@/components/SvgIcon/SvgIcon.vue'
 import HdBadge from '@ui/hdBadge/hdBadge.vue'
 import HdButton from '@ui/hdButton/hdButton.vue'
-import { computed, ref } from 'vue'
+import { useNewsStore } from '@/store/useNewsStore'
+import { storeToRefs } from 'pinia'
+import { toggleSort } from '@/shared/helpers/sort-articles'
+import { getStatus } from '@/shared/helpers/set-status'
+import { normalizeDate } from '@/shared/helpers/date'
 
-const news = ref([
-  {
-    id: '66d38c942c356e9ba95dfb66',
-    title: 'Выпустили духи с ароматом майонеза. Их раскупили за день',
-    category: 'Курьёзы',
-    date: '01.09.2024, 00:35:16',
-    status: 'в ожидании',
-  },
-  {
-    id: '66d38c942c321e9ba95dfb43',
-    title: 'Выпустили духи с ароматом майонеза. Их раскупили за день',
-    category: 'Мемы и Тренды',
-    date: '10.07.2024, 00:25:39',
-    status: 'опубликовано',
-  },
-  {
-    id: '66d38c942c356e7ba95dfb56',
-    title: 'Дуа Липу заметили на свидании с популярным комиком',
-    category: 'Горячие Новости',
-    date: '20.03.2024, 17:37:26',
-    status: 'опубликовано',
-  },
-  {
-    id: '66d38c942c356e7ba95dfb56',
-    title: 'Вместе веселей: ChatGPT появится в iOS 18',
-    category: 'Гаджеты',
-    date: '18.05.2024, 14:27:23',
-    status: 'не опубликовано',
-  },
-])
-const sortBy = ref<'asc' | 'desc'>('desc')
-const sorting = () => {
-  sortBy.value = sortBy.value == 'desc' ? 'asc' : 'desc'
-}
-const sortedNews = computed(() =>
-  news.value.sort((a, b) => {
-    if (a.title < b.title) return sortBy.value === 'asc' ? -1 : 1
-    if (a.title > b.title) return sortBy.value === 'asc' ? 1 : -1
-    return 0
-  })
-)
+const newsStore = useNewsStore()
+const { articlesFilteredByTitle, pending } = storeToRefs(newsStore)
+newsStore.fetchArticles()
 </script>
 
 <template>
@@ -54,7 +19,8 @@ const sortedNews = computed(() =>
       <HdButton text="Создать" type="primary" />
     </div>
     <div class="news__body">
-      <table class="hd-table">
+      <h3 v-if="pending"><span>Загрузка...</span></h3>
+      <table class="hd-table" v-else>
         <thead class="hd-table__head">
           <tr>
             <th class="hd-table__title">N</th>
@@ -63,7 +29,7 @@ const sortedNews = computed(() =>
                 text="Название новости"
                 flip-icon="sort"
                 class="hd-table__filter"
-                @click="sorting"
+                @click="toggleSort('title')"
               />
             </th>
             <th class="hd-table__title">Категория</th>
@@ -72,7 +38,7 @@ const sortedNews = computed(() =>
                 text="Дата создания"
                 flip-icon="sort"
                 class="hd-table__filter"
-                @click="sorting"
+                @click="toggleSort('createdAt')"
               />
             </th>
             <th class="hd-table__title">Статус</th>
@@ -82,15 +48,20 @@ const sortedNews = computed(() =>
         <tbody class="hd-table__body">
           <tr
             class="hd-table__row"
-            v-for="(article, i) in sortedNews"
+            v-for="(article, i) in articlesFilteredByTitle"
             :key="article.id"
           >
             <td class="hd-table__cell">{{ i + 1 }}</td>
             <td class="hd-table__cell">{{ article.title }}</td>
-            <td class="hd-table__cell">{{ article.category }}</td>
-            <td class="hd-table__cell">{{ article.date }}</td>
+            <td class="hd-table__cell">{{ article.category.title }}</td>
             <td class="hd-table__cell">
-              <HdBadge :text="article.status" type="success" />
+              {{ normalizeDate(article.createdAt) }}
+            </td>
+            <td class="hd-table__cell">
+              <HdBadge
+                :text="article.status"
+                :type="getStatus(article.status)"
+              />
             </td>
             <td class="hd-table__cell">...</td>
           </tr>

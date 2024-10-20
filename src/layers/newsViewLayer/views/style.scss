@@ -6,7 +6,7 @@
   table-layout: fixed;
 
   &__title {
-    max-width: 0;
+    min-width: min-content;
     padding: 14px 16px;
     font-size: var(--fs-m);
     font-weight: var(--fw-l);
@@ -14,6 +14,7 @@
 
     &:first-child {
       width: 44px;
+      min-width: 44px;
       padding-right: 0;
       text-align: center;
     }
@@ -38,7 +39,8 @@
 
     &:first-child {
       max-width: 0px;
-      padding-right: 0;
+
+      padding-right: 5px;
       text-align: center;
     }
 
@@ -50,8 +52,9 @@
   &__filter {
     display: inline-flex;
     align-items: center;
-    margin-left: -5px;
-    padding-inline: 5px;
+    margin-left: -8px;
+    padding-left: 8px;
+    padding-right: 5px;
     font-size: var(--fs-m);
     font-weight: var(--fw-l);
 
@@ -70,6 +73,10 @@
 }
 
 .news {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
   &__header {
     display: flex;
     align-items: center;
@@ -86,6 +93,8 @@
   }
 
   &__body {
+    position: relative;
+    flex-grow: 1;
     margin: 20px;
     border: 1px solid var(--color-border);
     border-radius: 10px;
