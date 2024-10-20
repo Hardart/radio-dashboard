@@ -3,6 +3,7 @@
   --head-h: 60px;
 
   --fs-default: 1rem;
+  --fs-2xs: calc(var(--fs-default) - 0.35rem);
   --fs-xs: calc(var(--fs-default) - 0.3rem);
   --fs-s: calc(var(--fs-default) - 0.2rem);
   --fs-m: calc(var(--fs-default) - 0.1rem);
