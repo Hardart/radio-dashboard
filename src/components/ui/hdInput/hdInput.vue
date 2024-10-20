@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Icon } from '@type/Icon'
 import SvgIcon from '@/components/SvgIcon/SvgIcon.vue'
+const inputValue = defineModel()
 defineProps<{
   icon?: Icon
   flipIcon?: Icon
@@ -19,6 +20,7 @@ defineProps<{
         class="hd-input__field"
         :class="[icon && 'hd-input__field--icon']"
         type="text"
+        v-model="inputValue"
       />
       <label v-if="label" class="hd-input__label">{{ label }}</label>
       <SvgIcon v-if="flipIcon" :icon="flipIcon" class="hd-input__flip-icon" />
