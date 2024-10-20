@@ -2,16 +2,16 @@
 
 .hd-badge {
   display: inline-block;
-  padding: 4px 10px;
+  padding: 4px 8px 6px;
   color: var(--color-text-light);
-  font-size: var(--fs-xs);
+  font-size: var(--fs-2xs);
   line-height: 10px;
   border: 1px solid var(--color-border);
   border-radius: 5px;
 
   &--warning {
     color: var(--warning);
-    background-color: _scaleAlpha('warning', -80);
+    background-color: _scaleAlpha('warning', -85);
     border-color: _scaleAlpha('warning', -10);
   }
 
