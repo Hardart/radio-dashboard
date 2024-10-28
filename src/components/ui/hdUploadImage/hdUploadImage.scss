@@ -1,0 +1,14 @@
+.hd-upload-image {
+  &__button {
+    border-color: var(--color-border);
+  }
+
+  &__input {
+    position: relative;
+    right: 9999px;
+    width: 1px;
+    height: 1px;
+    visibility: hidden;
+    z-index: -10;
+  }
+}
