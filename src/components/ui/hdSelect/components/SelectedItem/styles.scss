@@ -1,0 +1,26 @@
+.select-item {
+  display: flex;
+  font-size: var(--fs-m);
+  font-weight: var(--fw-m);
+  line-height: 25px;
+
+  &__title {
+    position: relative;
+    display: flex;
+    flex: 1;
+    align-items: center;
+    padding-right: 15px;
+  }
+}
+
+.hd-select-item--active {
+  .select-item__title::after {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 24px;
+    margin-left: auto;
+    background-color: var(--color-text);
+    mask: url('@/assets/icons/check.svg') no-repeat center;
+  }
+}
