@@ -1,13 +1,23 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref, computed, reactive, type Ref, toValue } from 'vue'
 import type { Article } from '@/shared/schemes/article-schema'
+import type { ArticleForm } from '@/shared/schemes/article-form-schema'
 import { setStatus } from '@/shared/helpers/set-status'
 import { sort } from '@/shared/helpers/sort-articles'
 
 export const useNewsStore = defineStore('news', () => {
   const search = ref('')
   const articles = ref<Article[]>([])
+  const article = ref<Article>()
   const pending = ref(false)
+  const articleForm = ref<ArticleForm>({
+    title: '',
+    categoryId: '',
+    tags: [],
+    isPublished: false,
+    publishAt: '',
+    content: '',
+  })
 
   const sortedArticles = computed(() =>
     articles.value.sort((a, b) => {
@@ -46,5 +56,57 @@ export const useNewsStore = defineStore('news', () => {
     }
   }
 
-  return { search, articlesFilteredByTitle, pending, fetchArticles }
+  async function fetchArticle(id: string) {
+    const options = {
+      method: 'POST',
+      body: JSON.stringify({ id }),
+      headers: {
+        'content-type': 'application/json',
+      },
+    }
+    try {
+      pending.value = true
+      const response = await fetch(
+        'http://localhost:3068/api/v1/dashboard/article',
+        options
+      )
+
+      const { data } = await response.json()
+      article.value = data.article
+      initArticleForm(article, articleForm)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      pending.value = false
+    }
+  }
+
+  return {
+    search,
+    articlesFilteredByTitle,
+    article,
+    pending,
+    articleForm,
+    fetchArticles,
+    fetchArticle,
+  }
 })
+
+function initArticleForm(
+  article: Ref<Article | undefined>,
+  form: Ref<ArticleForm>
+) {
+  if (typeof article.value === 'undefined') return
+  const { category, tags, isPublished, title, publishAt, content, image } =
+    article.value
+
+  form.value = {
+    categoryId: category.id,
+    tags,
+    title,
+    isPublished,
+    publishAt,
+    content,
+    image,
+  }
+}

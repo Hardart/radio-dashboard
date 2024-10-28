@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import HdBadge from '@ui/hdBadge/hdBadge.vue'
 import HdButton from '@ui/hdButton/hdButton.vue'
 import { useNewsStore } from '@/store/useNewsStore'
-import { storeToRefs } from 'pinia'
 import { toggleSort } from '@/shared/helpers/sort-articles'
 import { getStatus } from '@/shared/helpers/set-status'
 import { normalizeDate } from '@/shared/helpers/date'
@@ -21,50 +21,54 @@ newsStore.fetchArticles()
     <div class="news__body">
       <h3 v-if="pending"><span>Загрузка...</span></h3>
       <table class="hd-table" v-else>
-        <thead class="hd-table__head">
+        <thead>
           <tr>
-            <th class="hd-table__title">N</th>
-            <th class="hd-table__title">
+            <th>N</th>
+            <th>
               <HdButton
                 text="Название новости"
                 flip-icon="sort"
-                class="hd-table__filter"
+                class="sortable"
                 @click="toggleSort('title')"
               />
             </th>
-            <th class="hd-table__title">Категория</th>
-            <th class="hd-table__title">
+            <th>Категория</th>
+            <th>
               <HdButton
                 text="Дата создания"
                 flip-icon="sort"
-                class="hd-table__filter"
+                class="sortable"
                 @click="toggleSort('createdAt')"
               />
             </th>
-            <th class="hd-table__title">Статус</th>
-            <th class="hd-table__title"></th>
+            <th>Статус</th>
+            <th></th>
           </tr>
         </thead>
-        <tbody class="hd-table__body">
-          <tr
-            class="hd-table__row"
+        <tbody>
+          <RouterLink
+            custom
+            :to="`/news/${article.id}`"
+            v-slot="{ navigate }"
             v-for="(article, i) in articlesFilteredByTitle"
             :key="article.id"
           >
-            <td class="hd-table__cell">{{ i + 1 }}</td>
-            <td class="hd-table__cell">{{ article.title }}</td>
-            <td class="hd-table__cell">{{ article.category.title }}</td>
-            <td class="hd-table__cell">
-              {{ normalizeDate(article.createdAt) }}
-            </td>
-            <td class="hd-table__cell">
-              <HdBadge
-                :text="article.status"
-                :type="getStatus(article.status)"
-              />
-            </td>
-            <td class="hd-table__cell">...</td>
-          </tr>
+            <tr @click="navigate">
+              <td>{{ i + 1 }}</td>
+              <td>{{ article.title }}</td>
+              <td>{{ article.category.title }}</td>
+              <td>
+                {{ normalizeDate(article.createdAt) }}
+              </td>
+              <td>
+                <HdBadge
+                  :text="article.status"
+                  :type="getStatus(article.status)"
+                />
+              </td>
+              <td>...</td>
+            </tr>
+          </RouterLink>
         </tbody>
       </table>
     </div>
