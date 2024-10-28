@@ -1,7 +1,7 @@
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
 
 interface SortBy {
-  column: 'title' | 'createdAt'
+  column: 'title' | 'createdAt' | 'status' | 'category'
   direction: boolean
 }
 
@@ -10,7 +10,9 @@ export const sort = ref<SortBy>({
   direction: false,
 })
 
-export function toggleSort(column: 'title' | 'createdAt') {
+export function toggleSort(
+  column: 'title' | 'createdAt' | 'status' | 'category'
+) {
   sort.value.column = column
   sort.value.direction = !sort.value.direction
 }
