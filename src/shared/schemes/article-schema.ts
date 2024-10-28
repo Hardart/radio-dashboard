@@ -1,6 +1,5 @@
 import { z } from 'zod'
 import { categorySchema } from '@/shared/schemes/category-schema'
-import { PUBLISH_STATUSES } from '@/shared/enums/article-status'
 
 export const articleSchema = z.object({
   id: z.string(),
@@ -10,7 +9,7 @@ export const articleSchema = z.object({
   content: z.string().min(1, 'Контент новости не может быть пустым'),
   category: categorySchema,
   tags: z.array(z.string()),
-  publishAt: z.coerce.date(),
+  publishAt: z.string(),
   isPublished: z.boolean(),
   createdAt: z.string(),
   status: z.enum(['в ожидании', 'опубликовано', 'не опубликовано']),
