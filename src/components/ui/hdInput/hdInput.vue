@@ -7,22 +7,27 @@ defineProps<{
   flipIcon?: Icon
   label?: string
   iconClass?: string
+  name?: string
+  placeholder?: string
 }>()
 </script>
 
 <template>
-  <div class="hd-input" :class="label && 'hd-input--label'">
+  <div class="hd-input">
+    <label class="hd-input__label" :for="name" v-if="label">{{ label }} </label>
     <div class="hd-input__container">
-      <div class="hd-input__icon" v-if="icon">
+      <span class="hd-input__icon" v-if="icon">
         <SvgIcon :icon :class="iconClass" />
-      </div>
+      </span>
       <input
         class="hd-input__field"
         :class="[icon && 'hd-input__field--icon']"
+        :id="name"
+        :name
+        :placeholder
         type="text"
         v-model="inputValue"
       />
-      <label v-if="label" class="hd-input__label">{{ label }}</label>
       <SvgIcon v-if="flipIcon" :icon="flipIcon" class="hd-input__flip-icon" />
     </div>
   </div>
