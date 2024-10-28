@@ -3,6 +3,7 @@
 .hd-button {
   display: inline-flex;
   justify-content: center;
+  align-items: center;
   gap: 0 5px;
   padding: 5px;
   font-size: var(--fs-m);
@@ -46,6 +47,18 @@
 
       &:active {
         @include set-color(map-get($colors, $color));
+        filter: brightness(1.2);
+      }
+    }
+
+    &--outline-#{$color} {
+      border-color: shade(map-get($colors, $color), 70);
+
+      &:hover {
+        border-color: shade(map-get($colors, $color), 10);
+      }
+
+      &:active {
         filter: brightness(1.2);
       }
     }
