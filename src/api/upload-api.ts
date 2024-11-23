@@ -1,15 +1,12 @@
+import type { ResponseApi } from '@/shared/types/ResponseAPI'
+import { useHdFetch } from './base-fetch/base-fetch'
+
 export const filesAPI = {
-  async single(url: string, body: FormData) {
-    const options = {
-      method: 'POST',
+  async single(body: FormData) {
+    const { data } = await useHdFetch<ResponseApi.FileSingle>('/image-news', {
       body,
-    }
-    try {
-      const response = await fetch(url, options)
-      const { data } = await response.json()
-      return data
-    } catch (error) {
-      console.log(error)
-    }
+    })
+    const path = data.value?.path || undefined
+    return { path }
   },
 }
