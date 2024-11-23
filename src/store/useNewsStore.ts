@@ -1,15 +1,20 @@
-import { defineStore } from 'pinia'
-import { ref, computed, reactive, type Ref, toValue } from 'vue'
+import { defineStore, storeToRefs } from 'pinia'
+import { ref, computed, reactive, type Ref, toValue, watch } from 'vue'
 import type { Article } from '@/shared/schemes/article-schema'
 import type { ArticleForm } from '@/shared/schemes/article-form-schema'
 import { setStatus } from '@/shared/helpers/set-status'
 import { sort } from '@/shared/helpers/sort-articles'
+import { articlesAPI } from '@/api/articles-api'
+import { useNewsItemStore } from './useNewsItemStore'
 
 export const useNewsStore = defineStore('news', () => {
   const search = ref('')
+
   const articles = ref<Article[]>([])
   const article = ref<Article>()
+
   const pending = ref(false)
+  const error = ref(false)
   const articleForm = ref<ArticleForm>({
     title: '',
     categoryId: '',
@@ -20,7 +25,7 @@ export const useNewsStore = defineStore('news', () => {
   })
 
   const sortedArticles = computed(() =>
-    articles.value.sort((a, b) => {
+    articles.value?.sort((a, b) => {
       if (a[sort.value.column] < b[sort.value.column])
         return sort.value.direction ? -1 : 1
       if (a[sort.value.column] > b[sort.value.column])
@@ -30,7 +35,7 @@ export const useNewsStore = defineStore('news', () => {
   )
 
   const articlesFilteredByTitle = computed(() =>
-    sortedArticles.value.filter((article) =>
+    sortedArticles.value?.filter((article) =>
       search.value.trim()
         ? article.title
             .toLowerCase()
@@ -40,45 +45,33 @@ export const useNewsStore = defineStore('news', () => {
   )
 
   async function fetchArticles() {
-    try {
-      pending.value = true
-      const response = await fetch(
-        'http://localhost:3068/api/v1/dashboard/article-list',
-        { method: 'POST' }
-      )
-
-      const { data } = await response.json()
-      articles.value = data.articles.map(setStatus)
-    } catch (error) {
-      console.log(error)
-    } finally {
-      pending.value = false
-    }
+    pending.value = true
+    const res = await articlesAPI.list()
+    articles.value = res.articles
+    // tags.value = res.articles
+    pending.value = false
   }
 
   async function fetchArticle(id: string) {
-    const options = {
-      method: 'POST',
-      body: JSON.stringify({ id }),
-      headers: {
-        'content-type': 'application/json',
-      },
-    }
-    try {
-      pending.value = true
-      const response = await fetch(
-        'http://localhost:3068/api/v1/dashboard/article',
-        options
-      )
+    pending.value = true
+    const response = await articlesAPI.byId(id)
+    const { tags, categories } = storeToRefs(useNewsItemStore())
+    article.value = response.article
 
-      const { data } = await response.json()
-      article.value = data.article
-      initArticleForm(article, articleForm)
-    } catch (error) {
-      console.log(error)
-    } finally {
-      pending.value = false
-    }
+    // tags.value = response?.categories
+    categories.value = response?.categories
+    initArticleForm(article, articleForm)
+    pending.value = false
+  }
+
+  async function updateArticle(input: ArticleForm) {
+    if (article.value) input.id = article.value.id
+    pending.value = true
+    const articleData = await articlesAPI.updateOne(input)
+    pending.value = false
+    if (!articleData) return console.warn('Данные не получены')
+    articles.value = articles.value.filter((item) => item.id !== input.id)
+    articles.value.push(articleData)
   }
 
   return {
@@ -86,9 +79,11 @@ export const useNewsStore = defineStore('news', () => {
     articlesFilteredByTitle,
     article,
     pending,
+    error,
     articleForm,
     fetchArticles,
     fetchArticle,
+    updateArticle,
   }
 })
 
