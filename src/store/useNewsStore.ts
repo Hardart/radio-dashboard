@@ -4,12 +4,15 @@ import type { Article } from '@/shared/schemes/article-schema'
 import type { ArticleForm } from '@/shared/schemes/article-form-schema'
 import { sort } from '@/shared/helpers/sort-articles'
 import { articlesAPI } from '@/api/articles-api'
+import type { Category } from '@/shared/schemes/category-schema'
 
 export const useNewsStore = defineStore('news', () => {
   const search = ref('')
 
   const articles = ref<Article[]>([])
   const article = ref<Article>()
+  const tags = ref<string[]>([])
+  const categories = ref<Category[]>([])
 
   const pending = ref(false)
   const error = ref(false)
@@ -54,6 +57,8 @@ export const useNewsStore = defineStore('news', () => {
     pending.value = true
     const response = await articlesAPI.byId(id)
     article.value = response.article
+    tags.value = response.tags
+    categories.value = response.categories
     initArticleForm(article, articleForm)
     pending.value = false
   }
@@ -75,6 +80,8 @@ export const useNewsStore = defineStore('news', () => {
     pending,
     error,
     articleForm,
+    tags,
+    categories,
     fetchArticles,
     fetchArticle,
     updateArticle,
