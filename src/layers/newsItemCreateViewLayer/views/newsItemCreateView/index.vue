@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { useNewsStore } from '@/store/useNewsStore'
-import { useNewsItemStore } from '@/store/useNewsItemStore'
 
 import ArticleForm from './components/ArticleForm/ArticleForm.vue'
 
 const newsStore = useNewsStore()
 
-const { tags, categories } = storeToRefs(useNewsItemStore())
-const { articleForm } = storeToRefs(newsStore)
+const { articleForm, tags, categories } = storeToRefs(newsStore)
 </script>
 
 <template>
