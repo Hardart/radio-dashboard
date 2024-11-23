@@ -1,19 +1,13 @@
 <script lang="ts" setup>
-import type { Option } from '../../hdSelect.vue'
-
 defineProps<{
   isActive?: boolean
-  option: Option
+  option: string | Record<string, any>
 }>()
 defineEmits(['onSelect'])
 </script>
 
 <template>
-  <li
-    class="hd-select-item"
-    :class="isActive && 'hd-select-item--active'"
-    @click="$emit('onSelect', option)"
-  >
+  <li class="hd-select-item" :class="isActive && 'hd-select-item--active'">
     <slot />
   </li>
 </template>
