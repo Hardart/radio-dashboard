@@ -18,11 +18,11 @@
 }
 
 @include color-scheme() {
-  @include set-colors();
+  @include set-root-colors();
 }
 
 @include color-scheme(dark) {
-  @include set-colors();
+  @include set-root-colors();
 }
 
 body {
