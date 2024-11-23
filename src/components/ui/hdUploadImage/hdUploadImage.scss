@@ -1,6 +1,14 @@
+@import '@/styles/includes';
+
 .hd-upload-image {
   &__button {
+    color: var(--color-text-lighter);
+    background-color: _scaleAlpha('dark', -40);
     border-color: var(--color-border);
+
+    &:hover {
+      background-color: _scaleAlpha('dark', -20);
+    }
   }
 
   &__input {

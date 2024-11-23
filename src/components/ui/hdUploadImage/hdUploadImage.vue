@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import HdButton from '../hdButton/hdButton.vue'
 import { filesAPI } from '@/api/upload-api'
+import HdButton from '../hdButton/hdButton.vue'
+import type { Icon } from '@/shared/types/Icon'
+
 const src = defineModel<string>()
-const { name } = defineProps<{ name: string }>()
+const { name } = defineProps<{ name: string; icon?: Icon }>()
 const uploadInputRef = ref<HTMLInputElement>()
 
 function onInputVirtualClick() {
@@ -18,23 +20,21 @@ async function onChange(e: Event) {
 
   body.append(name, file, file.name)
 
-  const data = await filesAPI.single(
-    'http://localhost:3068/api/v1/dashboard/image-news',
-    body
-  )
-  src.value = data.path
-
-  //   emit('append-handler', src.value)
+  const { path } = await filesAPI.single(body)
+  src.value = path // MAYBE UNDEFINED
 }
 </script>
 
 <template>
   <div class="hd-upload-image">
-    <HdButton
-      icon="gallery"
-      class="hd-upload-image__button"
-      @click="onInputVirtualClick()"
-    />
+    <slot name="upload-button" :cb="onInputVirtualClick">
+      <HdButton
+        :icon="icon ?? 'gallery'"
+        class="hd-upload-image__button"
+        @click="onInputVirtualClick()"
+      />
+    </slot>
+
     <input
       type="file"
       accept=".jpg, .jpeg, .png, .webp, .avif"
@@ -45,4 +45,4 @@ async function onChange(e: Event) {
   </div>
 </template>
 
-<style lang="scss" scoped src="./hdUploadImage.scss" />
+<style lang="scss" src="./hdUploadImage.scss" />
