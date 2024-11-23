@@ -6,6 +6,9 @@
 
   &__cover {
     height: inherit;
+    background-image: url('@/assets/images/main_bg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
   }
 
   &__image {
