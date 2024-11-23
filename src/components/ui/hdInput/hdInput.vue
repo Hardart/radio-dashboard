@@ -9,6 +9,7 @@ defineProps<{
   iconClass?: string
   name?: string
   placeholder?: string
+  requried?: boolean
 }>()
 </script>
 
@@ -27,6 +28,7 @@ defineProps<{
         :placeholder
         type="text"
         v-model="inputValue"
+        :requried
       />
       <SvgIcon v-if="flipIcon" :icon="flipIcon" class="hd-input__flip-icon" />
     </div>
