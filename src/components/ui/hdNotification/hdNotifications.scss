@@ -1,0 +1,44 @@
+@import '@/styles/includes';
+
+.hd-notifications {
+  position: fixed;
+  top: 0;
+  right: 10px;
+  bottom: 0;
+  width: 350px;
+  touch-action: none;
+  z-index: 9999;
+
+  &__list {
+    position: relative;
+  }
+
+  &__item {
+    position: relative;
+    margin-top: 10px;
+    width: 100%;
+  }
+}
+
+/* 1. declare transition */
+.fade-move,
+.fade-enter-active,
+.fade-leave-active {
+  transition: transform 0.4s ease, opacity 0.3s ease;
+}
+
+/* 2. declare enter from and leave to state */
+.fade-enter-from {
+  opacity: 0;
+  transform: translate(0, 30px);
+}
+.fade-leave-to {
+  opacity: 0;
+  transform: translate(0, -30px);
+}
+
+/* 3. ensure leaving items are taken out of layout flow so that moving
+      animations can be calculated correctly. */
+.fade-leave-active {
+  position: absolute;
+}
