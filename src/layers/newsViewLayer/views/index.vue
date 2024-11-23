@@ -3,74 +3,68 @@ import { storeToRefs } from 'pinia'
 import HdBadge from '@ui/hdBadge/hdBadge.vue'
 import HdButton from '@ui/hdButton/hdButton.vue'
 import { useNewsStore } from '@/store/useNewsStore'
-import { toggleSort } from '@/shared/helpers/sort-articles'
 import { getStatus } from '@/shared/helpers/set-status'
 import { normalizeDate } from '@/shared/helpers/date'
+import HdTable from '@/components/ui/hdTable/hdTable.vue'
 
 const newsStore = useNewsStore()
-const { articlesFilteredByTitle, pending } = storeToRefs(newsStore)
+const { articlesFilteredByTitle, pending, error } = storeToRefs(newsStore)
 newsStore.fetchArticles()
+
+const columns = [
+  {
+    key: 'title',
+    label: 'Название новости',
+    sortable: true,
+  },
+  {
+    key: 'category',
+    label: 'Категория',
+  },
+  {
+    key: 'createdAt',
+    label: 'Дата создания',
+    sortable: true,
+  },
+  {
+    key: 'status',
+    label: 'Статус публикации',
+  },
+]
 </script>
 
 <template>
   <div class="news">
     <div class="news__header">
       <h3 class="news__title">Новости</h3>
-      <HdButton text="Создать" type="primary" />
+      <HdButton
+        text="Создать"
+        type="primary"
+        @click="$router.push({ name: 'article-create' })"
+      />
     </div>
     <div class="news__body">
       <h3 v-if="pending"><span>Загрузка...</span></h3>
-      <table class="hd-table" v-else>
-        <thead>
-          <tr>
-            <th>N</th>
-            <th>
-              <HdButton
-                text="Название новости"
-                flip-icon="sort"
-                class="sortable"
-                @click="toggleSort('title')"
-              />
-            </th>
-            <th>Категория</th>
-            <th>
-              <HdButton
-                text="Дата создания"
-                flip-icon="sort"
-                class="sortable"
-                @click="toggleSort('createdAt')"
-              />
-            </th>
-            <th>Статус</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <RouterLink
-            custom
-            :to="`/news/${article.id}`"
-            v-slot="{ navigate }"
-            v-for="(article, i) in articlesFilteredByTitle"
-            :key="article.id"
-          >
-            <tr @click="navigate">
-              <td>{{ i + 1 }}</td>
-              <td>{{ article.title }}</td>
-              <td>{{ article.category.title }}</td>
-              <td>
-                {{ normalizeDate(article.createdAt) }}
-              </td>
-              <td>
-                <HdBadge
-                  :text="article.status"
-                  :type="getStatus(article.status)"
-                />
-              </td>
-              <td>...</td>
-            </tr>
-          </RouterLink>
-        </tbody>
-      </table>
+      <h1 v-else-if="error">{{ error }}</h1>
+      <HdTable
+        v-else
+        :columns
+        :data="articlesFilteredByTitle"
+        :link="{ basePath: '/news', itemKey: 'id' }"
+      >
+        <template #title-column="{ item }">
+          <div>{{ item.title }}</div>
+        </template>
+        <template #category-column="{ item }">
+          <div>{{ item.category.title }}</div>
+        </template>
+        <template #createdAt-column="{ item }">
+          <div>{{ normalizeDate(item.createdAt) }}</div>
+        </template>
+        <template #status-column="{ item }">
+          <HdBadge :text="item.status" :type="getStatus(item.status)" />
+        </template>
+      </HdTable>
     </div>
   </div>
 </template>
