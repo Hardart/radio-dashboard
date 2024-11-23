@@ -2,14 +2,12 @@
 import { storeToRefs } from 'pinia'
 import { useRoute } from 'vue-router'
 import { useNewsStore } from '@/store/useNewsStore'
-import { useNewsItemStore } from '@/store/useNewsItemStore'
 
 import ArticleForm from './components/ArticleForm/ArticleForm.vue'
 const route = useRoute()
 const newsStore = useNewsStore()
 
-const { tags, categories } = storeToRefs(useNewsItemStore())
-const { pending, articleForm } = storeToRefs(newsStore)
+const { pending, articleForm, tags, categories } = storeToRefs(newsStore)
 const id = `${route.params.id}`
 newsStore.fetchArticle(id)
 </script>
