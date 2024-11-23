@@ -4,15 +4,23 @@ import SvgIcon from '@/components/SvgIcon/SvgIcon.vue'
 
 defineProps<{
   text?: string
-  type?: 'primary' | 'success' | 'danger'
+  type?:
+    | 'primary'
+    | 'success'
+    | 'danger'
+    | 'outline-primary'
+    | 'outline-success'
+    | 'outline-danger'
+  outline?: boolean
   icon?: Icon
   flipIcon?: Icon
   iconClass?: string
+  disabled?: boolean
 }>()
 </script>
 
 <template>
-  <button class="hd-button" :class="type && `hd-button--${type}`">
+  <button class="hd-button" :class="type && `hd-button--${type}`" :disabled>
     <SvgIcon v-if="icon" :icon class="hd-button__icon" :class="iconClass" />
     <span class="hd-button__text" v-if="text">{{ text }}</span>
     <SvgIcon
