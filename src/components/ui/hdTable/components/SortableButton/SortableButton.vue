@@ -11,7 +11,7 @@ defineProps<{
   <HdButton
     :text
     flip-icon="sort"
-    class="sortable"
+    class="sortable-button"
     @click="toggleSort(sortKey)"
   />
 </template>

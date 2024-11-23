@@ -49,25 +49,3 @@
     }
   }
 }
-
-.sortable {
-  display: inline-flex;
-  align-items: center;
-  margin-left: -8px;
-  padding-left: 8px;
-  padding-right: 5px;
-  font-size: var(--fs-m);
-  font-weight: var(--fw-l);
-
-  &:hover {
-    // @include set-color($main-color, 3, 15);
-    color: var(--color-text);
-    background-color: _scaleAlpha('primary', -90, -100);
-  }
-
-  span {
-    font-size: inherit;
-    font-weight: inherit;
-    line-height: 25px;
-  }
-}
