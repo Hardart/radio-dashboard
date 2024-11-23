@@ -1,9 +1,11 @@
 export type Icon = 
   | 'bell'
   | 'category'
+  | 'check'
   | 'dashboard'
   | 'gallery'
   | 'images'
+  | 'keyboard-arrow-down-rounded'
   | 'lock'
   | 'mail'
   | 'menu'
