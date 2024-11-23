@@ -2,10 +2,8 @@ import { defineStore, storeToRefs } from 'pinia'
 import { ref, computed, reactive, type Ref, toValue, watch } from 'vue'
 import type { Article } from '@/shared/schemes/article-schema'
 import type { ArticleForm } from '@/shared/schemes/article-form-schema'
-import { setStatus } from '@/shared/helpers/set-status'
 import { sort } from '@/shared/helpers/sort-articles'
 import { articlesAPI } from '@/api/articles-api'
-import { useNewsItemStore } from './useNewsItemStore'
 
 export const useNewsStore = defineStore('news', () => {
   const search = ref('')
@@ -55,11 +53,7 @@ export const useNewsStore = defineStore('news', () => {
   async function fetchArticle(id: string) {
     pending.value = true
     const response = await articlesAPI.byId(id)
-    const { tags, categories } = storeToRefs(useNewsItemStore())
     article.value = response.article
-
-    // tags.value = response?.categories
-    categories.value = response?.categories
     initArticleForm(article, articleForm)
     pending.value = false
   }
