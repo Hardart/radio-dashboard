@@ -1,17 +1,32 @@
 .hd-switch {
   position: relative;
-  display: inline-flex;
+  display: flex;
+  align-self: flex-start;
+  flex-direction: column;
   align-items: center;
-  justify-content: start;
-  min-width: 44px;
-  height: 22px;
 
-  background-color: var(--color-bg-lighter);
-  border-radius: 12px;
-  cursor: pointer;
-  transition-property: background-color;
-  transition-duration: 0.2s;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  &__label {
+    display: block;
+    font-size: var(--fs-s);
+    margin-bottom: 12px;
+    margin-left: 5px;
+    margin-top: 3px;
+  }
+
+  &__wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: start;
+    min-width: 44px;
+    height: 22px;
+    background-color: var(--color-bg-lighter);
+    border-radius: 12px;
+    cursor: pointer;
+    transition-property: background-color;
+    transition-duration: 0.2s;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
   &__handler {
     margin-inline: 4px;
@@ -19,12 +34,14 @@
     height: 16px;
     background-color: var(--color-text);
     border-radius: 50%;
-    transition-duration: inherit;
-    transition-timing-function: inherit;
+    transition-duration: 0.2s;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   &--on {
-    background-color: var(--primary);
+    .hd-switch__wrapper {
+      background-color: var(--primary);
+    }
 
     .hd-switch__handler {
       background-color: var(--color-text-light);
