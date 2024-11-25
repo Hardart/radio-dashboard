@@ -2,7 +2,7 @@
 import SelectedItem from '../SelectedItem/SelectedItem.vue'
 
 defineProps<{
-  text: string
+  text: any
 }>()
 </script>
 
