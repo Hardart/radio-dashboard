@@ -1,0 +1,24 @@
+.hd-sortable {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+
+  &__item {
+    position: relative;
+    padding: 40px;
+    color: hsl(0, 5%, 84%);
+    background-color: hsl(0, 5%, 24%);
+    user-select: none;
+    -webkit-user-select: none;
+
+    &--selected {
+      opacity: 0;
+    }
+  }
+
+  &__clone {
+    position: fixed;
+    pointer-events: none;
+  }
+}

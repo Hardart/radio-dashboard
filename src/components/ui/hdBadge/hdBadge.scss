@@ -1,0 +1,31 @@
+@import '@/styles/includes';
+
+.hd-badge {
+  display: inline-block;
+  padding: 4px 8px 6px;
+  color: var(--color-text-light);
+  font-size: var(--fs-2xs);
+  line-height: 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 5px;
+
+  &--warning {
+    color: var(--warning);
+    background-color: _scaleAlpha('warning', -85);
+    border-color: _scaleAlpha('warning', -10);
+  }
+
+  &--danger {
+    color: var(--danger);
+    background-color: _scaleAlpha('danger', -90);
+    border-color: _scaleAlpha('danger');
+    filter: brightness(2);
+  }
+
+  &--success {
+    color: var(--success);
+    background-color: _scaleAlpha('success', -85);
+    border-color: _scaleAlpha('success', -10);
+    filter: brightness(1.5);
+  }
+}

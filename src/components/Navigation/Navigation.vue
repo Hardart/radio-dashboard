@@ -11,7 +11,7 @@ import SvgIcon from '@/components/SvgIcon/SvgIcon.vue'
         <span class="nav-list__link">Главная</span>
       </li>
     </RouterLink>
-    <RouterLink custom to="/" v-slot="{ navigate }">
+    <RouterLink custom to="/categories" v-slot="{ navigate }">
       <li class="nav-list__item" @click="navigate">
         <SvgIcon icon="category" class="nav-list__icon" />
         <span class="nav-list__link">Категории</span>
@@ -33,7 +33,7 @@ import SvgIcon from '@/components/SvgIcon/SvgIcon.vue'
         <span class="nav-list__link">Треки</span>
       </li>
     </RouterLink>
-    <RouterLink custom to="/" v-slot="{ navigate }">
+    <RouterLink custom to="/gallery" v-slot="{ navigate }">
       <li class="nav-list__item" @click="navigate">
         <SvgIcon icon="gallery" class="nav-list__icon" />
         <span class="nav-list__link">Галерея</span>

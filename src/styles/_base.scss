@@ -3,77 +3,26 @@
   --head-h: 60px;
 
   --fs-default: 1rem;
+  --fs-2xs: calc(var(--fs-default) - 0.35rem);
   --fs-xs: calc(var(--fs-default) - 0.3rem);
   --fs-s: calc(var(--fs-default) - 0.2rem);
   --fs-m: calc(var(--fs-default) - 0.1rem);
   --fs-l: calc(var(--fs-default) + 0.1rem);
   --fs-xl: calc(var(--fs-default) + 0.3rem);
+  --fs-2xl: calc(var(--fs-default) + 0.5rem);
+  --fs-3xl: calc(var(--fs-default) + 0.8rem);
 
   --fw-s: 300;
   --fw-m: 500;
   --fw-l: 700;
-
-  --color-white: 0, 0%, 100%;
-  --color-white-soft: 0, 0%, 97%;
-  --color-white-mute: 0, 0%, 95%;
-
-  --color-black: 0, 0%, 9%;
-  --color-black-soft: 0, 0%, 13%;
-  --color-black-mute: 0, 0%, 16%;
-
-  --color-orange: 38, 100%, 50%;
-  --color-indigo: 210, 29%, 24%;
-  --color-green: 139, 46%, 34%;
-
-  --color-divider-light-1: hsla(var(--color-indigo), 0.29);
-  --color-divider-light-2: hsla(var(--color-indigo), 0.12);
-  --color-divider-dark-1: hsla(0, 0%, 33%, 0.65);
-  --color-divider-dark-2: hsla(0, 0%, 33%, 0.48);
-
-  --color-text-light-1: hsl(var(--color-indigo));
-  --color-text-light-2: hsla(0, 0%, 24%, 0.66);
-  --color-text-dark-1: hsl(var(--color-orange));
-  --color-text-dark-2: hsla(0, 0%, 92%, 0.64);
-  --color-text-dark-3: hsla(0, 0%, 92%, 0.875);
 }
 
-/* semantic color variables for this project */
-:root {
-  --color-bg: hsl(var(--color-white));
-  --color-bg-soft: hsl(var(--color-white-soft));
-  --color-bg-mute: hsl(var(--color-white-mute));
-
-  --color-border: var(--color-divider-light-2);
-  --color-border-hover: var(--color-divider-light-1);
-
-  --color-heading: var(--color-text-light-1);
-  --color-text: var(--color-text-light-1);
-  --color-link: var(--color-text-light-1);
-  --color-hover: hsla(var(--color-white-mute), 0.4);
-  --color-active: hsla(var(--color-white-mute), 0.6);
-
-  --section-gap: 160px;
+@include color-scheme() {
+  @include set-root-colors();
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: hsl(var(--color-black));
-    --color-bg-soft: hsl(var(--color-black-soft));
-    --color-bg-mute: hsl(var(--color-black-mute));
-
-    --color-border: var(--color-divider-dark-2);
-    --color-border-hover: var(--color-divider-dark-1);
-
-    --color-heading: var(--color-text-dark-1);
-    --color-text: var(--color-text-dark-2);
-    --color-text-light: var(--color-text-dark-3);
-
-    --color-link: var(--color-text-dark-1);
-    --color-primary: hsl(var(--color-orange));
-    --color-success: hsl(var(--color-green));
-    --color-hover: hsla(var(--color-black-mute), 0.4);
-    --color-active: hsla(var(--color-black-mute), 0.6);
-  }
+@include color-scheme(dark) {
+  @include set-root-colors();
 }
 
 body {

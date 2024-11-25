@@ -1,12 +1,18 @@
 <script setup lang="ts">
 import HeaderLeft from './HeaderLeft/HeaderLeft.vue'
 import HdButton from '@ui/hdButton/hdButton.vue'
+import { useDefaultStore } from '@/store/useDefaultStore'
+const store = useDefaultStore()
 </script>
 
 <template>
   <header class="header">
-    <HdButton icon="menu" icon-class="header__menu-button" />
-    <h3>Header</h3>
+    <HdButton
+      icon="menu"
+      icon-class="header__menu-button"
+      @click="store.toggleMenuOpenState"
+    />
+    <h3 class="header__title">Панель управления</h3>
     <HeaderLeft />
   </header>
 </template>

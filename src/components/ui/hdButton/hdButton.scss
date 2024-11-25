@@ -1,36 +1,73 @@
+@import '@/styles/includes';
+
 .hd-button {
-  display: flex;
+  display: inline-flex;
   justify-content: center;
+  align-items: center;
+  gap: 0 5px;
+  padding: 5px;
   font-size: var(--fs-m);
   line-height: 20px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: transparent;
   border-radius: 7px;
-  padding: 5px;
-  transition: background-color 0.15s ease;
+  transition: background-color 0.15s ease, filter 0.2s ease,
+    border-color 0.15s ease;
 
-  &:hover {
-    background-color: var(--color-hover);
+  &:hover:not(&:disabled) {
+    background-color: _scaleAlpha('primary', -90, -100);
+    border-color: shade(map-get($colors, 'warning'), 70);
   }
 
-  &:active {
-    background-color: var(--color-active);
+  &:active:not(&:disabled) {
+    filter: brightness(1.2);
   }
 
-  &:focus {
-    outline: 2px solid hsla(var(--color-orange), 0.7);
+  &:focus:not(&:disabled) {
+    outline: 2px solid var(--primary);
     outline-offset: 1px;
   }
 
-  &--primary {
-    padding: 5px 30px;
-    color: hsl(var(--color-black));
-    background-color: var(--color-primary);
+  &:disabled {
+    cursor: default;
+    color: _scaleAlpha('primary', -40, -100);
+    background-color: _scaleAlpha('primary', -97, -100);
+    border-color: shade(map-get($colors, 'warning'), 80);
+  }
 
-    &:hover {
-      background-color: hsla(var(--color-orange), 0.7);
+  &__icon,
+  &__flip-icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  @each $color in map-keys($colors) {
+    &--#{$color} {
+      padding: 5px 30px;
+      @include set-color(map-get($colors, $color));
+
+      &:hover:not(&:disabled) {
+        @include set-color(map-get($colors, $color), 7, 1);
+        border-color: shade(map-get($colors, 'primary'), 10);
+      }
+
+      &:active:not(&:disabled) {
+        @include set-color(map-get($colors, $color));
+        filter: brightness(1.2);
+      }
     }
 
-    &:active {
-      background-color: hsla(var(--color-orange), 0.9);
+    &--outline-#{$color} {
+      border-color: shade(map-get($colors, $color), 50);
+
+      &:hover:not(&:disabled) {
+        border-color: shade(map-get($colors, $color), 10);
+      }
+
+      &:active:not(&:disabled) {
+        filter: brightness(1.2);
+      }
     }
   }
 }

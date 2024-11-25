@@ -1,0 +1,34 @@
+.calendar {
+  width: clamp(100%, 30rem, 340px);
+  padding: 25px 15px;
+  background-color: var(--color-bg-light);
+  box-shadow: 2px 2px 2px 2px var(--color-bg-dark);
+  border-radius: 10px;
+
+  &__header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 35px;
+  }
+
+  &__date {
+    font-weight: var(--fw-l);
+    line-height: 25px;
+    text-transform: uppercase;
+  }
+
+  &__next,
+  &__prev {
+    position: absolute;
+  }
+
+  &__next {
+    right: 0;
+  }
+
+  &__prev {
+    left: 0;
+  }
+}

@@ -1,18 +1,6 @@
 <script setup lang="ts">
 import { defineAsyncComponent } from 'vue'
-export type Icon =
-  | 'dashboard'
-  | 'news'
-  | 'category'
-  | 'music'
-  | 'team'
-  | 'gallery'
-  | 'images'
-  | 'bell'
-  | 'menu'
-  | 'person'
-  | 'lock'
-  | 'mail'
+import type { Icon } from '@type/Icon'
 
 const { icon } = defineProps<{
   icon: Icon

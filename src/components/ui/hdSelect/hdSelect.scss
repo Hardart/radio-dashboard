@@ -1,0 +1,47 @@
+@import '@/styles/includes';
+
+.hd-select {
+  display: inline-block;
+  width: clamp(200px, 100%, 300px);
+
+  &__container {
+    position: relative;
+  }
+
+  &__wrapper {
+    display: none;
+    position: absolute;
+    width: 100%;
+    margin-top: 5px;
+    background-color: var(--color-bg-light);
+    border: 1px solid var(--color-border);
+    border-radius: 5px;
+    z-index: 2;
+  }
+
+  &__list {
+    position: relative;
+    max-height: 200px;
+    padding-inline: 5px;
+    padding-block: 10px;
+    overflow-y: auto;
+  }
+
+  &--open {
+    .hd-select__wrapper {
+      display: block;
+    }
+  }
+
+  &:deep(.hd-input) {
+    margin-bottom: 5px;
+
+    .hd-input__container {
+      height: 34px;
+    }
+
+    .hd-input__field:focus {
+      outline: none;
+    }
+  }
+}

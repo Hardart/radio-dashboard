@@ -1,4 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useAuthStore } from '@/store/useAuthStore'
+
+const logout = (navigate: () => void) => {
+  useAuthStore().logout()
+  navigate()
+}
+</script>
 
 <template>
   <div class="user-menu">
@@ -17,7 +24,7 @@
         <li class="user-menu__item">Профиль</li>
         <li class="user-menu__item">Настройки</li>
         <RouterLink custom to="/login" v-slot="{ navigate }">
-          <li class="user-menu__item" @click="navigate">Выйти</li>
+          <li class="user-menu__item" @click="logout(navigate)">Выйти</li>
         </RouterLink>
       </ul>
     </div>

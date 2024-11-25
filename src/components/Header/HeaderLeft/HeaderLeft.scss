@@ -3,6 +3,26 @@
   align-items: center;
   gap: 0 10px;
   margin-left: auto;
+
+  &__search {
+    height: 30px;
+    color: var(--color-text-darker);
+    border-color: var(--color-border);
+
+    :deep(.hd-input__icon) {
+      width: 30px;
+
+      & .hd-icon {
+        margin-left: 2px;
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    :deep(.hd-input__field) {
+      padding-left: 30px;
+    }
+  }
 }
 
 .user {
@@ -28,13 +48,15 @@
 }
 
 .notifications {
+  flex-shrink: 0;
+
   &__icon {
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
   }
 
   &:hover {
-    color: var(--color-primary);
+    color: var(--primary);
     cursor: pointer;
   }
 }
