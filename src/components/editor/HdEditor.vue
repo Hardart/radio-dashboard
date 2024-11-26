@@ -42,13 +42,17 @@ watch(
   }
 )
 
-watch(content, () => {
-  editor.value
-    ?.chain()
-    .setContent(content.value || '')
-    .blur()
-    .run()
-})
+watch(
+  content,
+  () => {
+    editor.value
+      ?.chain()
+      .setContent(content.value || '')
+      .blur()
+      .run()
+  },
+  { once: true }
+)
 
 provide('tiptap', editor)
 </script>
