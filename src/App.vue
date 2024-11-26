@@ -16,6 +16,6 @@ useAuthStore().loginAuto()
   <component :is="isLoginPage ? LoginLayout : DashboardLayout">
     <RouterView />
   </component>
-  <HdTooltip />
+  <HdTooltip v-if="!isLoginPage" />
   <HdNotifications />
 </template>
