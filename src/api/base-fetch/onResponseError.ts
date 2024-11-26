@@ -7,7 +7,6 @@ import {
   type FetchOptions,
   ofetch,
 } from 'ofetch'
-import { storeToRefs } from 'pinia'
 
 type ResponseCtx = FetchContext & { response: FetchResponse<ResponseType> }
 
