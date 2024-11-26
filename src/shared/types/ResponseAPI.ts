@@ -30,12 +30,9 @@ export declare namespace ResponseApi {
   type TokenCheck = { userId: string }
   type LoginData = { accessToken: string; user: User }
   type RegistrationData = { user: User }
-  type ArticleList = { articles: Article[]; tags: string[] }
-  type ArticleSingle = {
-    article: Article
-    tags: string[]
-    categories: Category[]
-  }
+  type ArticleList = { articles: Article[] }
+  type ArticleSingle = { article: Article }
+  type ArticleBase = { tags: string[]; categories: Category[] }
   type CategoryList = { categories: Category[] }
   type CategorySingle = { category: Category }
   type FileList = { files: string[] }
