@@ -16,7 +16,7 @@ export const useNewsStore = defineStore('news', () => {
 
   const pending = ref(false)
   const error = ref(false)
-  const articleForm = ref<ArticleForm>({
+  const articleForm = reactive<ArticleForm>({
     title: '',
     categoryId: '',
     tags: [],
@@ -73,6 +73,17 @@ export const useNewsStore = defineStore('news', () => {
     articles.value.push(articleData)
   }
 
+  function clearArticleForm() {
+    articleForm.categoryId = ''
+    articleForm.content = ''
+    articleForm.id = ''
+    articleForm.image = ''
+    articleForm.isPublished = false
+    articleForm.publishAt = ''
+    articleForm.tags = []
+    articleForm.title = ''
+  }
+
   return {
     search,
     articlesFilteredByTitle,
@@ -85,24 +96,21 @@ export const useNewsStore = defineStore('news', () => {
     fetchArticles,
     fetchArticle,
     updateArticle,
+    clearArticleForm,
   }
 })
 
-function initArticleForm(
-  article: Ref<Article | undefined>,
-  form: Ref<ArticleForm>
-) {
-  if (typeof article.value === 'undefined') return
+function initArticleForm(article: Ref<Article | undefined>, form: ArticleForm) {
+  if (!article.value) return
+
   const { category, tags, isPublished, title, publishAt, content, image } =
     article.value
 
-  form.value = {
-    categoryId: category.id,
-    tags,
-    title,
-    isPublished,
-    publishAt,
-    content,
-    image,
-  }
+  form.categoryId = category.id
+  form.tags = tags
+  form.content = content
+  form.isPublished = isPublished
+  form.title = title
+  form.publishAt = publishAt
+  form.image = image
 }
