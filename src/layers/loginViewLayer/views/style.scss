@@ -12,13 +12,18 @@
   }
 
   &__image {
-    height: inherit;
     object-fit: cover;
   }
 
   &__content {
     display: grid;
     place-items: center;
-    height: inherit;
+    margin-inline: 20px;
+  }
+
+  &__title {
+    margin-bottom: 20px;
+    font-size: var(--fs-2xl);
+    font-weight: var(--fw-l);
   }
 }

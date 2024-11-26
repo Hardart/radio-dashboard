@@ -6,7 +6,10 @@ import LoginForm from './components/LoginForm/LoginForm.vue'
   <div class="login">
     <div class="login__cover"></div>
     <div class="login__content">
-      <LoginForm />
+      <div class="login__group">
+        <h3 class="login__title">Войти</h3>
+        <LoginForm />
+      </div>
     </div>
   </div>
 </template>
