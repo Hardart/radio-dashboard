@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, toValue, useId, type MaybeRef } from 'vue'
+import { computed, ref } from 'vue'
 import { isShowTooltip, coords } from './state'
 
 const $this = ref<HTMLElement>()
 
-const id = useId()
 const left = computed(() =>
   $this.value ? coords.left - $this.value.getBoundingClientRect().width / 2 : 0
 )
