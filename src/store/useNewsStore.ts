@@ -1,9 +1,9 @@
-import { defineStore, storeToRefs } from 'pinia'
-import { ref, computed, reactive, type Ref, toValue, watch } from 'vue'
+import { defineStore } from 'pinia'
+import { ref, computed, reactive, type Ref } from 'vue'
+import { articlesAPI } from '@/api/articles-api'
+import { sort } from '@/shared/helpers/sort-articles'
 import type { Article } from '@/shared/schemes/article-schema'
 import type { ArticleForm } from '@/shared/schemes/article-form-schema'
-import { sort } from '@/shared/helpers/sort-articles'
-import { articlesAPI } from '@/api/articles-api'
 import type { Category } from '@/shared/schemes/category-schema'
 
 export const useNewsStore = defineStore('news', () => {
@@ -57,8 +57,6 @@ export const useNewsStore = defineStore('news', () => {
     pending.value = true
     const response = await articlesAPI.byId(id)
     article.value = response.article
-    tags.value = response.tags
-    categories.value = response.categories
     initArticleForm(article, articleForm)
     pending.value = false
   }
@@ -71,6 +69,24 @@ export const useNewsStore = defineStore('news', () => {
     if (!articleData) return console.warn('Данные не получены')
     articles.value = articles.value.filter((item) => item.id !== input.id)
     articles.value.push(articleData)
+  }
+
+  async function addArticle(input: ArticleForm) {
+    console.log(input)
+
+    // pending.value = true
+    // const articleData = await articlesAPI.addOne(input)
+    // pending.value = false
+    // if (!articleData) return console.warn('Данные не получены')
+    // articles.value.push(articleData)
+  }
+
+  async function fetchBaseData() {
+    pending.value = true
+    const response = await articlesAPI.baseData()
+    pending.value = false
+    tags.value = response.tags
+    categories.value = response.categories
   }
 
   function clearArticleForm() {
@@ -93,10 +109,12 @@ export const useNewsStore = defineStore('news', () => {
     articleForm,
     tags,
     categories,
+    fetchBaseData,
     fetchArticles,
     fetchArticle,
     updateArticle,
     clearArticleForm,
+    addArticle,
   }
 })
 

@@ -5,11 +5,18 @@ import type { Article } from '@/shared/schemes/article-schema'
 import type { ResponseApi } from '@/shared/types/ResponseAPI'
 
 export const articlesAPI = {
+  async baseData() {
+    const { data } = await useHdFetch<ResponseApi.ArticleBase>('/article-base')
+    const tags = data.value?.tags || []
+    const categories = data.value?.categories || []
+    return { tags, categories }
+  },
+
   async list() {
     const { data } = await useHdFetch<ResponseApi.ArticleList>('/article-list')
     const articles = data.value?.articles.map(addStatus) || []
-    const tags = data.value?.tags || []
-    return { articles, tags }
+
+    return { articles }
   },
 
   async byId(id: string) {
@@ -19,9 +26,8 @@ export const articlesAPI = {
     const article = data.value?.article
       ? addStatus(data.value.article)
       : undefined
-    const categories = data.value?.categories || []
-    const tags = data.value?.tags || []
-    return { article, categories, tags }
+
+    return { article }
   },
 
   async addOne(body: ArticleForm) {
