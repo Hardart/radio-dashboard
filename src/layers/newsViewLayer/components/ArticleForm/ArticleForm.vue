@@ -7,8 +7,8 @@ import HdCalendar from '@/components/ui/hdCalendar/hdCalendar.vue'
 import HdUploadImage from '@/components/ui/hdUploadImage/hdUploadImage.vue'
 import HdButton from '@/components/ui/hdButton/hdButton.vue'
 import HdEditor from '@/components/editor/HdEditor.vue'
-import SelectString from '@/components/ui/hdSelect/components/SelectString/SelectString.vue'
 import HdSelect from '@/components/ui/hdSelect/hdSelect.vue'
+import HdFormGroup from '@/components/ui/hdFormGroup/HdFormGroup.vue'
 const articleForm = defineModel<ArticleForm>({ required: true })
 defineProps<{
   categories: Category[]
@@ -20,11 +20,9 @@ defineEmits(['on-submit'])
 <template>
   <div class="news-item">
     <div class="news-item__details">
-      <HdInput
-        v-model="articleForm.title"
-        label="Название новости"
-        name="title"
-      />
+      <HdFormGroup label="Название новости" name="title" required>
+        <HdInput v-model="articleForm.title" />
+      </HdFormGroup>
 
       <div class="news-item__group">
         <HdSelect
