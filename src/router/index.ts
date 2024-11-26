@@ -1,16 +1,21 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
-import HomeView from '@/layers/mainViewLayer/views/index.vue'
+import HomeView from '@/layers/mainViewLayer/views/mainView/index.vue'
 import { useAuthStore } from '@/store/useAuthStore'
 import { storeToRefs } from 'pinia'
-const views = ['login', 'news', 'categories', 'gallery']
+import { isString } from '@/shared/helpers/utils'
 
-const routes: RouteRecordRaw[] = views.map((v) => {
-  return {
-    path: `/${v}`,
-    name: v,
-    component: () => import(`@/layers/${v}ViewLayer/views/index.vue`),
-  }
-})
+type CustomView = {
+  name: string
+  children: string[]
+}
+const views: (string | CustomView)[] = [
+  'login',
+  'categories',
+  'gallery',
+  { name: 'news', children: ['', 'create', ':id'] },
+]
+
+const routes: RouteRecordRaw[] = views.map(initRoute)
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,20 +26,14 @@ const router = createRouter({
       component: HomeView,
     },
     ...routes,
-    {
-      path: '/news/create-article',
-      name: 'article-create',
-      component: () =>
-        import(
-          `@/layers/newsItemCreateViewLayer/views/newsItemCreateView/index.vue`
-        ),
-    },
-    {
-      path: '/news/:id',
-      name: 'article-id',
-      component: () =>
-        import(`@/layers/newsItemViewLayer/views/newsItemView/index.vue`),
-    },
+    // {
+    //   path: '/news/create-article',
+    //   name: 'article-create',
+    //   component: () =>
+    //     import(
+    //       `@/layers/newsItemCreateViewLayer/views/newsItemCreateView/index.vue`
+    //     ),
+    // },
   ],
 })
 
@@ -48,5 +47,41 @@ router.beforeEach(async (to, from, next) => {
 
   next()
 })
+
+function initRoute(route: string | CustomView): RouteRecordRaw {
+  if (isString(route)) {
+    return {
+      path: `/${route}`,
+      name: route,
+      component: () =>
+        import(`@/layers/${route}ViewLayer/views/${route}View/index.vue`),
+    }
+  } else {
+    return {
+      path: `/${route.name}`,
+      component: () =>
+        import(
+          `@/layers/${route.name}ViewLayer/views/${route.name}View/index.vue`
+        ),
+      children: route.children.map(initChild(route)),
+    }
+  }
+}
+
+function initChild(
+  route: Record<string, any>
+): (child: string) => RouteRecordRaw {
+  return function (child: string) {
+    return {
+      path: child,
+      component: () =>
+        import(
+          `@/layers/${route.name}ViewLayer/views/${
+            child || 'index'
+          }View/index.vue`
+        ),
+    }
+  }
+}
 
 export default router
