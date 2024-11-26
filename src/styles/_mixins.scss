@@ -22,7 +22,7 @@
       @if $name == dark {
         --color-bg-lighter: #{_lighter(10)};
         --color-bg-light: #{_lighter(5)};
-        --color-bg: #{_lighter()};
+        --color-bg: #{_lighter(1)};
 
         --color-text-lighter: #{_darker()};
         --color-text-light: #{_darker(10)};
@@ -31,10 +31,11 @@
         --color-text-darker: #{_darker(50)};
 
         --color-border: #{_lighter(10)};
+        --color-border-light: #{_lighter(18)};
       } @else {
-        --color-bg-lighter: #{_darker(2)};
-        --color-bg-light: #{_darker(5)};
-        --color-bg: #{_darker(6)};
+        --color-bg-lighter: #{_darker(1)};
+        --color-bg-light: #{_darker(4)};
+        --color-bg: #{_darker(9)};
 
         --color-text-lighter: #{_lighter(60)};
         --color-text-light: #{_lighter(40)};
@@ -43,6 +44,7 @@
         --color-text-darker: #{_lighter()};
 
         --color-border: #{_darker(15)};
+        --color-border-light: #{_darker(30)};
       }
       @content;
     }
