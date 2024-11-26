@@ -11,6 +11,21 @@ import ControllerUploadImage from './controllers/UploadImage.vue'
 // import Underline from '@tiptap/extension-underline'
 const content = defineModel<string | undefined>({ required: true })
 
+const editor = useEditor({
+  content: content.value,
+  extensions: [StarterKit, Image],
+  editorProps: {
+    attributes: {
+      class: 'hd-editor__textarea',
+    },
+  },
+  onUpdate() {
+    content.value = editor.value?.getText().trim()
+      ? editor.value?.getHTML()
+      : editor.value?.getText().trim()
+  },
+})
+
 const image = reactive({
   src: '',
   description: '',
@@ -27,19 +42,12 @@ watch(
   }
 )
 
-const editor = useEditor({
-  content: content.value,
-  extensions: [StarterKit, Image],
-  editorProps: {
-    attributes: {
-      class: 'hd-editor__textarea',
-    },
-  },
-  onUpdate() {
-    content.value = editor.value?.getText().trim()
-      ? editor.value?.getHTML()
-      : editor.value?.getText().trim()
-  },
+watch(content, () => {
+  editor.value
+    ?.chain()
+    .setContent(content.value || '')
+    .blur()
+    .run()
 })
 
 provide('tiptap', editor)
@@ -60,11 +68,7 @@ provide('tiptap', editor)
       <!-- <EditorResetFloat /> -->
     </div>
 
-    <EditorContent
-      :editor="editor"
-      class="hd-editor__container"
-      @click="editor?.commands.focus()"
-    />
+    <EditorContent :editor="editor" class="hd-editor__container" />
   </div>
 </template>
 
