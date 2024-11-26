@@ -7,10 +7,13 @@ import { onMounted } from 'vue'
 const newsStore = useNewsStore()
 const { articleForm, tags, categories } = storeToRefs(newsStore)
 onMounted(newsStore.clearArticleForm)
+const onSubmit = () => {
+  newsStore.addArticle(newsStore.articleForm)
+}
 </script>
 
 <template>
-  <ArticleForm v-model="articleForm" :tags :categories />
+  <ArticleForm v-model="articleForm" :tags :categories @on-submit="onSubmit" />
 </template>
 
 <style lang="scss" scoped src="./styles.scss" />

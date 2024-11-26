@@ -4,6 +4,7 @@ import { useNewsStore } from '@/store/useNewsStore'
 
 const newsStore = useNewsStore()
 newsStore.fetchArticles()
+newsStore.fetchBaseData()
 </script>
 
 <template>
