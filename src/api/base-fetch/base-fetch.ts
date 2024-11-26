@@ -17,7 +17,7 @@ export const useHdFetch = async <T>(
   const error = ref()
 
   const defaultOptions: FetchOptions<'json'> = {
-    baseURL: 'http://localhost:3068/api/v1/dashboard',
+    baseURL: '/api/v1/dashboard',
     method: 'POST',
     onRequest: onDefaultRequest(tokens),
     onResponseError: onResponseErrorHandler(toast),

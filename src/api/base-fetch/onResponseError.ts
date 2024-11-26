@@ -12,7 +12,7 @@ import { storeToRefs } from 'pinia'
 type ResponseCtx = FetchContext & { response: FetchResponse<ResponseType> }
 
 const refreshOptions: FetchOptions = {
-  baseURL: 'http://localhost:3068/api/v1/dashboard',
+  baseURL: '/api/v1/dashboard',
   credentials: 'include',
   method: 'POST',
   onResponseError: onRefreshResponseError,
