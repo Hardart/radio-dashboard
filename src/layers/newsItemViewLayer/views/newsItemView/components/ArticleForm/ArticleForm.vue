@@ -8,7 +8,7 @@ import HdUploadImage from '@/components/ui/hdUploadImage/hdUploadImage.vue'
 import HdButton from '@/components/ui/hdButton/hdButton.vue'
 import HdEditor from '@/components/editor/HdEditor.vue'
 import SelectString from '@/components/ui/hdSelect/components/SelectString/SelectString.vue'
-import SelectObject from '@/components/ui/hdSelect/components/SelectObject/SelectObject.vue'
+import HdSelect from '@/components/ui/hdSelect/hdSelect.vue'
 const articleForm = defineModel<ArticleForm>({ required: true })
 defineProps<{
   categories: Category[]
@@ -27,19 +27,20 @@ defineEmits(['on-submit'])
       />
 
       <div class="news-item__group">
-        <SelectObject
+        <HdSelect
           :options="categories"
           v-model="articleForm.categoryId"
           label="Категория"
-          option-value="title"
+          key-attr="id"
+          option-attr="title"
         />
-        <SelectString :options="tags" v-model="articleForm.tags" label="Теги" />
-        <HdSwitch v-model="articleForm.isPublished" />
+        <HdSelect :options="tags" v-model="articleForm.tags" label="Теги" />
         <HdCalendar
           v-model="articleForm.publishAt"
           :min-date="articleForm.publishAt"
           label="Дата публикации"
         />
+        <HdSwitch v-model="articleForm.isPublished" label="Опубликовано" />
       </div>
 
       <div>

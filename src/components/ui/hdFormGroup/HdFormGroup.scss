@@ -1,0 +1,30 @@
+@import '@/styles/includes';
+
+.hd-form-group {
+  &__label {
+    display: inline-block;
+    margin-bottom: 5px;
+    color: var(--color-text);
+    font-size: var(--fs-m);
+    line-height: 20px;
+
+    &--required::after {
+      content: '*';
+      color: var(--danger);
+      margin-inline-start: 1px;
+    }
+  }
+
+  &__error {
+    margin-top: 2px;
+    margin-left: 2px;
+    color: var(--danger);
+    font-size: var(--fs-s);
+  }
+
+  &__help {
+    color: var(--color-text-darker);
+    font-size: var(--fs-xs);
+    font-style: italic;
+  }
+}

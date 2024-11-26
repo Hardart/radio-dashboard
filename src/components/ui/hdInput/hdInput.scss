@@ -17,14 +17,6 @@ input {
     border-color: inherit;
   }
 
-  &__label {
-    display: inline-block;
-    margin-bottom: 5px;
-    color: var(--color-text);
-    font-size: var(--fs-m);
-    line-height: 20px;
-  }
-
   &__field {
     display: inline-block;
     width: 100%;

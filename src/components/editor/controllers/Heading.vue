@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import SelectString from '@/components/ui/hdSelect/components/SelectString/SelectString.vue'
+import HdSelect from '@/components/ui/hdSelect/hdSelect.vue'
 import { inject, ref, watch } from 'vue'
 
 const levels = [1, 2, 3, 4]
@@ -31,5 +31,5 @@ watch(selected, () => {
 </script>
 
 <template>
-  <SelectString :options="formatItems" v-model="selected" />
+  <HdSelect :options="formatItems" v-model="selected" />
 </template>
