@@ -53,12 +53,28 @@
       margin: 20px;
       outline: none;
 
-      h3 {
-        margin-top: 1.6em;
-        margin-bottom: 0.6em;
-        font-size: 1.25em;
+      h1 {
+        margin-bottom: 32px;
+        font-size: var(--fs-4xl);
         font-weight: var(--fw-l);
-        line-height: 1.6;
+      }
+
+      h2 {
+        margin-top: 48px;
+        margin-bottom: 24px;
+        font-size: var(--fs-3xl);
+        font-weight: var(--fw-l);
+      }
+
+      h3 {
+        margin-top: 38px;
+        margin-bottom: 0.6em;
+        font-size: var(--fs-2xl);
+        font-weight: var(--fw-l);
+      }
+
+      & > :first-child {
+        margin-top: 0;
       }
 
       p {
