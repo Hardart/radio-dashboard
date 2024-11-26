@@ -14,7 +14,7 @@ const onClick = () => {
 
 <template>
   <HdButton
-    text="Right"
+    icon="format-image-right"
     class="hd-editor__button"
     @click="onClick"
     v-tooltip="{ label: 'по правому краю' }"

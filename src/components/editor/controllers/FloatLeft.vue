@@ -1,20 +1,22 @@
 <script lang="ts" setup>
-import { inject } from 'vue'
-const editor = inject<any>('tiptap')
+import HdButton from '@/components/ui/hdButton/hdButton.vue'
+import { inject, type Ref } from 'vue'
+
+const editor = inject<Ref<any>>('tiptap')
+const onClick = () => {
+  editor?.value
+    .chain()
+    .focus()
+    .updateAttributes('image', { class: 'float-left' })
+    .run()
+}
 </script>
+
 <template>
-  <UButton
-    square
-    variant="outline"
-    color="gray"
-    icon="i-material-symbols-format-image-left-rounded"
-    class="editor__button"
-    @click="
-      editor
-        .chain()
-        .focus()
-        .updateAttributes('image', { class: 'w-72 float-left not-prose mr-4' })
-        .run()
-    "
+  <HdButton
+    icon="format-image-left"
+    class="hd-editor__button"
+    @click="onClick"
+    v-tooltip="{ label: 'по левому краю' }"
   />
 </template>

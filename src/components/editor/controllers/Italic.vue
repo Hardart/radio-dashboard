@@ -7,7 +7,7 @@ const editor = inject<any>('tiptap')
 
 <template>
   <HdButton
-    text="I"
+    icon="format-italic"
     class="hd-editor__button"
     :class="{ 'hd-editor__button--active': editor.isActive('italic') }"
     @click="editor.chain().focus().toggleItalic().run()"

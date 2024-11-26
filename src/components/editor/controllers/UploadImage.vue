@@ -14,7 +14,7 @@ const src = defineModel<string>({ required: true })
   >
     <template #upload-button="{ cb }">
       <HdButton
-        text="I"
+        icon="image-add"
         class="hd-editor__button"
         v-tooltip="{ label: 'загрузить фото' }"
         @click="cb"
