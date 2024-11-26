@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Underline from '@tiptap/extension-underline'
 import StarterKit from '@tiptap/starter-kit'
 import { EditorContent, useEditor } from '@tiptap/vue-3'
 import { provide, reactive, watch } from 'vue'
@@ -8,12 +9,14 @@ import ControllerHeading from './controllers/Heading.vue'
 import ControllerItalic from './controllers/Italic.vue'
 import ControllerFloatRight from './controllers/FloatRight.vue'
 import ControllerUploadImage from './controllers/UploadImage.vue'
-// import Underline from '@tiptap/extension-underline'
+import ControllerUnderline from './controllers/Underline.vue'
+import ControllerFloatLeft from './controllers/FloatLeft.vue'
+import ControllerBlockquote from './controllers/Blockquote.vue'
 const content = defineModel<string | undefined>({ required: true })
 
 const editor = useEditor({
   content: content.value,
-  extensions: [StarterKit, Image],
+  extensions: [StarterKit, Image, Underline],
   editorProps: {
     attributes: {
       class: 'hd-editor__textarea',
@@ -48,7 +51,6 @@ watch(
     editor.value
       ?.chain()
       .setContent(content.value || '')
-      .blur()
       .run()
   },
   { once: true }
@@ -63,6 +65,9 @@ provide('tiptap', editor)
       <ControllerHeading />
       <ControllerBold />
       <ControllerItalic />
+      <ControllerUnderline />
+      <ControllerBlockquote />
+      <ControllerFloatLeft />
       <ControllerFloatRight />
       <ControllerUploadImage v-model="image.src" />
       <!-- <EditorUnderline /> -->
@@ -72,7 +77,11 @@ provide('tiptap', editor)
       <!-- <EditorResetFloat /> -->
     </div>
 
-    <EditorContent :editor="editor" class="hd-editor__container" />
+    <EditorContent
+      :editor="editor"
+      class="hd-editor__container"
+      @click="editor?.chain().focus().run()"
+    />
   </div>
 </template>
 

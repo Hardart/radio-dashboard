@@ -14,6 +14,18 @@
   }
 
   & :deep() {
+    blockquote {
+      margin-top: 1.6em;
+      margin-bottom: 1.6em;
+      padding-inline-start: 1em;
+      font-style: italic;
+      font-weight: var(--fw-m);
+      letter-spacing: 0.1px;
+      border-inline-start: 4px;
+      border-inline-start-color: var(--color-border-light);
+      border-inline-start-style: solid;
+    }
+
     .hd-editor__button {
       display: grid;
       place-items: center;
