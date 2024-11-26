@@ -20,7 +20,7 @@
     justify-content: start;
     min-width: 44px;
     height: 22px;
-    background-color: var(--color-bg-lighter);
+    background-color: var(--color-bg-light);
     border-radius: 12px;
     cursor: pointer;
     transition-property: background-color;
@@ -32,7 +32,7 @@
     margin-inline: 4px;
     width: 16px;
     height: 16px;
-    background-color: var(--color-text-light);
+    background-color: var(--color-border-light);
     border-radius: 50%;
     transition-duration: 0.2s;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
