@@ -15,6 +15,7 @@
   --fw-s: 300;
   --fw-m: 500;
   --fw-l: 700;
+  --fw-xl: 900;
 }
 
 @include color-scheme() {
@@ -31,11 +32,10 @@ body {
   color: var(--color-text);
   background: var(--color-bg);
   transition: color 0.3s, background-color 0.3s;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: CeraRoundPro, sans-serif;
   font-size: var(--fs-default);
   font-weight: 400;
+  letter-spacing: -0.5px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
