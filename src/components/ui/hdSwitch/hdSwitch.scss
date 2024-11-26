@@ -32,7 +32,7 @@
     margin-inline: 4px;
     width: 16px;
     height: 16px;
-    background-color: var(--color-text);
+    background-color: var(--color-text-light);
     border-radius: 50%;
     transition-duration: 0.2s;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -44,7 +44,7 @@
     }
 
     .hd-switch__handler {
-      background-color: var(--color-text-light);
+      background-color: var(--light);
       transform: translateX(20px);
     }
   }
