@@ -37,11 +37,7 @@ const image = reactive({
 watch(
   () => image.src,
   () => {
-    editor.value
-      ?.chain()
-      .focus()
-      .setImage({ src: 'http://localhost:3068' + image.src })
-      .run()
+    editor.value?.chain().focus().setImage({ src: image.src }).run()
   }
 )
 
@@ -70,11 +66,6 @@ provide('tiptap', editor)
       <ControllerFloatLeft />
       <ControllerFloatRight />
       <ControllerUploadImage v-model="image.src" />
-      <!-- <EditorUnderline /> -->
-      <!-- <EditorBlockquote /> -->
-      <!-- <EditorFloatLeft /> -->
-      <!-- <EditorFloatRight /> -->
-      <!-- <EditorResetFloat /> -->
     </div>
 
     <EditorContent

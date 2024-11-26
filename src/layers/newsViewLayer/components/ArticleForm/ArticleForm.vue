@@ -48,11 +48,7 @@ defineEmits(['on-submit'])
 
     <div class="news-item__aside">
       <div class="news-item__media">
-        <img
-          class="news-item__image"
-          :src="`http://localhost:3068/images/home/images/news/20241118/af1de16b7b6cb33c_orig.webp`"
-          alt=""
-        />
+        <img class="news-item__image" :src="articleForm.image" />
         <div class="news-item__upload-buttons">
           <HdUploadImage
             name="news"
