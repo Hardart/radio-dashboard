@@ -2,42 +2,149 @@
 import { galleryAPI } from '@/api/gallery-api'
 import Sortable from '@/components/sortable/Sortable.vue'
 import HdButton from '@/components/ui/hdButton/hdButton.vue'
-import { ref } from 'vue'
-const gallery = ref()
+import HdModal from '@/components/ui/hdModal/HdModal.vue'
+import { useToggle } from '@/composables/useToggle'
+import type { Slide } from '@/shared/schemes/slide-schema'
+import { reactive, ref } from 'vue'
+import SlideItem from './components/Slide/Slide.vue'
+import { correctImageUrl } from '@/shared/helpers/utils'
+import { useCompareObjects } from '@/composables/useCompareObjects'
+const gallery = ref<Slide[]>([])
+const [isOpen, toggle] = useToggle()
+
+const { isSame, setupObj } = useCompareObjects()
 
 async function fetchGallery() {
-  gallery.value = await galleryAPI.list()
+  const response = await galleryAPI.list()
+  gallery.value = response.map((item) => {
+    item.src = correctImageUrl(item.src) || ''
+    return item
+  })
+  setupObj(gallery)
 }
+
+const slideFormData = reactive<Slide>({
+  title: undefined,
+  subtitle: undefined,
+  src: '',
+  id: '',
+})
+
+async function addSlide() {
+  slideFormData.id = `${gallery.value.length + 1}`
+  gallery.value?.push({ ...slideFormData })
+  onCancelAddingSlide()
+}
+
+function onCancelAddingSlide() {
+  clearSlideFormData()
+  toggle()
+}
+
+function clearSlideFormData() {
+  slideFormData.id = ''
+  slideFormData.src = ''
+  delete slideFormData.title
+  delete slideFormData.subtitle
+  delete slideFormData.to
+}
+
+function onEdit(slide: Slide) {
+  const keys = Object.entries(slide) as [keyof typeof slide, any][]
+  keys.forEach(([key, value]) => {
+    if (typeof value === 'undefined') delete slide[key]
+    else if (typeof value === 'string') slideFormData[key] = value
+  })
+  toggle(true)
+}
+
+function onUpdate(slide: Slide) {
+  const keys = Object.keys(slide) as (keyof typeof slide)[]
+  keys.forEach((key) => {
+    if (slideFormData[key] == '' || slideFormData[key] === undefined)
+      delete slideFormData[key]
+  })
+
+  const idx = gallery.value.findIndex((item) => item.id === slideFormData.id)
+  gallery.value.splice(idx, 1, { ...slideFormData })
+
+  onCancelAddingSlide()
+}
+
+async function onSaveChanges() {
+  gallery.value = gallery.value.map((slide, i) => {
+    slide.src = slide.src.replace('350x100', '1530x420')
+    return slide
+  })
+  await galleryAPI.saveAllSlides(gallery)
+}
+
 fetchGallery()
 </script>
 
 <template>
-  <Sortable
-    v-if="gallery"
-    item-key="id"
-    v-model="gallery"
-    class="sortable"
-    selector="[sortable-item]"
-    handle="handle"
-  >
-    <template #item="{ item }">
-      <div class="sortable__item" sortable-item>
-        <div class="sortable__media">
-          <div class="sortable__handle" handle></div>
+  <div class="gallery">
+    <div class="gallery__header">
+      <HdButton
+        text="Добавить слайд"
+        type="outline-primary"
+        @click="toggle()"
+      />
+    </div>
+    <div class="gallery__content">
+      <Sortable
+        v-if="gallery"
+        item-key="id"
+        v-model="gallery"
+        class="gallery-slide-list"
+        selector="[sortable-item]"
+        handle="handle"
+      >
+        <template #item="{ item }">
+          <div class="gallery-slide" sortable-item>
+            <div class="gallery-slide__media">
+              <div class="gallery-slide__handle" handle></div>
 
-          <img
-            @dragstart.prevent
-            class="sortable__image"
-            src="http://localhost:3068/images/home/images/gallery/6a747f1484ea0f46_75.webp"
-            alt=""
-          />
-          <div class="sortable__controllers">
-            <HdButton icon="lock" type="success" />
+              <img
+                @dragstart.prevent
+                class="gallery-slide__image"
+                :src="item.src"
+                alt=""
+                v-if="item.src"
+              />
+              <div class="gallery-slide__placeholder" v-else></div>
+              <h3 class="gallery-slide__title">{{ item.title }}</h3>
+
+              <div class="gallery-slide__controllers">
+                <HdButton
+                  @click="onEdit(item)"
+                  icon="edit"
+                  square
+                  v-tooltip="{ label: 'Редактировать' }"
+                />
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </template>
-  </Sortable>
+        </template>
+      </Sortable>
+    </div>
+    <div class="gallery__footer">
+      <HdButton
+        text="Сохранить изменения"
+        @click="onSaveChanges"
+        type="outline-success"
+        :disabled="isSame"
+      />
+    </div>
+    <HdModal :is-open>
+      <SlideItem
+        :slide="slideFormData"
+        @on-add="addSlide"
+        @on-cancel="onCancelAddingSlide"
+        @on-edit="onUpdate"
+      />
+    </HdModal>
+  </div>
 </template>
 
 <style lang="scss" scoped src="./style.scss" />
