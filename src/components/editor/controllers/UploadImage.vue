@@ -8,7 +8,7 @@ const src = defineModel<string>({ required: true })
 <template>
   <HdUploadImage
     v-model="src"
-    name="news"
+    name="NEWS"
     btnClass="hd-editor__button"
     v-tooltip="{ label: 'загрузить фото' }"
   >

@@ -1,11 +1,16 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { filesAPI } from '@/api/upload-api'
-import HdButton from '../hdButton/hdButton.vue'
 import type { Icon } from '@/shared/types/Icon'
+import { UploadPath } from '@/shared/enums/upload-path-url'
+import HdButton from '../hdButton/hdButton.vue'
+import { correctImageUrl } from '@/shared/helpers/utils'
 
 const src = defineModel<string>()
-const { name } = defineProps<{ name: string; icon?: Icon }>()
+const props = defineProps<{
+  name: keyof typeof UploadPath
+  icon?: Icon
+}>()
 const uploadInputRef = ref<HTMLInputElement>()
 
 function onInputVirtualClick() {
@@ -17,11 +22,11 @@ async function onChange(e: Event) {
   if (!input.files?.length) return
   const file = input.files[0]
   const body = new FormData()
+  const correctName = props.name
+  body.append(correctName.trim().toLowerCase(), file, file.name)
 
-  body.append(name, file, file.name)
-
-  const { path } = await filesAPI.single(body)
-  src.value = path // MAYBE UNDEFINED
+  const { path } = await filesAPI.single(props.name, body)
+  src.value = correctImageUrl(path) // MAYBE UNDEFINED
 }
 </script>
 
@@ -29,8 +34,9 @@ async function onChange(e: Event) {
   <div class="hd-upload-image">
     <slot name="upload-button" :cb="onInputVirtualClick">
       <HdButton
-        :icon="icon ?? 'gallery'"
+        :icon="icon ?? 'image-add'"
         class="hd-upload-image__button"
+        square
         @click="onInputVirtualClick()"
       />
     </slot>

@@ -51,9 +51,9 @@ defineEmits(['on-submit'])
         <img class="news-item__image" :src="articleForm.image" />
         <div class="news-item__upload-buttons">
           <HdUploadImage
-            name="news"
+            name="NEWS"
             v-model="articleForm.image"
-            v-tooltip="{ label: 'Загрузить' }"
+            v-tooltip="{ label: 'Загрузить главное изображение' }"
           />
         </div>
       </div>
@@ -61,7 +61,7 @@ defineEmits(['on-submit'])
         <HdButton
           text="Отменить"
           type="outline-danger"
-          @click="$router.go(-1)"
+          @click="$router.push('/news')"
         />
         <HdButton
           text="Сохранить"
