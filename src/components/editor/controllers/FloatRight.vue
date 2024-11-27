@@ -14,6 +14,7 @@ const onClick = () => {
 
 <template>
   <HdButton
+    square
     icon="format-image-right"
     class="hd-editor__button"
     @click="onClick"

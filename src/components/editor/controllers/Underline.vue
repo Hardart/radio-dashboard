@@ -7,6 +7,7 @@ const editor = inject<any>('tiptap')
 
 <template>
   <HdButton
+    square
     icon="format-underline"
     class="hd-editor__button"
     :class="{ 'hd-editor__button--active': editor.isActive('underline') }"
