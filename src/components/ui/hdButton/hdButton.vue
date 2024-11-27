@@ -16,11 +16,16 @@ defineProps<{
   flipIcon?: Icon
   iconClass?: string
   disabled?: boolean
+  square?: boolean
 }>()
 </script>
 
 <template>
-  <button class="hd-button" :class="type && `hd-button--${type}`" :disabled>
+  <button
+    class="hd-button"
+    :class="[type && `hd-button--${type}`, square && 'hd-button--square']"
+    :disabled
+  >
     <SvgIcon v-if="icon" :icon class="hd-button__icon" :class="iconClass" />
     <span class="hd-button__text" v-if="text">{{ text }}</span>
     <SvgIcon

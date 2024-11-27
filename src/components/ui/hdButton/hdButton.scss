@@ -5,7 +5,7 @@
   justify-content: center;
   align-items: center;
   gap: 0 5px;
-  padding: 5px;
+  padding: 5px 30px;
   font-size: var(--fs-m);
   line-height: 20px;
   border-width: 1px;
@@ -44,7 +44,6 @@
 
   @each $color in map-keys($colors) {
     &--#{$color} {
-      padding: 5px 30px;
       @include set-color(map-get($colors, $color));
 
       &:hover:not(&:disabled) {
@@ -59,6 +58,7 @@
     }
 
     &--outline-#{$color} {
+      color: tint(map-get($colors, $color), 10);
       border-color: shade(map-get($colors, $color), 50);
 
       &:hover:not(&:disabled) {
@@ -69,5 +69,9 @@
         filter: brightness(1.2);
       }
     }
+  }
+
+  &--square {
+    padding: 5px;
   }
 }
