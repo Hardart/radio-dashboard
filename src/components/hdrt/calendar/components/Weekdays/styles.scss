@@ -3,4 +3,8 @@
   grid-template-columns: repeat(7, 1fr);
   place-items: center;
   margin-bottom: 10px;
+
+  &__item {
+    font-size: var(--fs-m);
+  }
 }

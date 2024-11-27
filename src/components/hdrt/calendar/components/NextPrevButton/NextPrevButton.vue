@@ -8,6 +8,7 @@ defineProps<{
 
 <template>
   <HdButton
+    square
     :class="`calendar__${next ? 'next' : 'prev'}`"
     :icon="next ? 'sort-up' : 'sort-down'"
   />

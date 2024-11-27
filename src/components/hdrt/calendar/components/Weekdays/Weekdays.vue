@@ -4,7 +4,7 @@ const weekdays = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
 
 <template>
   <div class="calendar-weekdays">
-    <div class="first-letter:uppercase" v-for="day in weekdays">{{ day }}</div>
+    <div class="calendar-weekdays__item" v-for="day in weekdays">{{ day }}</div>
   </div>
 </template>
 

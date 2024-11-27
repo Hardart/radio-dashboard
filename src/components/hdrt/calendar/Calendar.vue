@@ -15,8 +15,8 @@ const onDay = () => calendar.updateSelected(selectedDate)
     <header class="calendar__header">
       <NextPrevButton
         v-if="calendar.canClickOnPrev"
-        prev
         @click="calendar.toMonth(-1)"
+        prev
       />
       <span class="calendar__date font-medium uppercase">
         {{ calendar.title }}

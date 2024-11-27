@@ -1,6 +1,6 @@
 .calendar {
-  width: clamp(100%, 30rem, 340px);
-  padding: 25px 15px;
+  width: clamp(100%, 30rem, 270px);
+  padding: 15px 15px 5px;
   background-color: var(--color-bg-light);
   box-shadow: 2px 2px 2px 2px var(--color-bg-dark);
   border-radius: 10px;
@@ -10,7 +10,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 35px;
+    margin-bottom: 15px;
   }
 
   &__date {
