@@ -15,6 +15,15 @@ export default defineConfig({
       '@type': fileURLToPath(new URL('./src/shared/types', import.meta.url)),
     },
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3068/api/v1/dashboard',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
+  },
   css: {
     preprocessorOptions: {
       scss: {
