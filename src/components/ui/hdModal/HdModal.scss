@@ -1,0 +1,22 @@
+@import '@/styles/includes';
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background-color: hsla(0, 0%, 0%, 0.1);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  z-index: 999;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
