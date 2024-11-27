@@ -18,3 +18,8 @@ export function isObjectArray(value: unknown): value is ObjectItem[] {
 export function toString(value: unknown): string {
   return JSON.stringify(value)
 }
+
+export function correctImageUrl(src: string | undefined) {
+  if (!src) return undefined
+  return import.meta.env.DEV ? `http://localhost:3068/images/home${src}` : src
+}
