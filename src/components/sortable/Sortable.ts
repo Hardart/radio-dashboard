@@ -1,3 +1,5 @@
+import { ref, toValue, type Ref } from 'vue'
+
 type PoolItemElement = HTMLElement | (Window & typeof globalThis)
 
 type PoolItem = {
@@ -14,7 +16,7 @@ type SortableOptions = {
 }
 
 const DEFAULT_OPTIONS: SortableOptions = {
-  selector: '[draggable]',
+  selector: '[sortable-item]',
 }
 
 class EventsPool {
@@ -45,13 +47,13 @@ class EventsPool {
     toAdd: boolean,
     options?: AddEventListenerOptions
   ) {
-    if (!toAdd) {
+    if (toAdd) {
+      this.#pool.push({ element, event, fn })
+    } else {
       this.#pool = this.#pool.filter(
         (item) =>
           item.element !== element || item.event !== event || item.fn !== fn
       )
-    } else {
-      this.#pool.push({ element, event, fn })
     }
 
     element[toAdd ? 'addEventListener' : 'removeEventListener'](
@@ -66,6 +68,13 @@ class EventsPool {
       item.element.removeEventListener(event, item.fn)
     )
     this.#pool = this.#pool.filter((item) => item.event !== event)
+  }
+
+  clearPool() {
+    this.#pool.forEach((item) => {
+      const { element, event, fn } = item
+      this.remove(element, event, fn)
+    })
   }
 
   showPool() {
@@ -104,27 +113,29 @@ class Coordinates {
 }
 
 class Clone {
-  events: EventsPool
+  sortableInstance: Sortable
+  events = new EventsPool()
   $clone: HTMLElement | null = null
-  $element: HTMLElement | null = null
 
-  constructor() {
-    this.events = new EventsPool()
+  constructor(sortableInstance: Sortable) {
+    this.sortableInstance = sortableInstance
   }
 
-  create(element: HTMLElement) {
+  create() {
     if (this.$clone) return
-    this.$element = element
-    this.$clone = this.$element.cloneNode(true) as HTMLElement
+    this.$clone = this.sortableInstance.$sortable?.cloneNode(
+      true
+    ) as HTMLElement
 
-    this.$clone.classList.add('clone')
+    this.$clone.classList.add('sortable__clone')
     this.setDefaultStyles()
     document.body.insertAdjacentElement('beforeend', this.$clone)
     this.events.add(this.$clone, 'transitionend', this.onCloneTransitionEnd)
   }
 
   private setDefaultStyles() {
-    const { width, height, left, top } = this.$element!.getBoundingClientRect()
+    const { width, height, left, top } =
+      this.sortableInstance.$sortable!.getBoundingClientRect()
     const styles: Partial<CSSStyleDeclaration> = {
       position: 'fixed',
       width: `${width}px`,
@@ -137,19 +148,22 @@ class Clone {
     setStyleAttributes(this.$clone!, styles)
   }
 
-  private onCloneTransitionEnd = () => {
+  private onCloneTransitionEnd = (e: Event) => {
+    if ((e as TransitionEvent).propertyName === 'transform') return
     if (!this.$clone) throw new Error('element CLONE is not defined')
     this.events.remove(this.$clone, 'transitionend', this.onCloneTransitionEnd)
     this.removeClone()
     this.$clone = null
-    this.$element?.removeAttribute('style')
+    this.sortableInstance.$sortable?.removeAttribute('style')
+    this.sortableInstance.removeTransitionListener()
   }
 
   private removeClone() {
     if (!this.$clone) throw new Error('element CLONE is not defined')
-    if (!this.$element) throw new Error('ELEMENT is not defined')
+    if (!this.sortableInstance.$sortable)
+      throw new Error('ELEMENT is not defined')
     this.$clone.remove()
-    this.$element.classList.remove('sortable__item--selected')
+    this.sortableInstance.$sortable.classList.remove('sortable__item--selected')
   }
 
   setStyles(
@@ -157,9 +171,10 @@ class Clone {
     $container: HTMLElement,
     itemsBounds: Partial<DOMRect>[]
   ) {
-    if (!this.$element) throw new Error('ELEMENT is not defined')
+    if (!this.sortableInstance.$sortable)
+      throw new Error('ELEMENT is not defined')
 
-    const id = $items.indexOf(this.$element)
+    const id = $items.indexOf(this.sortableInstance.$sortable)
 
     const { top, left } = itemsBounds[id]
 
@@ -182,10 +197,10 @@ class Clone {
 }
 
 export class Sortable {
-  private $container: HTMLElement
-  private $sortable: HTMLElement | undefined
+  $container = ref<HTMLElement | null>(null)
+  $sortable: HTMLElement | undefined
   private $cross: HTMLElement | undefined
-  private events: EventsPool
+  private events = new EventsPool()
   private coords?: Coordinates
   private clone?: Clone
   private handle?: string
@@ -194,33 +209,38 @@ export class Sortable {
   private itemsBounds: Partial<DOMRect>[] = []
   private isDragStart = false
 
-  constructor(containerEl: HTMLElement, options: SortableOptions) {
-    if (!containerEl)
-      throw new Error('not passed sortable container element as param')
-    this.$container = containerEl
-    this.events = new EventsPool()
-
-    this.init()
-    this.initOptions(options)
-  }
-
-  static init(containerEl: HTMLElement, options: SortableOptions) {
-    new Sortable(containerEl, options)
-  }
-
-  private initOptions(options: SortableOptions) {
+  private initOptions(options?: SortableOptions) {
     options = { ...DEFAULT_OPTIONS, ...options }
     const keys = Object.keys(options) as (keyof typeof options)[]
     keys.forEach((key) => (this[key] = options[key]))
   }
 
-  private init() {
-    this.$items = [...this.$container.children] as HTMLElement[]
-    this.events.add(this.$container, 'pointerdown', this.onPointerDown)
-    this.events.add(this.$container, 'transitionend', this.onTransitionEnd)
+  init(container: Ref<HTMLElement | null>, options?: SortableOptions) {
+    if (!container.value) return
+    this.initOptions(options)
+    this.$container.value = container.value
+    this.$items = [...container.value.children] as HTMLElement[]
+    this.events.add(container.value, 'pointerdown', this.onPointerDown)
+  }
+
+  refresh() {
+    const container = HTMLElementGuard(this.$container)
+    queueMicrotask(
+      () => (this.$items = [...container.children] as HTMLElement[])
+    )
+  }
+
+  removeTransitionListener() {
+    const container = HTMLElementGuard(this.$container)
+    this.events.remove(container, 'transitionend', this.onTransitionEnd)
+  }
+
+  removeListeners() {
+    this.events.clearPool()
   }
 
   private onPointerDown = (e: Event) => {
+    if (this.clone?.$clone) return
     const target = e.target as HTMLElement
     const isHandle =
       this.handle &&
@@ -229,17 +249,18 @@ export class Sortable {
     if (isHandle) return
     const sortableCard = target.closest(`${this.selector}`) as HTMLElement
     if (!sortableCard) return
-
+    const container = HTMLElementGuard(this.$container)
     this.$sortable = sortableCard
     this.coords = new Coordinates()
-    this.clone = new Clone()
+    this.clone = new Clone(this)
     this.coords.initPoint(e)
     this.coords.initBounds(this.$sortable)
-    this.itemsBounds = calcOffsetFromParent(this.$container, this.$items)
+    this.itemsBounds = calcOffsetFromParent(container, this.$items)
     this.$items.forEach((item) =>
       this.events.add(item, 'pointerenter', this.onPointerEnter)
     )
 
+    this.events.add(container, 'transitionend', this.onTransitionEnd)
     this.events.add(window, 'pointerup', this.onPointerUp)
     this.events.add(window, 'pointermove', this.onPointerMove, {
       passive: true,
@@ -250,7 +271,7 @@ export class Sortable {
   private onPointerMove = (e: Event) => {
     if (!this.isDragStart) return
     if (!this.$sortable) throw new Error('element SORTABLE is not defined')
-    this.clone?.create(this.$sortable)
+    this.clone?.create()
     if (!this.clone?.$clone) throw new Error('element SORTABLE is not defined')
     this.coords?.setPosition(this.clone.$clone, e)
     setStyleAttributes(this.$sortable, { opacity: '0' })
@@ -283,17 +304,21 @@ export class Sortable {
     this.events.remove(window, 'pointerup', this.onPointerUp)
 
     if (!this.clone?.$clone) return
-    this.clone.setStyles(this.$items, this.$container, this.itemsBounds)
-    this.isDragStart = false
+    this.clone.$clone.classList.remove('sortable__clone')
+    const container = HTMLElementGuard(this.$container)
+    this.clone.setStyles(this.$items, container, this.itemsBounds)
   }
 
-  private onTransitionEnd = () => {
+  private onTransitionEnd = (e: Event) => {
     if (!this.isDragStart) return
+
+    if ((e as TransitionEvent).propertyName === 'transform') return
+    const container = HTMLElementGuard(this.$container)
     this.$items.forEach((item) => {
       item.removeAttribute('style')
-      this.$container.appendChild(item)
+      container.appendChild(item)
     })
-    this.$container.removeAttribute('style')
+    container.removeAttribute('style')
     if (!this.$sortable) throw new Error('element SORTABLE is not defined')
     setStyleAttributes(this.$sortable, { opacity: '0' })
   }
@@ -308,9 +333,10 @@ export class Sortable {
   }
 
   private setStyleForContainer() {
-    const { height } = this.$container.getBoundingClientRect()
+    const container = HTMLElementGuard(this.$container)
+    const { height } = container.getBoundingClientRect()
 
-    setStyleAttributes(this.$container, {
+    setStyleAttributes(container, {
       height: `${height}px`,
     })
   }
@@ -355,4 +381,9 @@ function calcOffsetFromParent($parent: HTMLElement, $elems: HTMLElement[]) {
       height,
     }
   })
+}
+
+function HTMLElementGuard(elem: Ref<HTMLElement | null>) {
+  if (elem.value == null) throw new Error(`Element is null`)
+  return toValue(elem) as HTMLElement
 }

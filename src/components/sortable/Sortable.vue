@@ -1,18 +1,26 @@
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
 import { Sortable } from './Sortable'
 
 const sortableItems = defineModel<any[]>({ required: true })
+const sortable = new Sortable()
 const { selector, handle } = defineProps<{
   itemKey: string
   selector: string
   handle?: string
 }>()
-const sortableContainer = ref<HTMLElement>()
+const sortableContainer = ref<HTMLElement | null>(null)
 
 onMounted(() => {
-  Sortable.init(sortableContainer.value!, { selector, handle })
+  sortable.init(sortableContainer, { selector, handle })
 })
+
+onUnmounted(() => sortable.removeListeners())
+
+watch(
+  () => sortableItems.value.length,
+  () => sortable.refresh()
+)
 </script>
 
 <template>
@@ -24,5 +32,3 @@ onMounted(() => {
     </slot>
   </div>
 </template>
-
-<style lang="scss" src="./Sortable.scss" />
