@@ -19,6 +19,8 @@
     height: 22px;
     background-color: var(--color-text);
     mask: url('@/assets/icons/keyboard-arrow-down-rounded.svg') no-repeat center;
+    -webkit-mask: url('@/assets/icons/keyboard-arrow-down-rounded.svg')
+      no-repeat center;
 
     transform: translateY(-50%);
   }
