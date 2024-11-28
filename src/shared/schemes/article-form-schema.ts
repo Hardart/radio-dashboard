@@ -4,6 +4,7 @@ export const articleFormSchema = z.object({
   id: z.string().optional(),
   image: z.string().optional(),
   title: z.string().min(5, 'Минимум 5 символов'),
+  slug: z.string().optional(),
   content: z.string().min(1, 'Контент новости не может быть пустым'),
   tags: z.array(z.string()),
   isPublished: z.boolean(),

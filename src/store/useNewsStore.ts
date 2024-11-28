@@ -5,6 +5,7 @@ import { sort } from '@/shared/helpers/sort-articles'
 import type { Article } from '@/shared/schemes/article-schema'
 import type { ArticleForm } from '@/shared/schemes/article-form-schema'
 import type { Category } from '@/shared/schemes/category-schema'
+import transcript from '@/shared/helpers/slugTranscript'
 
 export const useNewsStore = defineStore('news', () => {
   const search = ref('')
@@ -72,13 +73,20 @@ export const useNewsStore = defineStore('news', () => {
   }
 
   async function addArticle(input: ArticleForm) {
-    console.log(input)
+    input.slug = transcript(input.title)
+    pending.value = true
+    const articleData = await articlesAPI.addOne(input)
+    pending.value = false
+    if (!articleData) return console.warn('Данныеrr не получены')
+    articles.value.push(articleData)
+  }
 
-    // pending.value = true
-    // const articleData = await articlesAPI.addOne(input)
-    // pending.value = false
-    // if (!articleData) return console.warn('Данные не получены')
-    // articles.value.push(articleData)
+  async function deleteArticle(id: string) {
+    pending.value = true
+    const data = await articlesAPI.deleteOne({ id })
+    pending.value = false
+    if (!data) return console.warn('Данные не получены')
+    articles.value = articles.value.filter((item) => item.id !== id)
   }
 
   async function fetchBaseData() {
@@ -115,13 +123,14 @@ export const useNewsStore = defineStore('news', () => {
     updateArticle,
     clearArticleForm,
     addArticle,
+    deleteArticle,
   }
 })
 
 function initArticleForm(article: Ref<Article | undefined>, form: ArticleForm) {
   if (!article.value) return
 
-  const { category, tags, isPublished, title, publishAt, content, image } =
+  const { category, tags, isPublished, title, publishAt, content, image, id } =
     article.value
 
   form.categoryId = category.id
@@ -131,4 +140,5 @@ function initArticleForm(article: Ref<Article | undefined>, form: ArticleForm) {
   form.title = title
   form.publishAt = publishAt
   form.image = image
+  form.id = id
 }

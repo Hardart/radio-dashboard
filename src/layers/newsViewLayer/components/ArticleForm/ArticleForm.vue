@@ -14,7 +14,7 @@ defineProps<{
   categories: Category[]
   tags: string[]
 }>()
-defineEmits(['on-submit'])
+defineEmits(['on-submit', 'on-delete'])
 </script>
 
 <template>
@@ -69,8 +69,14 @@ defineEmits(['on-submit'])
           @click="$router.push('/news')"
         />
         <HdButton
-          text="Сохранить"
+          v-if="articleForm.id"
+          text="Удалить"
           type="outline-primary"
+          @click="$emit('on-delete', articleForm.id)"
+        />
+        <HdButton
+          text="Сохранить"
+          type="outline-success"
           @click="$emit('on-submit', articleForm)"
         />
       </div>

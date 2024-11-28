@@ -62,6 +62,17 @@ export const articlesAPI = {
 
     return data.value ? addStatus(data.value.article) : undefined
   },
+
+  async deleteOne(body: { id: string }) {
+    const toast = useNotifications()
+    const { data } = await useHdFetch<ResponseApi.ArticleSingle>(
+      '/article-delete',
+      { body }
+    )
+    if (data.value)
+      toast.add({ text: 'Новость успешно обновлена', duration: 3000 })
+    return data.value?.article
+  },
 }
 
 function addStatus(item: Article) {
