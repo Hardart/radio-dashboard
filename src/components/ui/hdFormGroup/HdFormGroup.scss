@@ -1,6 +1,10 @@
 @import '@/styles/includes';
 
 .hd-form-group {
+  &__label-container {
+    display: flex;
+  }
+
   &__label {
     display: inline-block;
     margin-bottom: 5px;

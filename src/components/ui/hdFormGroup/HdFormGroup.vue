@@ -21,13 +21,15 @@ provide('input-id', inputId)
 
 <template>
   <div class="hd-form-group">
-    <p
-      class="hd-form-group__label"
-      :class="props.required && 'hd-form-group__label--required'"
-      v-if="label"
-    >
-      <label :for="inputId">{{ label }}</label>
-    </p>
+    <div class="hd-form-group__label-container">
+      <p
+        class="hd-form-group__label"
+        :class="props.required && 'hd-form-group__label--required'"
+        v-if="label"
+      >
+        <label :for="inputId">{{ label }}</label>
+      </p>
+    </div>
     <slot></slot>
     <p class="hd-form-group__help" v-if="help">{{ help }}</p>
     <p class="hd-form-group__error" v-if="error">{{ error }}</p>
