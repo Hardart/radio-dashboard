@@ -3,12 +3,12 @@ import type { ArticleForm } from '@/shared/schemes/article-form-schema'
 import type { Category } from '@/shared/schemes/category-schema'
 import HdInput from '@/components/ui/hdInput/hdInput.vue'
 import HdSwitch from '@/components/ui/hdSwitch/hdSwitch.vue'
-import HdCalendar from '@/components/ui/hdCalendar/hdCalendar.vue'
 import HdUploadImage from '@/components/ui/hdUploadImage/hdUploadImage.vue'
 import HdButton from '@/components/ui/hdButton/hdButton.vue'
 import HdEditor from '@/components/editor/HdEditor.vue'
 import HdSelect from '@/components/ui/hdSelect/hdSelect.vue'
 import HdFormGroup from '@/components/ui/hdFormGroup/HdFormGroup.vue'
+import CalendarSelect from '../CalendarSelect/CalendarSelect.vue'
 const articleForm = defineModel<ArticleForm>({ required: true })
 defineProps<{
   categories: Category[]
@@ -32,12 +32,17 @@ defineEmits(['on-submit'])
           key-attr="id"
           option-attr="title"
         />
+
         <HdSelect :options="tags" v-model="articleForm.tags" label="Теги" />
-        <HdCalendar
-          v-model="articleForm.publishAt"
-          :min-date="articleForm.publishAt"
-          label="Дата публикации"
-        />
+
+        <HdFormGroup label="Дата публикации" name="publishAt">
+          <CalendarSelect
+            v-model="articleForm.publishAt"
+            :min-date="articleForm.publishAt"
+            label="Дата публикации"
+          />
+        </HdFormGroup>
+
         <HdSwitch v-model="articleForm.isPublished" label="Опубликовано" />
       </div>
 
