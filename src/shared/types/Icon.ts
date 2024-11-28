@@ -1,4 +1,5 @@
 export type Icon = 
+  | 'arrow-forward-ios'
   | 'bell'
   | 'category'
   | 'check'

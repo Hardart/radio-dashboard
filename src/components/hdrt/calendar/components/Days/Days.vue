@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type Calendar from '../../state'
+import type Calendar from '../../Calendar'
 
 defineProps<{
   calendar: Calendar
@@ -10,7 +10,7 @@ const emits = defineEmits(['onDay'])
 
 <template>
   <div class="days select-none gap-1">
-    <div v-for="prev in calendar.weekdayStartIndex - 1"></div>
+    <div v-for="_ in calendar.weekdayStartIndex"></div>
     <div
       v-for="current in calendar.daysInMonth"
       class="day"
@@ -18,10 +18,9 @@ const emits = defineEmits(['onDay'])
         calendar.isSelected(current) && 'day--selected',
         calendar.isDatePrev(current) && 'day--disabled',
       ]"
-      @click="$emit('onDay', calendar.currentToISO(current))"
+      @click="$emit('onDay', current)"
     >
       <span class="day__value">{{ current }}</span>
-      <!-- <span class="day__value">{{  }}</span> -->
     </div>
   </div>
 </template>

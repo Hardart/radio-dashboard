@@ -3,6 +3,7 @@ import HdButton from '@/components/ui/hdButton/hdButton.vue'
 defineProps<{
   next?: boolean
   prev?: boolean
+  disabled?: boolean
 }>()
 </script>
 
@@ -10,8 +11,7 @@ defineProps<{
   <HdButton
     square
     :class="`calendar__${next ? 'next' : 'prev'}`"
-    :icon="next ? 'sort-up' : 'sort-down'"
+    icon="arrow-forward-ios"
+    :disabled
   />
 </template>
-
-<style></style>

@@ -11,7 +11,7 @@
   display: grid;
   place-items: center;
   aspect-ratio: 1;
-  color: var(--color-text-light);
+  color: var(--color-text);
   outline-color: var(--color-border);
   outline-width: 1px;
   outline-style: solid;
@@ -39,7 +39,7 @@
   }
 
   &--disabled {
-    color: var(--color-text-darker);
+    color: var(--color-border-light);
     cursor: default;
   }
 }
