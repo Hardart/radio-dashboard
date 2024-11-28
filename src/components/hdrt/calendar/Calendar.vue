@@ -48,7 +48,6 @@ const onChangeMinutes = (num: number) => {
         :h="calendar.hours"
         :m="calendar.minutes"
       />
-      {{ selectedDate }}
     </footer>
   </div>
 </template>

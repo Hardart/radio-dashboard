@@ -26,7 +26,6 @@ const minutes = Array.from({ length: 12 }, (_, i) =>
 </script>
 
 <template>
-  {{ selectedHour }}
   <div class="calendar-time">
     <select
       class="calendar-time__select"

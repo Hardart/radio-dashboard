@@ -1,12 +1,13 @@
 <script lang="ts" setup>
-import { format } from '@formkit/tempo'
-import HdButton from '../hdButton/hdButton.vue'
-import Calendar from '@/components/hdrt/calendar/Calendar.vue'
 import { ref } from 'vue'
+import { format } from '@formkit/tempo'
+import HdButton from '@/components/ui/hdButton/hdButton.vue'
+import Calendar from '@/components/hdrt/calendar/Calendar.vue'
 import { useClickOutside } from '@/composables/useClickOutside'
 import { useToggle } from '@/composables/useToggle'
+
 const date = defineModel<string>({ required: true })
-defineProps<{ label?: string }>()
+defineProps<{ minDate?: string }>()
 const [isShow, toggle] = useToggle()
 const $calendar = ref()
 useClickOutside($calendar, () => toggle(false))
@@ -14,16 +15,17 @@ useClickOutside($calendar, () => toggle(false))
 
 <template>
   <div class="hd-calendar" ref="$calendar">
-    <span class="hd-calendar__label" v-if="label">{{ label }}</span>
     <HdButton
       class="hd-calendar__button"
-      :text="format(date, 'short')"
+      :text="format(date, 'D.MM.YYYY, HH:mm')"
       @click="toggle()"
     />
-    <Teleport defer to=".hd-calendar">
-      <Calendar v-model="date" v-if="isShow" class="hd-calendar__container" />
-    </Teleport>
+    <Calendar
+      v-model="date"
+      v-model:is-show="isShow"
+      class="hd-calendar__container"
+    />
   </div>
 </template>
 
-<style lang="scss" scoped src="./hdCalendar.scss" />
+<style lang="scss" scoped src="./styles.scss" />

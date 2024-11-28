@@ -22,6 +22,8 @@
   &__next,
   &__prev {
     position: absolute;
+    width: 25px;
+    height: 25px;
   }
 
   &__next {
@@ -30,6 +32,11 @@
 
   &__prev {
     left: 0;
-    transform: rotate(180deg);
+
+    :deep() {
+      .hd-icon {
+        transform: rotate(180deg);
+      }
+    }
   }
 }
