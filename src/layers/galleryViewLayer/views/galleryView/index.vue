@@ -73,6 +73,7 @@ function onUpdate(slide: Slide) {
 
 async function onSaveChanges() {
   gallery.value = gallery.value.map((slide, i) => {
+    slide.priority = `${i}`
     slide.src = slide.src.replace('350x100', '1530x420')
     return slide
   })
