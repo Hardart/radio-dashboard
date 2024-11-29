@@ -169,23 +169,20 @@ const printSelected = computed(() => determineOptions(selected))
 
 <template>
   <div class="hd-select" :class="isOpen && 'hd-select--open'" ref="$select">
-    <div class="hd-select__container relative mt-2">
-      <span class="hd-select__label" v-if="label">{{ label }}</span>
-      <SelectButton :text="printSelected" @click="toggleOpen()" />
+    <SelectButton :text="printSelected" @click="toggleOpen()" />
 
-      <div class="hd-select__wrapper" v-if="isOpen">
-        <!-- <HdInput v-model="search" v-if="searchable" placeholder="поиск..." /> -->
+    <div class="hd-select__wrapper" v-if="isOpen">
+      <!-- <HdInput v-model="search" v-if="searchable" placeholder="поиск..." /> -->
 
-        <ul class="hd-select__list">
-          <SelectListItem
-            v-for="option in options"
-            :option
-            :text="printOption(option)"
-            :is-active="isActive(option)"
-            @click="setSelected(option)"
-          />
-        </ul>
-      </div>
+      <ul class="hd-select__list">
+        <SelectListItem
+          v-for="option in options"
+          :option
+          :text="printOption(option)"
+          :is-active="isActive(option)"
+          @click="setSelected(option)"
+        />
+      </ul>
     </div>
   </div>
 </template>
