@@ -19,21 +19,25 @@ defineEmits(['on-submit', 'on-delete'])
 
 <template>
   <div class="news-item">
-    <div class="news-item__details">
+    <form class="news-item__details" @submit.prevent>
       <HdFormGroup label="Название новости" name="title" required>
         <HdInput v-model="articleForm.title" />
       </HdFormGroup>
 
       <div class="news-item__group">
-        <HdSelect
-          :options="categories"
-          v-model="articleForm.categoryId"
-          label="Категория"
-          key-attr="id"
-          option-attr="title"
-        />
+        <HdFormGroup label="Выбери категорию" name="categoryId" required>
+          <HdSelect
+            :options="categories"
+            v-model="articleForm.categoryId"
+            label="Категория"
+            key-attr="id"
+            option-attr="title"
+          />
+        </HdFormGroup>
 
-        <HdSelect :options="tags" v-model="articleForm.tags" label="Теги" />
+        <HdFormGroup label="Выбери теги" name="tags">
+          <HdSelect :options="tags" v-model="articleForm.tags" label="Теги" />
+        </HdFormGroup>
 
         <HdFormGroup label="Дата публикации" name="publishAt">
           <CalendarSelect
@@ -46,10 +50,12 @@ defineEmits(['on-submit', 'on-delete'])
         <HdSwitch v-model="articleForm.isPublished" label="Опубликовано" />
       </div>
 
-      <div>
-        <HdEditor v-model="articleForm.content" />
+      <div class="news-item__group">
+        <HdFormGroup label="Текст новости">
+          <HdEditor v-model="articleForm.content" />
+        </HdFormGroup>
       </div>
-    </div>
+    </form>
 
     <div class="news-item__aside">
       <div class="news-item__media">
