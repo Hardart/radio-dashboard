@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 import HomeView from '@/layers/mainViewLayer/views/mainView/index.vue'
+import LoginView from '@/layers/loginViewLayer/views/loginView/index.vue'
 import { useAuthStore } from '@/store/useAuthStore'
 import { storeToRefs } from 'pinia'
 import { isString } from '@/shared/helpers/utils'
@@ -25,15 +26,45 @@ const router = createRouter({
       name: 'home',
       component: HomeView,
     },
-    ...routes,
-    // {
-    //   path: '/news/create-article',
-    //   name: 'article-create',
-    //   component: () =>
-    //     import(
-    //       `@/layers/newsItemCreateViewLayer/views/newsItemCreateView/index.vue`
-    //     ),
-    // },
+    {
+      path: '/gallery',
+      name: 'gallery',
+      component: () =>
+        import(`@/layers/galleryViewLayer/views/galleryView/index.vue`),
+    },
+    {
+      path: '/news',
+      component: () =>
+        import(`@/layers/newsViewLayer/views/newsView/index.vue`),
+      children: [
+        {
+          path: '',
+          component: () =>
+            import(`@/layers/newsViewLayer/views/ListView/index.vue`),
+        },
+        {
+          path: 'create',
+          component: () =>
+            import(`@/layers/newsViewLayer/views/createView/index.vue`),
+        },
+        {
+          path: ':id',
+          component: () =>
+            import(`@/layers/newsViewLayer/views/idView/index.vue`),
+        },
+      ],
+    },
+    {
+      path: '/categories',
+      name: 'categories',
+      component: () =>
+        import(`@/layers/categoriesViewLayer/views/categoriesView/index.vue`),
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginView,
+    },
   ],
 })
 
