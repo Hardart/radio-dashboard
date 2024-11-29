@@ -12,6 +12,7 @@ import ControllerUploadImage from './controllers/UploadImage.vue'
 import ControllerUnderline from './controllers/Underline.vue'
 import ControllerFloatLeft from './controllers/FloatLeft.vue'
 import ControllerBlockquote from './controllers/Blockquote.vue'
+import ControllerTextWrap from './controllers/TextWrap.vue'
 const content = defineModel<string | undefined>({ required: true })
 
 const editor = useEditor({
@@ -65,6 +66,7 @@ provide('tiptap', editor)
       <ControllerBlockquote />
       <ControllerFloatLeft />
       <ControllerFloatRight />
+      <ControllerTextWrap />
       <ControllerUploadImage v-model="image.src" />
     </div>
 
