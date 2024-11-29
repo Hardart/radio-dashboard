@@ -8,11 +8,10 @@ import type { Slide } from '@/shared/schemes/slide-schema'
 import { reactive, ref } from 'vue'
 import SlideItem from './components/Slide/Slide.vue'
 import { correctImageUrl } from '@/shared/helpers/utils'
-import { useCompareObjects } from '@/composables/useCompareObjects'
-const gallery = ref<Slide[]>([])
-const [isOpen, toggle] = useToggle()
 
-const { isSame, setupObj } = useCompareObjects()
+const gallery = ref<Slide[]>([])
+
+const [isOpen, toggle] = useToggle()
 
 async function fetchGallery() {
   const response = await galleryAPI.list()
@@ -20,7 +19,6 @@ async function fetchGallery() {
     item.src = correctImageUrl(item.src) || ''
     return item
   })
-  setupObj(gallery)
 }
 
 const slideFormData = reactive<Slide>({
@@ -44,6 +42,7 @@ function onCancelAddingSlide() {
 function clearSlideFormData() {
   slideFormData.id = ''
   slideFormData.src = ''
+  delete slideFormData.priority
   delete slideFormData.title
   delete slideFormData.subtitle
   delete slideFormData.to
@@ -51,17 +50,20 @@ function clearSlideFormData() {
 
 function onEdit(slide: Slide) {
   const keys = Object.entries(slide) as [keyof typeof slide, any][]
+
   keys.forEach(([key, value]) => {
     if (typeof value === 'undefined') delete slide[key]
-    else if (typeof value === 'string') slideFormData[key] = value
+    else if (typeof value === 'string') (slideFormData[key] as string) = value
+    else if (typeof value === 'number') (slideFormData[key] as number) = value
   })
+
   toggle(true)
 }
 
 function onUpdate(slide: Slide) {
   const keys = Object.keys(slide) as (keyof typeof slide)[]
   keys.forEach((key) => {
-    if (slideFormData[key] == '' || slideFormData[key] === undefined)
+    if (slideFormData[key] === '' || slideFormData[key] === undefined)
       delete slideFormData[key]
   })
 
@@ -73,12 +75,14 @@ function onUpdate(slide: Slide) {
 
 async function onSaveChanges() {
   gallery.value = gallery.value.map((slide, i) => {
-    slide.priority = `${i}`
+    slide.priority = i
     slide.src = slide.src.replace('350x100', '1530x420')
     return slide
   })
   await galleryAPI.saveAllSlides(gallery)
 }
+
+const children = ref()
 
 fetchGallery()
 </script>
@@ -92,7 +96,7 @@ fetchGallery()
         @click="toggle()"
       />
     </div>
-    <div class="gallery__content">
+    <div class="gallery__content" ref="children">
       <Sortable
         v-if="gallery"
         item-key="id"
@@ -134,7 +138,6 @@ fetchGallery()
         text="Сохранить изменения"
         @click="onSaveChanges"
         type="outline-success"
-        :disabled="isSame"
       />
     </div>
     <HdModal :is-open>
