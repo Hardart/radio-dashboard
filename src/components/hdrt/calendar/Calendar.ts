@@ -19,11 +19,11 @@ export default class Calendar {
   minDate?: string
 
   constructor(selectedDate: Ref<string>, minDate?: string) {
-    this.selectedDate = selectedDate
     this.minDate = minDate
     this.hours = this.currentDate.value.getHours()
     this.minutes = this.currentDate.value.getMinutes()
-    this.minutes = Math.floor(this.minutes / 5) * 5
+    this.minutes = Math.ceil(this.minutes / 5) * 5
+    this.selectedDate = selectedDate
   }
 
   toMonth(n: 1 | -1) {
@@ -87,6 +87,16 @@ export default class Calendar {
     return (this._weekdayStart ? this._weekdayStart : 7) - 1
   }
 
+  get _calendarDateWithTime() {
+    return new Date(
+      this._calendarYear,
+      this._calendarMonth,
+      this._calendarDate,
+      this.hours,
+      this.minutes
+    ).toISOString()
+  }
+
   get isToday() {
     return (
       diffMonths(this.currentDate.value, this.selectedDate.value) === 0 &&
@@ -111,12 +121,16 @@ export default class Calendar {
     return this.calendarDate.value.getMonth()
   }
 
+  private get _calendarDate() {
+    return this.calendarDate.value.getDate()
+  }
+
   private get _weekdayStart() {
     return monthStart(this.calendarDate.value).getDay()
   }
 
   private get _setMinutes() {
-    return Math.floor(this.minutes / 5) * 5
+    return Math.ceil(this.minutes / 5) * 5
   }
 
   private _setCalendarDate(date: number) {

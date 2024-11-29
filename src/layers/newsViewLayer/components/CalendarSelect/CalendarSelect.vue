@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 import { format } from '@formkit/tempo'
 import HdButton from '@/components/ui/hdButton/hdButton.vue'
 import Calendar from '@/components/hdrt/calendar/Calendar.vue'
@@ -11,6 +11,7 @@ defineProps<{ minDate?: string }>()
 const [isShow, toggle] = useToggle()
 const $calendar = ref()
 useClickOutside($calendar, () => toggle(false))
+const id = inject<string | undefined>('input-id', undefined)
 </script>
 
 <template>
@@ -19,6 +20,7 @@ useClickOutside($calendar, () => toggle(false))
       class="hd-calendar__button"
       :text="format(date, 'D.MM.YYYY, HH:mm')"
       @click="toggle()"
+      :id
     />
     <Calendar
       v-model="date"

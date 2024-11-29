@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import SvgIcon from '@/components/SvgIcon/SvgIcon.vue'
 import { computed, ref } from 'vue'
 
 defineEmits(['onChangeHours', 'onChangeMinutes'])
@@ -27,25 +28,27 @@ const minutes = Array.from({ length: 12 }, (_, i) =>
 
 <template>
   <div class="calendar-time">
-    <select
-      class="calendar-time__select"
-      v-model="selectedHour"
-      @change="$emit('onChangeHours', selectedHour)"
-    >
-      <option v-for="hour in hours" :value="parseInt(hour)">
-        {{ hour }}
-      </option>
-    </select>
-    :
-    <select
-      class="calendar-time__select"
-      v-model="selectedMinute"
-      @change="$emit('onChangeMinutes', selectedMinute)"
-    >
-      <option v-for="minute in minutes" :value="parseInt(minute)">
-        {{ minute }}
-      </option>
-    </select>
+    <div class="calendar-time__container">
+      <select
+        class="calendar-time__select"
+        v-model="selectedHour"
+        @change="$emit('onChangeHours', selectedHour)"
+      >
+        <option v-for="hour in hours" :value="parseInt(hour)">
+          {{ hour }}
+        </option>
+      </select>
+      :
+      <select
+        class="calendar-time__select"
+        v-model="selectedMinute"
+        @change="$emit('onChangeMinutes', selectedMinute)"
+      >
+        <option v-for="minute in minutes" :value="parseInt(minute)">
+          {{ minute }}
+        </option>
+      </select>
+    </div>
   </div>
 </template>
 
