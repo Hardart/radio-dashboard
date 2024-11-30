@@ -1,5 +1,3 @@
-@import '@/styles/includes';
-
 .hd-form-group {
   &__label-container {
     display: flex;
@@ -9,24 +7,25 @@
     display: inline-block;
     margin-bottom: 5px;
     color: var(--color-text);
-    font-size: var(--fs-m);
-    line-height: 20px;
+    font-size: var(--fs-xs);
+    line-height: 15px;
 
     &--required::after {
       content: '*';
-      color: var(--danger);
+      color: hsla(var(--color-danger));
       margin-inline-start: 1px;
     }
   }
 
   &__error {
-    margin-top: 2px;
+    margin-top: 4px;
     margin-left: 2px;
-    color: var(--danger);
-    font-size: var(--fs-s);
+    color: hsla(var(--color-danger-300));
+    font-size: var(--fs-xs);
   }
 
   &__help {
+    margin-top: 4px;
     color: var(--color-text-darker);
     font-size: var(--fs-xs);
     font-style: italic;

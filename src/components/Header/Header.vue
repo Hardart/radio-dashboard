@@ -8,6 +8,7 @@ const store = useDefaultStore()
 <template>
   <header class="header">
     <HdButton
+      square
       icon="menu"
       icon-class="header__menu-button"
       @click="store.toggleMenuOpenState"

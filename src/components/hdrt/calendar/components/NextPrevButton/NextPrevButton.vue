@@ -9,6 +9,7 @@ defineProps<{
 
 <template>
   <HdButton
+    type="button"
     square
     :class="`calendar__${next ? 'next' : 'prev'}`"
     icon="arrow-forward-ios"

@@ -1,6 +1,8 @@
 // max-h-[450px] min-h-[450px] cursor-text overflow-y-auto rounded-lg border bg-white dark:border-zinc-700 dark:bg-zinc-800
 
 .hd-editor {
+  width: 100%;
+
   &__container {
     height: 450px;
     background-color: var(--color-bg-light);

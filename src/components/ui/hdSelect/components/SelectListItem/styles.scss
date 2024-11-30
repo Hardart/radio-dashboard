@@ -10,11 +10,11 @@
   }
 
   &:hover {
-    background-color: var(--color-bg-lighter);
+    background-color: hsla(var(--foreground), 0.04);
     cursor: pointer;
   }
 
   &--active {
-    background-color: var(--color-bg-lighter);
+    background-color: hsla(var(--foreground), 0.03);
   }
 }

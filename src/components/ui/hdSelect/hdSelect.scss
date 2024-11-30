@@ -3,20 +3,13 @@
 .hd-select {
   position: relative;
   display: inline-block;
-  width: clamp(200px, 100%, 300px);
-
-  &__label {
-    display: inline-block;
-    font-size: var(--fs-s);
-    margin-bottom: 5px;
-    margin-left: 5px;
-  }
+  width: clamp(200px, 15rem, 400px);
 
   &__wrapper {
     position: absolute;
     width: 100%;
     margin-top: 5px;
-    background-color: var(--color-bg-light);
+    background-color: hsla(var(--background));
     border: 1px solid var(--color-border);
     border-radius: 5px;
     filter: drop-shadow(5px);
@@ -33,10 +26,6 @@
 
   &:deep(.hd-input) {
     margin-bottom: 5px;
-
-    .hd-input__container {
-      height: 34px;
-    }
 
     .hd-input__field:focus {
       outline: none;

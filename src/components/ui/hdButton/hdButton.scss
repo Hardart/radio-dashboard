@@ -7,6 +7,7 @@
   gap: 0 5px;
   padding: 5px 30px;
   font-size: var(--fs-m);
+  font-weight: var(--fw-m);
   line-height: 20px;
   border-width: 1px;
   border-style: solid;
@@ -16,8 +17,7 @@
     border-color 0.15s ease;
 
   &:hover:not(&:disabled) {
-    background-color: _scaleAlpha('primary', -90, -100);
-    border-color: shade(map-get($colors, 'warning'), 70);
+    background-color: hsla(var(--color-gray-400), 0.1);
   }
 
   &:active:not(&:disabled) {
@@ -25,15 +25,34 @@
   }
 
   &:focus:not(&:disabled) {
-    outline: 2px solid var(--primary);
+    outline: 2px solid hsla(var(--color-gray-400), 0.6);
     outline-offset: 1px;
   }
 
   &:disabled {
+    color: hsl(var(--color-gray-400));
+    background-color: hsla(var(--color-gray-500), 0.1);
+    border-color: hsla(var(--color-gray-400), 0.2);
     cursor: default;
-    color: _scaleAlpha('primary', -40, -100);
-    background-color: _scaleAlpha('primary', -97, -100);
-    border-color: shade(map-get($colors, 'warning'), 80);
+  }
+
+  &--primary {
+    color: hsl(var(--color-gray-50));
+    background-color: hsl(var(--color-primary-400));
+
+    &:hover:not(&:disabled) {
+      background-color: hsla(var(--color-primary-300));
+    }
+  }
+
+  &--outline {
+    color: hsl(var(--color-primary));
+    background-color: transparent;
+    border-color: hsla(var(--color-primary));
+
+    &:hover:not(&:disabled) {
+      background-color: hsla(var(--color-primary), 0.1);
+    }
   }
 
   &__icon,
@@ -42,35 +61,6 @@
     height: 22px;
     color: inherit;
     pointer-events: none;
-  }
-
-  @each $color in map-keys($colors) {
-    &--#{$color} {
-      @include set-color(map-get($colors, $color));
-
-      &:hover:not(&:disabled) {
-        @include set-color(map-get($colors, $color), 7, 1);
-        border-color: shade(map-get($colors, 'primary'), 10);
-      }
-
-      &:active:not(&:disabled) {
-        @include set-color(map-get($colors, $color));
-        filter: brightness(1.2);
-      }
-    }
-
-    &--outline-#{$color} {
-      color: tint(map-get($colors, $color), 10);
-      border-color: shade(map-get($colors, $color), 50);
-
-      &:hover:not(&:disabled) {
-        border-color: shade(map-get($colors, $color), 10);
-      }
-
-      &:active:not(&:disabled) {
-        filter: brightness(1.2);
-      }
-    }
   }
 
   &--square {

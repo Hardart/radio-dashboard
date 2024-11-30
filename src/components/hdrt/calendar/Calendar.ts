@@ -4,26 +4,25 @@ import {
   monthDays,
   diffMonths,
   diffDays,
-  isAfter,
   format,
   addMonth,
 } from '@formkit/tempo'
 
 export default class Calendar {
   currentDate = ref(new Date())
-  minutes: number
-  hours: number
-  selectedDay: number = NaN
   calendarDate = ref(new Date())
+  hours: number
+  minutes: number
+  selectedDay: number = NaN
   selectedDate: Ref<string>
   minDate?: string
 
   constructor(selectedDate: Ref<string>, minDate?: string) {
+    this.selectedDate = selectedDate
     this.minDate = minDate
     this.hours = this.currentDate.value.getHours()
     this.minutes = this.currentDate.value.getMinutes()
     this.minutes = Math.ceil(this.minutes / 5) * 5
-    this.selectedDate = selectedDate
   }
 
   toMonth(n: 1 | -1) {
@@ -107,10 +106,11 @@ export default class Calendar {
   get canClickOnPrev() {
     if (this.minDate)
       return diffMonths(this.minDate, this.calendarDate.value) * -1 > 0
-    else
+    else {
       return (
         diffMonths(this.currentDate.value, this.calendarDate.value) * -1 > 0
       )
+    }
   }
 
   private get _calendarYear() {

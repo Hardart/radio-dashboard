@@ -4,26 +4,27 @@ import SvgIcon from '@/components/SvgIcon/SvgIcon.vue'
 
 defineProps<{
   text?: unknown
-  type?:
-    | 'primary'
-    | 'success'
-    | 'danger'
-    | 'outline-primary'
-    | 'outline-success'
-    | 'outline-danger'
-  outline?: boolean
+  color?: 'primary' | 'success' | 'danger'
+  variant?: 'link' | 'solid' | 'outline'
   icon?: Icon
   flipIcon?: Icon
   iconClass?: string
+  flipIconClass?: string
   disabled?: boolean
   square?: boolean
+  type?: 'button' | 'submit'
 }>()
 </script>
 
 <template>
   <button
     class="hd-button"
-    :class="[type && `hd-button--${type}`, square && 'hd-button--square']"
+    :class="[
+      color && `hd-button--${color}`,
+      variant && `hd-button--${variant}`,
+      square && 'hd-button--square',
+    ]"
+    :type
     :disabled
   >
     <SvgIcon v-if="icon" :icon class="hd-button__icon" :class="iconClass" />
@@ -32,7 +33,7 @@ defineProps<{
       v-if="flipIcon"
       :icon="flipIcon"
       class="hd-button__flip-icon"
-      :class="iconClass"
+      :class="flipIconClass"
     />
   </button>
 </template>

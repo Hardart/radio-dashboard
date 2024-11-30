@@ -24,7 +24,7 @@
   &__media {
     position: relative;
     width: 100%;
-    background-color: var(--color-bg-light);
+    background-color: hsla(var(--foreground), 0.06);
     border-radius: 10px;
     aspect-ratio: 16 / 10;
 

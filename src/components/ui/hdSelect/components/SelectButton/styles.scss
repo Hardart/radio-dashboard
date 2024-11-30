@@ -5,8 +5,7 @@
   padding-block: 2px;
   padding-right: 60px;
   padding-left: 15px;
-  color: var(--color-text-light);
-  background-color: var(--color-bg);
+  color: hsla(var(--foreground), 0.9);
   border: 1px solid var(--color-border);
   border-radius: 5px;
 
@@ -17,11 +16,23 @@
     right: 12px;
     width: 24px;
     height: 22px;
-    background-color: var(--color-text);
+    background-color: hsla(var(--foreground), 0.3);
     mask: url('@/assets/icons/keyboard-arrow-down-rounded.svg') no-repeat center;
     -webkit-mask: url('@/assets/icons/keyboard-arrow-down-rounded.svg')
       no-repeat center;
-
     transform: translateY(-50%);
+  }
+
+  &:hover:not(&:disabled) {
+    background-color: hsla(var(--color-gray-400), 0.1);
+  }
+
+  &:active:not(&:disabled) {
+    filter: brightness(1.2);
+  }
+
+  &:focus:not(&:disabled) {
+    outline: 2px solid hsla(var(--color-gray-400), 0.6);
+    outline-offset: 1px;
   }
 }

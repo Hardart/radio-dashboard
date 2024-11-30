@@ -13,6 +13,7 @@ const { articleForm, tags, categories } = storeToRefs(newsStore)
 const id = computed(() => `${route.params.id}`)
 watch(id, () => newsStore.fetchArticle(id.value), {
   immediate: true,
+  once: true,
 })
 onUnmounted(newsStore.clearArticleForm)
 
