@@ -34,20 +34,20 @@ defineEmits(['onAdd', 'onEdit', 'onCancel'])
     <div class="slide__footer">
       <HdButton
         text="Отменить"
-        type="outline-danger"
+        color="danger"
         @click="$emit('onCancel', slide)"
       />
 
       <HdButton
         v-if="slide.id"
         text="Изменить"
-        type="outline-success"
+        color="success"
         @click="$emit('onEdit', slide)"
       />
       <HdButton
         v-else
         text="Добавить"
-        type="outline-success"
+        color="success"
         @click="$emit('onAdd', slide)"
       />
     </div>

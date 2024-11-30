@@ -25,7 +25,7 @@ const columns = [
   <div class="categories">
     <div class="categories__header">
       <h3 class="categories__title">Категории</h3>
-      <HdButton text="Создать" type="primary" />
+      <HdButton text="Создать" color="primary" />
     </div>
     <div class="categories__body">
       <h3 v-if="loading"><span>Загрузка...</span></h3>

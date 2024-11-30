@@ -90,11 +90,7 @@ fetchGallery()
 <template>
   <div class="gallery">
     <div class="gallery__header">
-      <HdButton
-        text="Добавить слайд"
-        type="outline-primary"
-        @click="toggle()"
-      />
+      <HdButton text="Добавить слайд" color="primary" @click="toggle()" />
     </div>
     <div class="gallery__content" ref="children">
       <Sortable
@@ -137,7 +133,7 @@ fetchGallery()
       <HdButton
         text="Сохранить изменения"
         @click="onSaveChanges"
-        type="outline-success"
+        color="success"
       />
     </div>
     <HdModal :is-open>
