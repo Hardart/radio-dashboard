@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/store/useAuthStore'
 
+defineProps<{
+  isOpen: boolean
+}>()
+
 const logout = (navigate: () => void) => {
   useAuthStore().logout()
   navigate()
@@ -8,7 +12,7 @@ const logout = (navigate: () => void) => {
 </script>
 
 <template>
-  <div class="user-menu">
+  <div class="user-menu" :class="isOpen && 'user-menu--open'">
     <div class="user-menu__wrapper">
       <div class="user-menu__info">
         <div class="user-menu__media">

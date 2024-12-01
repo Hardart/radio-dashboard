@@ -88,17 +88,16 @@ const onFormSubmit = async () => {
         </div>
       </div>
       <div class="news-item__actions">
-        <HdButton text="Назад" color="danger" @click="$router.push('/news')" />
+        <HdButton text="Назад" @click="$router.push('/news')" />
         <HdButton
           v-if="articleForm.id"
           text="Удалить"
-          color="primary"
+          color="danger"
           @click="$emit('on-delete', articleForm.id)"
         />
         <HdButton
           submit
           :text="articleForm.id ? 'Обновить' : 'Сохранить'"
-          variant="outline"
           color="success"
         />
       </div>

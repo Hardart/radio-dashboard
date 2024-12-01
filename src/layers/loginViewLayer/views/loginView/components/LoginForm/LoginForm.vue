@@ -56,8 +56,10 @@ const isDisabled = computed(() => userData.email.trim().length < 3)
     <HdButton
       text="Войти"
       class="login-form__submit"
+      color="primary"
+      variant="solid"
+      type="submit"
       :disabled="isDisabled"
-      submit
     />
   </form>
 </template>

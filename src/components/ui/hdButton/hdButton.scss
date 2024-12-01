@@ -31,9 +31,9 @@
   }
 
   &:disabled {
-    color: hsl(var(--color-gray-400));
-    background-color: hsla(var(--color-gray-500), 0.1);
-    border-color: hsla(var(--color-gray-400), 0.2);
+    color: hsl(var(--color-gray-400), 0.5);
+    background-color: hsla(var(--color-gray-500), 0.05);
+    border-color: hsla(var(--color-gray-400), 0.05);
     cursor: default;
   }
 

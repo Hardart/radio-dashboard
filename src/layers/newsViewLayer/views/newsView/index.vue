@@ -12,8 +12,10 @@ newsStore.fetchBaseData()
     <div class="news__header">
       <h3 class="news__title">Новости</h3>
       <HdButton
+        icon="news"
         text="Создать"
         color="primary"
+        variant="link"
         @click="$router.push('/news/create')"
       />
     </div>

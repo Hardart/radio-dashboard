@@ -17,6 +17,7 @@ const {
   disabled?: boolean
   square?: boolean
   type?: 'button' | 'submit'
+  pending?: boolean
 }>()
 </script>
 
@@ -25,7 +26,7 @@ const {
     class="hd-button"
     :class="[`hd-button--${color}-${variant}`, square && 'hd-button--square']"
     :type
-    :disabled
+    :disabled="disabled || pending"
   >
     <SvgIcon v-if="icon" :icon class="hd-button__icon" :class="iconClass" />
     <span class="hd-button__text" v-if="text">{{ text }}</span>

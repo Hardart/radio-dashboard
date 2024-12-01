@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import SvgIcon from '@/components/SvgIcon/SvgIcon.vue'
 import { computed, ref } from 'vue'
 
-defineEmits(['onChangeHours', 'onChangeMinutes'])
+const emits = defineEmits(['onChangeHours', 'onChangeMinutes'])
 const { h, m, isToday } = defineProps<{
   h: number
   m: number
   isToday: boolean
+  isAdmin?: boolean
 }>()
 const selectedHour = ref(h)
 const selectedMinute = ref(m)
@@ -14,16 +14,19 @@ const selectedMinute = ref(m)
 const hours = computed(() => {
   const startHour = new Date().getHours()
   const mult = isToday ? 24 - new Date().getHours() : 24
-  if (isToday) selectedHour.value = startHour
+  if (isToday && selectedHour.value < startHour) {
+    selectedHour.value = startHour
+    emits('onChangeHours', startHour)
+  }
 
   return Array.from({ length: mult }, (_, i) =>
     String(isToday ? i + startHour : i).padStart(2, '0')
   )
 })
 
-const minutes = Array.from({ length: 12 }, (_, i) =>
-  String(i * 5).padStart(2, '0')
-)
+const minutes = computed(() => {
+  return Array.from({ length: 12 }, (_, i) => String(i * 5).padStart(2, '0'))
+})
 </script>
 
 <template>

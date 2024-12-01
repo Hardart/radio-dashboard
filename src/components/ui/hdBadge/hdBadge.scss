@@ -14,10 +14,9 @@
   }
 
   &--danger {
-    color: var(--danger);
-    background-color: _scaleAlpha('danger', -90);
-    border-color: _scaleAlpha('danger');
-    filter: brightness(2);
+    color: hsla(var(--color-danger-300));
+    background-color: hsla(var(--color-danger-100), 0.05);
+    border-color: hsla(var(--color-danger-300));
   }
 
   &--success {
