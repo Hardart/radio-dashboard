@@ -1,5 +1,3 @@
-@import '@/styles/includes';
-
 .gallery {
   display: grid;
   grid-auto-rows: min-content;
@@ -60,7 +58,7 @@
     width: 50px;
     height: 20px;
     border-radius: 4px;
-    background-color: var(--primary);
+    background-color: hsl(var(--color-primary));
     transform: translate(-50%, -20px);
     transition: transform 0.3s ease;
     cursor: all-scroll;

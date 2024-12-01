@@ -13,8 +13,9 @@
   border-style: solid;
   border-color: transparent;
   border-radius: 7px;
-  transition: background-color 0.15s ease, filter 0.2s ease,
-    border-color 0.15s ease;
+  transition-property: background-color, filter, border-color, color;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
 
   &:hover:not(&:disabled) {
     background-color: hsla(var(--color-gray-400), 0.1);
@@ -37,21 +38,171 @@
   }
 
   &--primary {
-    color: hsl(var(--color-gray-50));
-    background-color: hsl(var(--color-primary-400));
+    &-solid {
+      color: hsl(var(--color-gray-50));
+      background-color: hsl(var(--color-primary));
 
-    &:hover:not(&:disabled) {
-      background-color: hsla(var(--color-primary-300));
+      &:hover:not(&:disabled) {
+        background-color: hsla(var(--color-primary-500));
+      }
+    }
+
+    &-outline {
+      color: hsl(var(--color-primary));
+      background-color: transparent;
+      border-color: hsla(var(--color-primary));
+
+      &:hover:not(&:disabled) {
+        background-color: hsla(var(--color-primary), 0.1);
+      }
+    }
+
+    &-soft {
+      color: hsl(var(--color-primary));
+      background-color: transparent;
+
+      &:hover:not(&:disabled) {
+        background-color: hsla(var(--color-primary), 0.1);
+      }
+    }
+
+    &-link {
+      color: hsl(var(--color-primary), 0.8);
+      background-color: transparent;
+
+      &:hover:not(&:disabled) {
+        color: hsl(var(--color-primary));
+        background-color: transparent;
+        text-decoration-line: underline;
+        text-underline-offset: 3px;
+      }
     }
   }
 
-  &--outline {
-    color: hsl(var(--color-primary));
-    background-color: transparent;
-    border-color: hsla(var(--color-primary));
+  &--success {
+    &-solid {
+      color: hsl(var(--color-gray-50));
+      background-color: hsl(var(--color-success));
 
-    &:hover:not(&:disabled) {
-      background-color: hsla(var(--color-primary), 0.1);
+      &:hover:not(&:disabled) {
+        background-color: hsla(var(--color-success-500));
+      }
+    }
+
+    &-outline {
+      color: hsl(var(--color-success));
+      background-color: transparent;
+      border-color: hsla(var(--color-success));
+
+      &:hover:not(&:disabled) {
+        background-color: hsla(var(--color-success), 0.1);
+      }
+    }
+
+    &-soft {
+      color: hsl(var(--color-success));
+      background-color: transparent;
+
+      &:hover:not(&:disabled) {
+        color: hsl(var(--color-success-300));
+        background-color: hsla(var(--color-success), 0.1);
+      }
+    }
+
+    &-link {
+      color: hsl(var(--color-success));
+      background-color: transparent;
+
+      &:hover:not(&:disabled) {
+        color: hsl(var(--color-success-300));
+        background-color: transparent;
+        text-decoration-line: underline;
+        text-underline-offset: 3px;
+      }
+    }
+  }
+
+  &--danger {
+    &-solid {
+      color: hsl(var(--color-gray-50));
+      background-color: hsl(var(--color-danger));
+
+      &:hover:not(&:disabled) {
+        background-color: hsla(var(--color-danger-500));
+      }
+    }
+
+    &-outline {
+      color: hsl(var(--color-danger));
+      background-color: transparent;
+      border-color: hsla(var(--color-danger));
+
+      &:hover:not(&:disabled) {
+        background-color: hsla(var(--color-danger), 0.1);
+      }
+    }
+
+    &-soft {
+      color: hsl(var(--color-danger));
+      background-color: transparent;
+
+      &:hover:not(&:disabled) {
+        color: hsl(var(--color-danger-300));
+        background-color: hsla(var(--color-danger), 0.1);
+      }
+    }
+
+    &-link {
+      color: hsl(var(--color-danger));
+      background-color: transparent;
+
+      &:hover:not(&:disabled) {
+        color: hsl(var(--color-danger-300));
+        background-color: transparent;
+        text-decoration-line: underline;
+        text-underline-offset: 3px;
+      }
+    }
+  }
+
+  &--gray {
+    &-solid {
+      color: hsl(var(--foreground), 0.8);
+      background-color: hsla(var(--color-gray-400), 0.07);
+      &:hover:not(&:disabled) {
+        background-color: hsla(var(--color-gray-400), 0.1);
+      }
+    }
+
+    &-outline {
+      color: hsl(var(--color-gray));
+      background-color: transparent;
+      border-color: hsla(var(--color-gray));
+
+      &:hover:not(&:disabled) {
+        background-color: hsla(var(--color-gray), 0.1);
+      }
+    }
+
+    &-soft {
+      color: hsl(var(--foreground), 0.8);
+      background-color: transparent;
+
+      &:hover:not(&:disabled) {
+        background-color: hsla(var(--foreground), 0.06);
+      }
+    }
+
+    &-link {
+      color: hsl(var(--foreground), 0.8);
+      background-color: transparent;
+
+      &:hover:not(&:disabled) {
+        color: hsla(var(--foreground));
+        background-color: transparent;
+        text-decoration-line: underline;
+        text-underline-offset: 3px;
+      }
     }
   }
 

@@ -119,6 +119,7 @@ fetchGallery()
               <div class="gallery-slide__controllers">
                 <HdButton
                   @click="onEdit(item)"
+                  variant="solid"
                   icon="edit"
                   square
                   v-tooltip="{ label: 'Редактировать' }"

@@ -5,11 +5,50 @@ import HdSwitch from '@/components/ui/hdSwitch/hdSwitch.vue'
 
 <template>
   <div class="test">
-    <HdButton text="Пример кнопки" color="primary" variant="outline" />
-    <HdButton text="Пример кнопки" color="primary" />
-    <HdButton text="Пример кнопки" />
-    <HdButton icon="bell" square />
-    <HdSwitch />
+    <div>
+      <HdButton
+        text="Пример кнопки"
+        color="primary"
+        variant="link"
+        icon="dashboard"
+      />
+      <HdButton text="Пример кнопки" color="primary" variant="soft" />
+      <HdButton text="Пример кнопки" color="primary" variant="outline" />
+      <HdButton text="Пример кнопки" color="primary" />
+    </div>
+    <div>
+      <HdButton
+        text="Пример кнопки"
+        color="gray"
+        variant="link"
+        icon="dashboard"
+      />
+      <HdButton text="Пример кнопки" color="gray" variant="soft" />
+      <HdButton text="Пример кнопки" color="gray" variant="outline" />
+      <HdButton text="Пример кнопки" color="gray" />
+    </div>
+    <div>
+      <HdButton
+        text="Пример кнопки"
+        color="success"
+        variant="link"
+        icon="dashboard"
+      />
+      <HdButton text="Пример кнопки" color="success" variant="soft" />
+      <HdButton text="Пример кнопки" color="success" variant="outline" />
+      <HdButton text="Пример кнопки" color="success" />
+    </div>
+    <div>
+      <HdButton
+        text="Пример кнопки"
+        color="danger"
+        variant="link"
+        icon="dashboard"
+      />
+      <HdButton text="Пример кнопки" color="danger" variant="soft" />
+      <HdButton text="Пример кнопки" color="danger" variant="outline" />
+      <HdButton text="Пример кнопки" color="danger" />
+    </div>
   </div>
 </template>
 

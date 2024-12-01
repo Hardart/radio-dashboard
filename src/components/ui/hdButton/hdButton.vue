@@ -2,10 +2,14 @@
 import type { Icon } from '@type/Icon'
 import SvgIcon from '@/components/SvgIcon/SvgIcon.vue'
 
-defineProps<{
+const {
+  color = 'gray',
+  variant = 'soft',
+  type = 'button',
+} = defineProps<{
   text?: unknown
-  color?: 'primary' | 'success' | 'danger'
-  variant?: 'link' | 'solid' | 'outline'
+  color?: 'primary' | 'success' | 'danger' | 'gray' | 'contrast'
+  variant?: 'link' | 'solid' | 'outline' | 'soft'
   icon?: Icon
   flipIcon?: Icon
   iconClass?: string
@@ -19,11 +23,7 @@ defineProps<{
 <template>
   <button
     class="hd-button"
-    :class="[
-      color && `hd-button--${color}`,
-      variant && `hd-button--${variant}`,
-      square && 'hd-button--square',
-    ]"
+    :class="[`hd-button--${color}-${variant}`, square && 'hd-button--square']"
     :type
     :disabled
   >
