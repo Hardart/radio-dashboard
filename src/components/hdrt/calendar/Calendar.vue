@@ -1,26 +1,13 @@
 <script setup lang="ts">
-import Calendar from './Calendar'
 import Weekdays from './components/Weekdays/Weekdays.vue'
 import Days from './components/Days/Days.vue'
 import NextPrevButton from './components/NextPrevButton/NextPrevButton.vue'
 import CalendarTime from './components/CalendarTime/CalendarTime.vue'
+import Calendar from './Calendar'
 const selectedDate = defineModel<string>({ required: true })
 const isShowCalendar = defineModel<boolean>('isShow')
-const { minDate } = defineProps<{ minDate?: string; isTime?: boolean }>()
-const calendar = new Calendar(selectedDate, minDate)
-
-const onDay = (current: number) => {
-  if (calendar.isDatePrev(current)) return
-  calendar.setCurrentIndex(current)
-  calendar.update()
-}
-
-const onChangeHour = (num: number) => {
-  calendar.setHour(num)
-}
-const onChangeMinutes = (num: number) => {
-  calendar.setMinutes(num)
-}
+defineProps<{ minDate?: string; isTime?: boolean }>()
+const calendar = new Calendar(selectedDate)
 </script>
 
 <template>
@@ -28,25 +15,25 @@ const onChangeMinutes = (num: number) => {
     <header class="calendar__header">
       <NextPrevButton
         :disabled="!calendar.canClickOnPrev"
-        @click="calendar.toMonth(-1)"
+        @click="calendar.setPrevMonth()"
         prev
       />
       <span class="calendar__date font-medium uppercase">
         {{ calendar.title }}
       </span>
-      <NextPrevButton next @click="calendar.toMonth(1)" />
+      <NextPrevButton next @click="calendar.setNextMonth()" />
     </header>
     <main>
       <Weekdays />
-      <Days :calendar @on-day="onDay" />
+      <Days :calendar />
     </main>
     <footer class="calendar__footer">
       <CalendarTime
-        :is-today="calendar.isToday"
-        @on-change-hours="onChangeHour"
-        @on-change-minutes="onChangeMinutes"
         :h="calendar.hours"
         :m="calendar.minutes"
+        :is-today="calendar.isToday"
+        @on-change-hours="calendar.setHours"
+        @on-change-minutes="calendar.setMinutes"
       />
     </footer>
   </div>

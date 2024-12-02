@@ -25,6 +25,11 @@ const columns = [
     sortable: true,
   },
   {
+    key: 'publishAt',
+    label: 'Дата публикации',
+    sortable: true,
+  },
+  {
     key: 'status',
     label: 'Статус публикации',
   },
@@ -49,6 +54,9 @@ const columns = [
       </template>
       <template #createdAt-column="{ item }">
         <div>{{ normalizeDate(item.createdAt) }}</div>
+      </template>
+      <template #publishAt-column="{ item }">
+        <div>{{ normalizeDate(item.publishAt) }}</div>
       </template>
       <template #status-column="{ item }">
         <HdBadge :text="item.status" :type="getStatus(item.status)" />

@@ -22,7 +22,7 @@ export const useNewsStore = defineStore('news', () => {
     categoryId: '',
     tags: [],
     isPublished: false,
-    publishAt: '',
+    publishAt: new Date().toISOString(),
     content: '',
   })
 
@@ -103,7 +103,7 @@ export const useNewsStore = defineStore('news', () => {
     articleForm.id = ''
     articleForm.image = ''
     articleForm.isPublished = false
-    articleForm.publishAt = ''
+    articleForm.publishAt = new Date().toISOString()
     articleForm.tags = []
     articleForm.title = ''
   }

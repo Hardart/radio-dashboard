@@ -11,19 +11,21 @@
     align-items: center;
     gap: 15px;
     padding: 5px 10px;
+    color: hsl(var(--foreground), 0.65);
     font-size: var(--fs-m);
     font-weight: var(--fw-m);
     border-radius: 5px;
     cursor: pointer;
 
-    &:hover {
-      color: tint(map-get($colors, 'primary'), 20);
-      background-color: var(--color-bg-lighter);
+    &:hover:not(&--active) {
+      color: hsl(var(--color-primary), 0.8);
+      background-color: hsl(var(--foreground), 0.04);
     }
 
     &--active {
-      color: tint(map-get($colors, 'primary'), 20);
-      background-color: var(--color-bg-lighter);
+      color: hsl(var(--color-primary));
+      background-color: hsl(var(--foreground), 0.04);
+      cursor: default;
     }
   }
 

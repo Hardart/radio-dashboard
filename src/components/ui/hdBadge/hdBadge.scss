@@ -2,26 +2,26 @@
   display: inline-block;
   padding: 4px 10px;
   color: hsla(var(--foreground), 0.8);
-  font-size: var(--fs-2xs);
+  font-size: var(--fs-xs);
   line-height: 10px;
   border: 1px solid var(--color-border);
   border-radius: 5px;
 
   &--warning {
-    color: hsla(var(--color-primary-300));
+    color: hsla(var(--color-primary-200));
     background-color: hsla(var(--color-primary-100), 0.05);
-    border-color: hsla(var(--color-primary-300));
+    border-color: hsla(var(--color-primary-300), 0.35);
   }
 
   &--danger {
     color: hsla(var(--color-danger-300));
     background-color: hsla(var(--color-danger-100), 0.05);
-    border-color: hsla(var(--color-danger-300));
+    border-color: hsla(var(--color-danger-300), 0.4);
   }
 
   &--success {
     color: hsla(var(--color-success-200));
     background-color: hsla(var(--color-success-100), 0.08);
-    border-color: hsla(var(--color-success-200));
+    border-color: hsla(var(--color-success-100), 0.3);
   }
 }

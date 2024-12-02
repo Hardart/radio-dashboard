@@ -13,6 +13,7 @@ import ControllerUnderline from './controllers/Underline.vue'
 import ControllerFloatLeft from './controllers/FloatLeft.vue'
 import ControllerBlockquote from './controllers/Blockquote.vue'
 import ControllerTextWrap from './controllers/TextWrap.vue'
+import HdFormGroup from '../ui/hdFormGroup/HdFormGroup.vue'
 const content = defineModel<string | undefined>({ required: true })
 
 const editor = useEditor({
@@ -42,17 +43,6 @@ watch(
   }
 )
 
-watch(
-  content,
-  () => {
-    editor.value
-      ?.chain()
-      .setContent(content.value || '')
-      .run()
-  },
-  { once: true }
-)
-
 provide('tiptap', editor)
 </script>
 
@@ -69,12 +59,13 @@ provide('tiptap', editor)
       <ControllerTextWrap />
       <ControllerUploadImage v-model="image.src" />
     </div>
-
-    <EditorContent
-      :editor="editor"
-      class="hd-editor__container"
-      @click="editor?.chain().focus().run()"
-    />
+    <HdFormGroup label="Текст новости" name="content" required>
+      <EditorContent
+        :editor="editor"
+        class="hd-editor__container"
+        @click="editor?.chain().focus().run()"
+      />
+    </HdFormGroup>
   </div>
 </template>
 

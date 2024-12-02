@@ -32,7 +32,6 @@
   --color-gray-800: 207, 7%, 22%;
   --color-gray-900: 210, 7%, 13%;
   --color-gray-950: 210, 8%, 10%;
-  --color-gray: var(--color-gray-400);
   --color-primary-50: 14, 98%, 76%;
   --color-primary-100: 15, 95%, 71%;
   --color-primary-200: 14, 92%, 66%;
@@ -44,7 +43,6 @@
   --color-primary-800: 16, 82%, 26%;
   --color-primary-900: 16, 86%, 20%;
   --color-primary-950: 14, 89%, 14%;
-  --color-primary: var(--color-primary-400);
   --color-success-50: 132, 22%, 74%;
   --color-success-100: 131, 22%, 67%;
   --color-success-200: 133, 22%, 55%;
@@ -56,18 +54,20 @@
   --color-success-800: 138, 58%, 11%;
   --color-success-900: 137, 68%, 7%;
   --color-success-950: 133, 70%, 4%;
-  --color-success: var(--color-success-400);
   --color-danger-300: 0, 88%, 55%;
   --color-danger-400: 0, 89%, 45%;
   --color-danger-500: 1, 88%, 38%;
+  --color-primary: var(--color-primary-400);
+  --color-gray: var(--color-gray-400);
+  --color-success: var(--color-success-400);
   --color-danger: var(--color-danger-400);
+  --color-border: hsla(var(--color-gray-200));
 }
 
 @media (prefers-color-scheme: light) {
   :root {
     --background: var(--color-gray-100);
     --foreground: var(--color-gray-800);
-    --color-border: hsla(var(--color-gray-200));
   }
 }
 
@@ -80,17 +80,17 @@
 }
 
 .dark {
+  color-scheme: dark;
   --background: var(--color-gray-950);
   --foreground: var(--color-gray-200);
   --color-border: hsla(var(--color-gray-200), 0.1);
-  color-scheme: dark;
 }
 
 .light {
+  color-scheme: light;
   --background: var(--color-gray-100);
   --foreground: var(--color-gray-800);
   --color-border: hsla(var(--color-gray-200));
-  color-scheme: light;
 }
 
 body {

@@ -65,11 +65,9 @@ const onFormSubmit = async () => {
         </HdFormGroup>
       </div>
 
-      <HdFormGroup label="Текст новости" name="content" required>
-        <div class="news-item__group">
-          <HdEditor v-model="articleForm.content" />
-        </div>
-      </HdFormGroup>
+      <div class="news-item__group">
+        <HdEditor v-model="articleForm.content" />
+      </div>
     </div>
 
     <div class="news-item__aside">
@@ -83,22 +81,22 @@ const onFormSubmit = async () => {
           <HdUploadImage
             name="NEWS"
             v-model="articleForm.image"
-            v-tooltip="{ label: 'Загрузить главное изображение' }"
+            v-tooltip="{ label: 'загрузить главное изображение' }"
           />
         </div>
       </div>
       <div class="news-item__actions">
         <HdButton text="Назад" @click="$router.push('/news')" />
         <HdButton
-          v-if="articleForm.id"
           text="Удалить"
           color="danger"
           @click="$emit('on-delete', articleForm.id)"
+          v-if="articleForm.id"
         />
         <HdButton
-          submit
           :text="articleForm.id ? 'Обновить' : 'Сохранить'"
           color="success"
+          type="submit"
         />
       </div>
     </div>

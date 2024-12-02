@@ -20,6 +20,7 @@ const useColorTheme = () => {
       isDark.value = false
     }
   }
+
   const swapTheme = () =>
     !isDark.value ? changeColorTo('dark') : changeColorTo('light')
 
@@ -32,9 +33,8 @@ const [isOpen, toggle] = useToggle()
 
 <template>
   <div class="header-left">
-    {{ isDark }}
     <div>
-      <HdButton icon="edit" square @click="swapTheme" />
+      <HdButton icon="settings" square @click="swapTheme" />
     </div>
     <div class="notifications">
       <SvgIcon icon="bell" class="notifications__icon" />

@@ -10,6 +10,4 @@ import directives from './directives'
 const app = createApp(App)
 const store = createPinia()
 directives.forEach((directive) => app.directive(directive.name, directive))
-app.use(store).use(router)
-
-app.mount('#app')
+app.use(store).use(router).mount('#app')

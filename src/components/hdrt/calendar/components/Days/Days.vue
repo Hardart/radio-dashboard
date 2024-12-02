@@ -4,8 +4,6 @@ import type Calendar from '../../Calendar'
 defineProps<{
   calendar: Calendar
 }>()
-
-const emits = defineEmits(['onDay'])
 </script>
 
 <template>
@@ -18,7 +16,7 @@ const emits = defineEmits(['onDay'])
         calendar.isSelected(current) && 'day--selected',
         calendar.isDatePrev(current) && 'day--disabled',
       ]"
-      @click="$emit('onDay', current)"
+      @click="calendar.onDate(current)"
     >
       <span class="day__value">{{ current }}</span>
     </div>

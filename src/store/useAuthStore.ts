@@ -37,10 +37,8 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function loginAuto() {
-    if (isTokenSet.value) {
-      const { data } = await authAPI.checkToken()
-      if (data.value?.userId) user.value = decodeAccessToken()
-    }
+    const { data } = await authAPI.checkToken()
+    if (data.value?.userId) user.value = decodeAccessToken()
     dispatchIsReady(true)
   }
 
