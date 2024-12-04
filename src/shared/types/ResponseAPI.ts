@@ -2,6 +2,7 @@ import type { Article } from '@/shared/schemes/article-schema'
 import type { Category } from '@/shared/schemes/category-schema'
 import type { User } from '@/shared/schemes/user-schema'
 import type { Slide } from '@/shared/schemes/slide-schema'
+import type { Track } from '../schemes/track-schema'
 
 export interface CustomFetchOptions {
   url: string
@@ -40,6 +41,6 @@ export declare namespace ResponseApi {
   // type ProgramList = { programs: Program[]; hosts: User[] }
   // type ProgramSngle = { program: Program }
   type UserList = { users: User[] }
-  // type TrackList = { tracks: Track[] }
+  type TrackList = { tracks: Track[] }
   type SlideList = { slides: Slide[] }
 }
