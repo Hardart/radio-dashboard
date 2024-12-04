@@ -6,20 +6,20 @@ import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
 export const useTracksStore = defineStore('tracks', () => {
+  const [isTrackEditModalOpen, toggleEditTrackModalState] = useToggle()
+
   const loading = ref(false)
   const tracks = ref<Track[]>([])
   const track = ref<Track>()
-  const [isTrackEditModalOpen, toggleEditTrackModalState] = useToggle()
 
   const page = ref(1)
-  const pageCount = 20
+  const pageCount = ref(20)
 
   const artistFilter = ref('')
-  const tracksCount = ref(0)
+  const tracksCount = computed(() => tracks.value.length)
   const filteredCount = ref(0)
 
   const filteredTracks = computed(() => {
-    console.log('hh')
     const filtered = tracks.value.filter(
       (track) =>
         track.artistName
@@ -37,15 +37,14 @@ export const useTracksStore = defineStore('tracks', () => {
 
   const tracksByPage = computed(() => {
     return filteredTracks.value.slice(
-      (page.value - 1) * pageCount,
-      page.value * pageCount
+      (page.value - 1) * pageCount.value,
+      page.value * pageCount.value
     )
   })
 
   async function fetchTracks() {
     const res = await trackAPI.list()
     tracks.value = res
-    tracksCount.value = tracks.value.length
   }
 
   function setTrackMetaInfoFromITunes({
@@ -70,5 +69,13 @@ export const useTracksStore = defineStore('tracks', () => {
     }
   }
 
-  return { fetchTracks, toggleEditTrackModalState, tracksByPage, tracks }
+  return {
+    fetchTracks,
+    toggleEditTrackModalState,
+    tracksByPage,
+    tracks,
+    tracksCount,
+    page,
+    pageCount,
+  }
 })
