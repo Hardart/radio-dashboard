@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 
 const emits = defineEmits(['onChangeHours', 'onChangeMinutes'])
-const { h, m, isToday } = defineProps<{
+const { h, m, isToday, isAdmin } = defineProps<{
   h: number
   m: number
   isToday: boolean
@@ -13,14 +13,14 @@ const selectedMinute = ref(m)
 
 const hours = computed(() => {
   const startHour = new Date().getHours()
-  const mult = isToday ? 24 - new Date().getHours() : 24
+  const mult = isAdmin ? 24 : isToday ? 24 - new Date().getHours() : 24
   if (isToday && selectedHour.value < startHour) {
     selectedHour.value = startHour
     emits('onChangeHours', startHour)
   }
 
   return Array.from({ length: mult }, (_, i) =>
-    String(isToday ? i + startHour : i).padStart(2, '0')
+    String(isAdmin ? i : isToday ? i + startHour : i).padStart(2, '0')
   )
 })
 

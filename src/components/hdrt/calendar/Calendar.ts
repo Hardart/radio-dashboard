@@ -2,7 +2,6 @@ import { ref, type Ref } from 'vue'
 import {
   monthStart,
   monthDays,
-  diffMonths,
   diffDays,
   format,
   addMonth,
@@ -95,6 +94,14 @@ class CalendarBase {
     return diffDays(this.calendarDate.value, this.currentDate, 'ceil') === 0
   }
 
+  get isCurrentMonth() {
+    return this._calendarMonth === this.currentDate.getMonth()
+  }
+
+  get isCurrentYear() {
+    return this._calendarYear === this.currentDate.getFullYear()
+  }
+
   get weekdayStartIndex() {
     return (this._weekdayStart ? this._weekdayStart : 7) - 1
   }
@@ -147,7 +154,7 @@ export default class Calendar extends CalendarBase {
 
   get canClickOnPrev() {
     if (this.isAdmin) return true
-    return diffMonths(this.currentDate, this.calendarDate.value) * -1 > 0
+    return !(this.isCurrentMonth && this.isCurrentYear)
   }
 
   get weekdayStartIndex() {

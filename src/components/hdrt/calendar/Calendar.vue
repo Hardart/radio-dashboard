@@ -6,8 +6,11 @@ import CalendarTime from './components/CalendarTime/CalendarTime.vue'
 import Calendar from './Calendar'
 const selectedDate = defineModel<string>({ required: true })
 const isShowCalendar = defineModel<boolean>('isShow')
-defineProps<{ minDate?: string; isTime?: boolean }>()
-const calendar = new Calendar(selectedDate)
+const { isAdmin } = defineProps<{
+  isTime?: boolean
+  isAdmin?: boolean
+}>()
+const calendar = new Calendar(selectedDate, { isAdmin })
 </script>
 
 <template>
@@ -32,6 +35,7 @@ const calendar = new Calendar(selectedDate)
         :h="calendar.hours"
         :m="calendar.minutes"
         :is-today="calendar.isToday"
+        :is-admin
         @on-change-hours="calendar.setHours"
         @on-change-minutes="calendar.setMinutes"
       />
