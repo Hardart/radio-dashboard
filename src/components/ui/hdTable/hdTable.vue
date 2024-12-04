@@ -12,7 +12,7 @@ defineProps<{
 </script>
 
 <template>
-  <table class="hd-table">
+  <table class="hd-table hd-table__small">
     <thead>
       <tr>
         <th>N</th>
@@ -47,7 +47,10 @@ defineProps<{
       <template v-else>
         <tr v-for="(item, i) in data" :key="item.id">
           <td>{{ i + 1 }}</td>
-          <td v-for="column in columns">
+          <td
+            v-for="column in columns"
+            :class="column.class && `hd-table__${column.class}`"
+          >
             <slot :name="`${column.key}-column`" :item>
               {{ item[column.key] }}
             </slot>
