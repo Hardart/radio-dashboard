@@ -20,7 +20,7 @@ export const useHdFetch = async <T>(
     baseURL: '/api',
     method: 'POST',
     onRequest: onDefaultRequest(tokens),
-    onResponseError: onResponseErrorHandler(toast),
+    onResponseError: onResponseErrorHandler(toast, tokens),
     credentials: 'include',
   }
 

@@ -13,6 +13,10 @@ export const authAPI = {
     return await useHdFetch<ResponseApi.LoginData>('/login', { body })
   },
 
+  async logout() {
+    return await useHdFetch<unknown>('/logout')
+  },
+
   async checkToken() {
     return await useHdFetch<ResponseApi.TokenCheck>('/check')
   },

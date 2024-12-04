@@ -7,15 +7,9 @@ import {
   type FetchOptions,
   ofetch,
 } from 'ofetch'
+import { onDefaultRequest } from './onDefaultRequest'
 
 type ResponseCtx = FetchContext & { response: FetchResponse<ResponseType> }
-
-const refreshOptions: FetchOptions = {
-  baseURL: '/api',
-  credentials: 'include',
-  method: 'POST',
-  onResponseError: onRefreshResponseError,
-}
 
 async function onRefreshResponseError({ response }: ResponseCtx) {
   const { cleanAccessToken } = useTokens()
@@ -23,14 +17,25 @@ async function onRefreshResponseError({ response }: ResponseCtx) {
   cleanAccessToken()
 }
 
-export const onResponseErrorHandler = (toast: Toast) => {
+export const onResponseErrorHandler = (toast: Toast, tokens: Tokens) => {
+  const refreshOptions: FetchOptions = {
+    baseURL: '/api',
+    credentials: 'include',
+    method: 'POST',
+    onResponseError: onRefreshResponseError,
+    onRequest: onDefaultRequest(tokens),
+  }
   return async function onDefaultResponseError({ response }: ResponseCtx) {
     const authStore = useAuthStore()
     switch (response.status) {
       case 401:
-        const res = await ofetch('/refresh', refreshOptions)
-        if (res.status === 'success') {
-          authStore.setUserFromToken(res.data.accessToken)
+        try {
+          const res = await ofetch('/refresh', refreshOptions)
+          if (res.status === 'success') {
+            authStore.setUserFromToken(res.data.accessToken)
+          }
+        } catch (error) {
+          console.error(error)
         }
 
         break
