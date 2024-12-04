@@ -48,7 +48,9 @@ defineProps<{
         <tr v-for="(item, i) in data" :key="item.id">
           <td>{{ i + 1 }}</td>
           <td v-for="column in columns">
-            <slot :name="`${column.key}-column`" :item></slot>
+            <slot :name="`${column.key}-column`" :item>
+              {{ item[column.key] }}
+            </slot>
           </td>
         </tr>
       </template>

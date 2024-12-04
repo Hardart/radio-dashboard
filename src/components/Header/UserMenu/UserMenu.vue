@@ -5,8 +5,8 @@ defineProps<{
   isOpen: boolean
 }>()
 
-const logout = (navigate: () => void) => {
-  useAuthStore().logout()
+const logout = async (navigate: () => void) => {
+  await useAuthStore().logout()
   navigate()
 }
 </script>

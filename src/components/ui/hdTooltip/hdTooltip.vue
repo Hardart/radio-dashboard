@@ -14,7 +14,7 @@ const top = computed(() =>
 
 <template>
   <Transition>
-    <Teleport defer to=".dashboard__content">
+    <Teleport defer to=".dashboard">
       <div
         v-if="isShowTooltip"
         ref="$this"

@@ -1,26 +1,41 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import Header from '@/components/Header/Header.vue'
 import Navigation from '@/components/Navigation/Navigation.vue'
 import { useDefaultStore } from '@/store/useDefaultStore'
-const { isMenuOpen } = storeToRefs(useDefaultStore())
+import HdButton from '@/components/ui/hdButton/hdButton.vue'
+import UserMenu from '@/components/Header/UserMenu/UserMenu.vue'
+import { useToggle } from '@/composables/useToggle'
+const defautsStore = useDefaultStore()
+const { isMenuOpen } = storeToRefs(defautsStore)
+const [isOpen, toggle] = useToggle()
 </script>
 
 <template>
-  <Header />
-  <main class="main">
-    <div class="dashboard">
-      <aside
-        class="dashboard__aside"
-        :class="isMenuOpen && 'dashboard__aside--open'"
-      >
-        <div class="dashboard__wrapper">
-          <Navigation />
-        </div>
-      </aside>
-      <div class="dashboard__content">
-        <slot />
+  <div class="dashboard">
+    <aside
+      class="dashboard__aside"
+      :class="isMenuOpen && 'dashboard__aside--open'"
+    >
+      <div class="dashboard__open-btn">
+        <HdButton
+          icon="arrow-forward-ios"
+          :icon-class="isMenuOpen ? 'arrow-reverse' : undefined"
+          square
+          @click="defautsStore.toggleMenuOpenState"
+        />
       </div>
-    </div>
-  </main>
+      <Navigation />
+      <div
+        class="user"
+        @pointerenter="toggle(true)"
+        @pointerleave="toggle(false)"
+      >
+        <div class="user__logo">
+          <img src="@/assets/images/user.png" alt="" />
+        </div>
+        <UserMenu :is-open="isOpen" />
+      </div>
+    </aside>
+    <slot />
+  </div>
 </template>

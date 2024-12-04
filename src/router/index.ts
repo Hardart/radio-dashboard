@@ -3,18 +3,6 @@ import HomeView from '@/layers/mainViewLayer/views/mainView/index.vue'
 import LoginView from '@/layers/loginViewLayer/views/loginView/index.vue'
 import { useAuthStore } from '@/store/useAuthStore'
 import { storeToRefs } from 'pinia'
-import { isString } from '@/shared/helpers/utils'
-
-type CustomView = {
-  name: string
-  children: string[]
-}
-const views: (string | CustomView)[] = [
-  'login',
-  'categories',
-  'gallery',
-  { name: 'news', children: ['', 'create', ':id'] },
-]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,6 +17,11 @@ const router = createRouter({
       name: 'gallery',
       component: () =>
         import(`@/layers/galleryViewLayer/views/galleryView/index.vue`),
+    },
+    {
+      path: '/tracks',
+      component: () =>
+        import(`@/layers/tracksViewLayer/views/tracksView/index.vue`),
     },
     {
       path: '/news',

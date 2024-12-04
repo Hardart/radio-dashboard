@@ -28,7 +28,6 @@ const useColorTheme = () => {
 }
 
 const { swapTheme, isDark } = useColorTheme()
-const [isOpen, toggle] = useToggle()
 </script>
 
 <template>
@@ -38,16 +37,6 @@ const [isOpen, toggle] = useToggle()
     </div>
     <div class="notifications">
       <SvgIcon icon="bell" class="notifications__icon" />
-    </div>
-    <div
-      class="user"
-      @pointerenter="toggle(true)"
-      @pointerleave="toggle(false)"
-    >
-      <div class="user__logo">
-        <img src="@/assets/images/user.png" alt="" />
-      </div>
-      <UserMenu :is-open="isOpen" />
     </div>
   </div>
 </template>

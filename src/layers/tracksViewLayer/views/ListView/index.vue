@@ -5,9 +5,10 @@ import { useNewsStore } from '@/store/useNewsStore'
 import { getStatus } from '@/shared/helpers/set-status'
 import { normalizeDate } from '@/shared/helpers/date'
 import HdTable from '@/components/ui/hdTable/hdTable.vue'
+import { useTracksStore } from '@/store/useTracksStore'
 
-const newsStore = useNewsStore()
-const { articlesFilteredByTitle, pending, error } = storeToRefs(newsStore)
+const tracksStore = useTracksStore()
+const { tracks } = storeToRefs(tracksStore)
 
 const columns = [
   {
@@ -37,9 +38,10 @@ const columns = [
 </script>
 
 <template>
-  <h3 v-if="pending"><span>Загрузка...</span></h3>
-  <h1 v-else-if="error">{{ error }}</h1>
-  <HdTable
+  {{ tracks }}
+  <!-- <h3 v-if="pending"><span>Загрузка...</span></h3> -->
+  <!-- <h1 v-else-if="error">{{ error }}</h1> -->
+  <!-- <HdTable
     v-else
     :columns
     :data="articlesFilteredByTitle"
@@ -60,7 +62,7 @@ const columns = [
     <template #status-column="{ item }">
       <HdBadge :text="item.status" :type="getStatus(item.status)" />
     </template>
-  </HdTable>
+  </HdTable> -->
 </template>
 
 <style lang="scss" scoped src="./style.scss" />

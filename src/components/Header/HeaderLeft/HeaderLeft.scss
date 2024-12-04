@@ -25,21 +25,6 @@
   }
 }
 
-.user {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 0 20px;
-  z-index: 99;
-
-  &__logo {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    overflow: hidden;
-  }
-}
-
 .notifications {
   flex-shrink: 0;
 

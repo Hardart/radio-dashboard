@@ -58,8 +58,7 @@ function determineObject() {
       const value = options.find(
         (option) => option[keyAttr || optionAttr] === selected.value
       )
-
-      return value ? (optionAttr ? value[optionAttr] : value) : 'Выбери'
+      return value ? (optionAttr ? value[optionAttr] : value) : 'Выберите'
     case isStringArray(selected.value):
       return selected.value.length || 'Выберите'
     case isObjectArray(selected.value):

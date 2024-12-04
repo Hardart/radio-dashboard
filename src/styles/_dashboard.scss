@@ -1,25 +1,54 @@
 .dashboard {
-  position: sticky;
   display: grid;
   grid-template-columns: auto 1fr;
-  height: inherit;
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
 
   &__aside {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     width: 45px;
-    background-color: var(--color-bg-light);
+    background-color: hsl(var(--foreground), 0.03);
     transition: width 400ms ease;
-
+    height: 100%;
+    overflow: hidden;
     &--open {
       width: 200px;
     }
   }
 
+  &__open-btn {
+    display: flex;
+    justify-content: end;
+    width: inherit;
+    padding-right: 5px;
+
+    & .arrow-reverse {
+      transform: rotate(180deg);
+    }
+  }
+
   &__wrapper {
+    display: flex;
+    min-width: 0;
     overflow: hidden;
   }
 
+  &__header {
+    position: relative;
+  }
+
   &__content {
-    overflow-y: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  &__body {
+    position: relative;
+    overflow-x: auto;
   }
 }

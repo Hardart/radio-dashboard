@@ -8,9 +8,7 @@ import HdNotifications from './components/ui/hdNotification/hdNotifications.vue'
 import { useAuthStore } from './store/useAuthStore'
 
 const route = useRoute()
-const isLoginPage = computed(
-  () => route.name === 'login' && useAuthStore().isReady
-)
+const isLoginPage = computed(() => route.name === 'login')
 useAuthStore().loginAuto()
 </script>
 
