@@ -24,55 +24,19 @@ const links: Link[] = [
     <RouterLink
       custom
       :to="item.to"
-      v-slot="{ navigate }"
+      v-slot="{ navigate, isActive }"
       v-for="(item, index) in links"
       :key="item.id"
     >
-      <li class="nav-list__item" @click="navigate">
-        <SvgIcon :icon="item.icon" class="nav-list__icon" />
-        <span class="nav-list__link">{{ item.label }}</span>
-      </li>
-    </RouterLink>
-    <!-- <RouterLink custom to="/categories" v-slot="{ navigate }">
-      <li class="nav-list__item" @click="navigate">
-        <SvgIcon icon="category" class="nav-list__icon" />
-        <span class="nav-list__link">Категории</span>
-      </li>
-    </RouterLink>
-    <RouterLink custom to="/news" v-slot="{ navigate, isActive }">
       <li
         class="nav-list__item"
         :class="isActive && 'nav-list__item--active'"
         @click="navigate"
       >
-        <SvgIcon icon="news" class="nav-list__icon" />
-        <span class="nav-list__link">Новости</span>
+        <SvgIcon :icon="item.icon" class="nav-list__icon" />
+        <span class="nav-list__link">{{ item.label }}</span>
       </li>
     </RouterLink>
-    <RouterLink custom to="/" v-slot="{ navigate }">
-      <li class="nav-list__item" @click="navigate">
-        <SvgIcon icon="music" class="nav-list__icon" />
-        <span class="nav-list__link">Треки</span>
-      </li>
-    </RouterLink>
-    <RouterLink custom to="/gallery" v-slot="{ navigate }">
-      <li class="nav-list__item" @click="navigate">
-        <SvgIcon icon="gallery" class="nav-list__icon" />
-        <span class="nav-list__link">Галерея</span>
-      </li>
-    </RouterLink>
-    <RouterLink custom to="/" v-slot="{ navigate }">
-      <li class="nav-list__item" @click="navigate">
-        <SvgIcon icon="team" class="nav-list__icon" />
-        <span class="nav-list__link">Команда</span>
-      </li>
-    </RouterLink>
-    <RouterLink custom to="/" v-slot="{ navigate }">
-      <li class="nav-list__item" @click="navigate">
-        <SvgIcon icon="images" class="nav-list__icon" />
-        <span class="nav-list__link">Файлы</span>
-      </li>
-    </RouterLink> -->
   </ul>
 </template>
 
