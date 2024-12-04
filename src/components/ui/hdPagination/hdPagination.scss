@@ -1,0 +1,13 @@
+.hd-pagination {
+  display: flex;
+  gap: 5px;
+
+  &__item {
+    width: 35px;
+    height: 35px;
+
+    &--current {
+      color: hsl(var(--color-primary));
+    }
+  }
+}
