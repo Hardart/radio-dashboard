@@ -7,6 +7,7 @@ import { computed, ref } from 'vue'
 
 export const useAuthStore = defineStore('auth', () => {
   const { decodeAccessToken, setAccessToken, cleanAccessToken } = useTokens()
+
   const isLocalAuth = useLocalStorage('is_auth')
   let dispatchIsReady: (value: boolean) => void
 

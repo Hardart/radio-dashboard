@@ -1,10 +1,8 @@
-import type { Tokens } from '@/composables/useTokensDecode'
+import { useTokens } from '@/composables/useTokensDecode'
 import { type FetchContext } from 'ofetch'
 
-export const onDefaultRequest = (tokens: Tokens) => {
-  return ({ options }: FetchContext) => {
-    const token = tokens.getAccessToken()
-    if (token !== null)
-      options.headers.append('authorization', `Bearer ${token}`)
-  }
+export const onDefaultRequest = ({ options }: FetchContext) => {
+  const { getAccessToken } = useTokens()
+  const token = getAccessToken()
+  if (token !== null) options.headers.set('authorization', `Bearer ${token}`)
 }
