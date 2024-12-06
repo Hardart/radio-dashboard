@@ -26,6 +26,8 @@ export const useNewsStore = defineStore('news', () => {
     content: '',
   })
 
+  const articlesCount = computed(() => articles.value.length)
+
   const sortedArticles = computed(() =>
     articles.value?.sort((a, b) => {
       if (a[sort.value.column] < b[sort.value.column])
@@ -50,7 +52,6 @@ export const useNewsStore = defineStore('news', () => {
     pending.value = true
     const res = await articlesAPI.list()
     articles.value = res.articles
-    // tags.value = res.articles
     pending.value = false
   }
 
@@ -117,6 +118,7 @@ export const useNewsStore = defineStore('news', () => {
     articleForm,
     tags,
     categories,
+    articlesCount,
     fetchBaseData,
     fetchArticles,
     fetchArticle,
