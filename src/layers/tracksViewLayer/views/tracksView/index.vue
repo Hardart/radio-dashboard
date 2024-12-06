@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import HdPagination from '@/components/ui/hdPagination/hdPagination.vue'
 import HdTable from '@/components/ui/hdTable/hdTable.vue'
+import DashboardContentBodyLayout from '@/layouts/dashboardContentBodyLayout.vue'
+import DashboardContentHeaderLayout from '@/layouts/dashboardContentHeaderLayout.vue'
 import DashboardContentLayout from '@/layouts/dashboardContentLayout.vue'
 import { normalizeDate } from '@/shared/helpers/date'
 import { useTracksStore } from '@/store/useTracksStore'
@@ -33,29 +35,28 @@ const columns = [
 
 <template>
   <DashboardContentLayout header footer>
-    <template #header>
-      <div class="news__header">
-        <h3 class="news__title">Треки</h3>
-        <HdButton
-          icon="news"
-          text="Создать"
-          color="primary"
-          variant="link"
-          @click="$router.push('/news/create')"
-        />
-      </div>
-    </template>
-
-    <HdTable :data="tracksByPage" :columns>
-      <template #cover-column="{ item }">
-        <div class="track__cover">
-          <img :src="item.cover" />
-        </div>
-      </template>
-      <template #createdAt-column="{ item }">
-        <span>{{ normalizeDate(item.createdAt) }}</span>
-      </template>
-    </HdTable>
+    <DashboardContentHeaderLayout>
+      <h3>Треки</h3>
+      <HdButton
+        icon="news"
+        text="Создать"
+        color="primary"
+        variant="link"
+        @click="$router.push('/news/create')"
+      />
+    </DashboardContentHeaderLayout>
+    <DashboardContentBodyLayout>
+      <HdTable :data="tracksByPage" :columns>
+        <template #cover-column="{ item }">
+          <div class="track__cover">
+            <img :src="item.cover" />
+          </div>
+        </template>
+        <template #createdAt-column="{ item }">
+          <span>{{ normalizeDate(item.createdAt) }}</span>
+        </template>
+      </HdTable>
+    </DashboardContentBodyLayout>
     <template #footer>
       <HdPagination v-model="page" :page-count :total="tracksCount" />
     </template>

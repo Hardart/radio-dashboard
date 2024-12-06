@@ -3,7 +3,7 @@ import { storeToRefs } from 'pinia'
 import Navigation from '@/components/Navigation/Navigation.vue'
 import { useDefaultStore } from '@/store/useDefaultStore'
 import HdButton from '@/components/ui/hdButton/hdButton.vue'
-import UserMenu from '@/components/Header/UserMenu/UserMenu.vue'
+import UserMenu from '@/components/UserMenu/UserMenu.vue'
 import { useToggle } from '@/composables/useToggle'
 const defautsStore = useDefaultStore()
 const { isMenuOpen } = storeToRefs(defautsStore)
@@ -25,15 +25,13 @@ const [isOpen, toggle] = useToggle()
         />
       </div>
       <Navigation />
-      <div
-        class="user"
-        @pointerenter="toggle(true)"
-        @pointerleave="toggle(false)"
-      >
+      <div class="user" @click="toggle()">
         <div class="user__logo">
           <img src="@/assets/images/user.png" alt="" />
         </div>
-        <UserMenu :is-open="isOpen" />
+        <Teleport defer to=".dashboard">
+          <UserMenu :is-open="isOpen" />
+        </Teleport>
       </div>
     </aside>
     <slot />

@@ -13,6 +13,7 @@
     transition: width 400ms ease;
     height: 100%;
     overflow: hidden;
+    z-index: 200;
     &--open {
       width: 200px;
     }
@@ -37,6 +38,9 @@
 
   &__header {
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding: 15px 20px;
     border-bottom: 1px solid hsl(var(--foreground), 0.3);
   }
