@@ -58,7 +58,7 @@ const columns = [
       <div>{{ normalizeDate(item.publishAt) }}</div>
     </template>
     <template #status-column="{ item }">
-      <HdBadge :text="item.status" :type="getStatus(item.status)" />
+      <HdBadge :label="item.status" :type="getStatus(item.status)" />
     </template>
   </HdTable>
 </template>
