@@ -2,7 +2,7 @@
 import Underline from '@tiptap/extension-underline'
 import StarterKit from '@tiptap/starter-kit'
 import { EditorContent, useEditor } from '@tiptap/vue-3'
-import { provide, reactive, watch } from 'vue'
+import { inject, provide, reactive, watch } from 'vue'
 import { Image } from './extensions/Image'
 import ControllerBold from './controllers/Bold.vue'
 import ControllerHeading from './controllers/Heading.vue'
@@ -42,8 +42,11 @@ watch(
     editor.value?.chain().focus().setImage({ src: image.src }).run()
   }
 )
-
+watch(content, () => {
+  if (!content.value) editor.value?.chain().clearContent().run()
+})
 provide('tiptap', editor)
+const id = inject<string | undefined>('input-id', undefined)
 </script>
 
 <template>
