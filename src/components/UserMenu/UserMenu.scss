@@ -2,27 +2,22 @@
   --animation-dur: 500ms;
   --shadow-opacity: 0.06;
 
-  position: absolute;
-  bottom: 100%;
-  left: 0;
+  position: fixed;
+  bottom: 50px;
+  left: 5px;
   margin-top: 5px;
   padding: 20px;
   background-color: hsl(var(--background), 0.5);
   border: 1px solid var(--color-border);
   border-radius: 10px;
   box-shadow: -1px 1px 8px 0px hsla(var(--foreground), var(--shadow-opacity));
-  transform: scale(0);
-  opacity: 0;
+
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   transform-origin: left bottom;
   transition: transform 400ms ease, opacity 500ms;
   transition-delay: 100ms;
-
-  &--open {
-    transform: scale(1);
-    opacity: 1;
-  }
+  z-index: 200;
 
   &__wrapper {
     display: grid;

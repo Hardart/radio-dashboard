@@ -12,7 +12,7 @@ const logout = async (navigate: () => void) => {
 </script>
 
 <template>
-  <div class="user-menu" :class="isOpen && 'user-menu--open'">
+  <div class="user-menu" :class="isOpen && 'user-menu--open'" v-if="isOpen">
     <div class="user-menu__wrapper">
       <div class="user-menu__info">
         <div class="user-menu__media">
