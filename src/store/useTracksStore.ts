@@ -16,8 +16,6 @@ export const useTracksStore = defineStore('tracks', () => {
   const pageCount = ref(20)
 
   const artistFilter = ref('')
-  const tracksCount = computed(() => tracks.value.length)
-  const filteredCount = ref(0)
 
   const filteredTracks = computed(() => {
     const filtered = tracks.value.filter(
@@ -29,11 +27,16 @@ export const useTracksStore = defineStore('tracks', () => {
           .toLowerCase()
           .includes(artistFilter.value.toLowerCase())
     )
-    filteredCount.value = filtered.length
 
-    if (filteredCount.value !== tracksCount.value) page.value = 1
     return filtered
   })
+
+  const filteredCount = computed(() => {
+    if (tracks.value.length !== filteredTracks.value.length) page.value = 1
+    return filteredTracks.value.length
+  })
+
+  const tracksCount = computed(() => tracks.value.length)
 
   const tracksByPage = computed(() => {
     return filteredTracks.value.slice(
@@ -42,31 +45,11 @@ export const useTracksStore = defineStore('tracks', () => {
     )
   })
 
+  const isShowPagination = computed(() => filteredCount.value > pageCount.value)
+
   async function fetchTracks() {
     const res = await trackAPI.list()
     tracks.value = res
-  }
-
-  function setTrackMetaInfoFromITunes({
-    artistName,
-    previewUrl,
-    artworkUrl60,
-    trackName,
-  }: ITunesTrack) {}
-
-  function storeRefs() {
-    return {
-      tracks,
-      tracksCount,
-      tracksByPage,
-      pageCount,
-      page,
-      artistFilter,
-      filteredCount,
-      track,
-      isTrackEditModalOpen,
-      loading,
-    }
   }
 
   return {
@@ -77,5 +60,8 @@ export const useTracksStore = defineStore('tracks', () => {
     tracksCount,
     page,
     pageCount,
+    artistFilter,
+    filteredCount,
+    isShowPagination,
   }
 })

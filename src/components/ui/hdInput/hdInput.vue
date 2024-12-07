@@ -6,7 +6,6 @@ const inputValue = defineModel()
 defineProps<{
   icon?: Icon
   flipIcon?: Icon
-  label?: string
   iconClass?: string
   name?: string
   placeholder?: string

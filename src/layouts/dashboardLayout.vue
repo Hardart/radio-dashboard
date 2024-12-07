@@ -3,11 +3,11 @@ import { storeToRefs } from 'pinia'
 import Navigation from '@/components/Navigation/Navigation.vue'
 import { useDefaultStore } from '@/store/useDefaultStore'
 import HdButton from '@/components/ui/hdButton/hdButton.vue'
-import UserMenu from '@/components/UserMenu/UserMenu.vue'
-import { useToggle } from '@/composables/useToggle'
+import DashboardAsideBottom from './dashboardAsideBottom.vue'
+import DashboardAsideTop from './dashboardAsideTop.vue'
+
 const defautsStore = useDefaultStore()
 const { isMenuOpen } = storeToRefs(defautsStore)
-const [isOpen, toggle] = useToggle()
 </script>
 
 <template>
@@ -16,6 +16,7 @@ const [isOpen, toggle] = useToggle()
       class="dashboard__aside"
       :class="isMenuOpen && 'dashboard__aside--open'"
     >
+      <DashboardAsideTop />
       <div class="dashboard__open-btn">
         <HdButton
           icon="arrow-forward-ios"
@@ -25,14 +26,7 @@ const [isOpen, toggle] = useToggle()
         />
       </div>
       <Navigation />
-      <div class="user" @click="toggle()">
-        <div class="user__logo">
-          <img src="@/assets/images/user.png" alt="" />
-        </div>
-        <Teleport defer to=".dashboard">
-          <UserMenu :is-open="isOpen" />
-        </Teleport>
-      </div>
+      <DashboardAsideBottom />
     </aside>
     <slot />
   </div>

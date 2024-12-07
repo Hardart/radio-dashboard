@@ -42,5 +42,6 @@ export declare namespace ResponseApi {
   // type ProgramSngle = { program: Program }
   type UserList = { users: User[] }
   type TrackList = { tracks: Track[] }
+  type TrackSingle = { track: Track }
   type SlideList = { slides: Slide[] }
 }

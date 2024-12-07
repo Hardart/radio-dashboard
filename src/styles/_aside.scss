@@ -2,16 +2,45 @@
   position: relative;
   display: flex;
   align-items: center;
-  gap: 0 20px;
+  gap: 0 10px;
   margin-top: auto;
-  margin-bottom: 5px;
-  margin-inline: 5px;
-  z-index: 99;
+  margin-bottom: 10px;
+  // margin-inline: 5px;
+  padding: 7.5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: hsl(var(--foreground), 0.04);
+  }
 
   &__logo {
     width: 30px;
     height: 30px;
     border-radius: 50%;
+    flex-shrink: 0;
+    background-color: hsl(var(--foreground), 0.04);
+    overflow: hidden;
+  }
+
+  &__name {
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-m);
+    white-space: nowrap;
+  }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 5px;
+
+  &__main {
+    min-width: 35px;
+  }
+
+  &__text {
+    min-width: 100px;
     overflow: hidden;
   }
 }

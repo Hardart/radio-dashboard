@@ -26,8 +26,6 @@
 
   tbody {
     tr {
-      cursor: pointer;
-
       &:hover {
         background-color: hsla(var(--foreground), 0.02);
       }
@@ -40,7 +38,6 @@
 
       &:first-child {
         max-width: 0px;
-
         padding-right: 5px;
         text-align: center;
       }
@@ -55,5 +52,9 @@
     tbody td {
       padding: 8px 12px;
     }
+  }
+
+  &__link {
+    cursor: pointer;
   }
 }

@@ -1,0 +1,79 @@
+.itunes-track-list {
+  max-height: 350px;
+
+  & > .itunes-track ~ .itunes-track {
+    margin-top: 20px;
+  }
+}
+
+.itunes-track {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 10px 15px;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
+  overflow-x: hidden;
+
+  &:hover {
+    background-color: hsl(var(--foreground), 0.05);
+  }
+
+  &__media {
+    width: 50px;
+    height: 50px;
+    background-color: hsl(var(--foreground), 0.05);
+    border-radius: 50%;
+    overflow-x: hidden;
+    flex-shrink: 0;
+  }
+
+  &__image {
+    width: inherit;
+    height: inherit;
+  }
+
+  &__artist {
+    display: block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-size: var(--fs-m);
+    font-weight: var(--fw-l);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+  }
+
+  &__title {
+    margin-bottom: 5px;
+    font-size: var(--fs-s);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+  }
+
+  audio {
+    width: 100%;
+    margin-left: auto;
+  }
+
+  &__info {
+    flex: 1;
+    overflow-x: hidden;
+  }
+}
+
+.pending {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  padding: 20px;
+  background-color: hsl(var(--foreground), 0.05);
+  border-radius: 8px;
+
+  &__title {
+    font-size: var(--fs-s);
+    font-weight: var(--fw-m);
+  }
+}

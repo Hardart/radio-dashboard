@@ -21,6 +21,7 @@ const pages = computed(() =>
 )
 
 const canGoFirstOrPrev = computed(() => page.value > 1)
+const canGoLastOrNext = computed(() => page.value < pages.value.length)
 
 const displayedPages = computed(() => {
   const totalPages = pages.value.length
@@ -80,6 +81,11 @@ function onClickPrev() {
   page.value--
 }
 
+function onClickNext() {
+  if (!canGoLastOrNext.value) return
+  page.value++
+}
+
 function onClickPage(input: number | string) {
   if (typeof input === 'string') return
   page.value = input
@@ -88,12 +94,7 @@ function onClickPage(input: number | string) {
 
 <template>
   <div class="hd-pagination">
-    <HdButton
-      text="prev"
-      square
-      @click="onClickPrev"
-      :disabled="!canGoFirstOrPrev"
-    />
+    <HdButton text="назад" @click="onClickPrev" :disabled="!canGoFirstOrPrev" />
 
     <HdButton
       v-for="(pageItem, index) of displayedPages"
@@ -104,6 +105,8 @@ function onClickPage(input: number | string) {
       class="hd-pagination__item"
       :class="pageItem === page && 'hd-pagination__item--current'"
     />
+
+    <HdButton text="вперед" @click="onClickNext" :disabled="!canGoLastOrNext" />
   </div>
 </template>
 

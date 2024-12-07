@@ -1,4 +1,4 @@
-import { onMounted, onUnmounted, ref, watch, watchEffect, type Ref } from 'vue'
+import { onMounted, onUnmounted, onUpdated, watch, type Ref } from 'vue'
 type ClickOutside = (
   element: Ref<HTMLElement | undefined>,
   fn: () => void
@@ -8,14 +8,12 @@ export const useClickOutside: ClickOutside = (
   element: Ref<HTMLElement | undefined>,
   fn
 ) => {
-  let init = false
-
   const onClick = (event: Event) => {
     if (!element.value) return
     const target = event.target as HTMLElement
     if (element.value.contains(target)) return
-    removeListener()
     fn()
+    removeListener()
   }
 
   function initListener() {
@@ -24,18 +22,19 @@ export const useClickOutside: ClickOutside = (
 
   function removeListener() {
     document.body.removeEventListener('click', onClick)
-    init = false
   }
 
   onUnmounted(removeListener)
+  // onMounted(initListener)
+  onUpdated(initListener)
 
-  watch(
-    element,
-    () => {
-      queueMicrotask(() =>
-        element.value!.addEventListener('click', initListener)
-      )
-    },
-    { once: true }
-  )
+  // watch(
+  //   element,
+  //   () => {
+  //     queueMicrotask(() =>
+  //       element.value!.addEventListener('click', initListener)
+  //     )
+  //   },
+  //   { once: true }
+  // )
 }

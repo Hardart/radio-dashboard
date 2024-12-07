@@ -1,0 +1,19 @@
+.context-menu {
+  position: fixed;
+  padding: 10px 20px;
+  margin: auto;
+  background-color: hsl(var(--foreground), 0.1);
+  outline: 1px solid hsl(var(--color-border));
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  z-index: 9999;
+
+  &__item {
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-m);
+
+    & + & {
+      margin-top: 5px;
+    }
+  }
+}

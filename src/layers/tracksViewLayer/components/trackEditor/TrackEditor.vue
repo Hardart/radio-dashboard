@@ -1,0 +1,72 @@
+<script lang="ts" setup>
+import { trackAPI } from '@/api/track-api'
+import HdButton from '@/components/ui/hdButton/hdButton.vue'
+import HdFormGroup from '@/components/ui/hdFormGroup/HdFormGroup.vue'
+import HdInput from '@/components/ui/hdInput/hdInput.vue'
+import { trackSchema, type Track } from '@/shared/schemes/track-schema'
+import type { ITunesTrack } from '@/shared/types/itunes'
+import { provide, ref } from 'vue'
+import ITunesTrackList from '../iTunesTrackList/iTunesTrackList.vue'
+import { useFormValidation } from '@/composables/useFormValidation'
+const { errors, getZodErrors } = useFormValidation()
+const { track } = defineProps<{ track: Track }>()
+const emits = defineEmits(['on-apply', 'on-cancel'])
+const iTunesTracks = ref<ITunesTrack[] | null>(null)
+const pending = ref(false)
+
+const findInITunes = async () => {
+  pending.value = true
+  const res = await trackAPI.getITunesMetadata(
+    `${track.artistName}-${track.trackTitle}`
+  )
+  iTunesTracks.value = res
+  pending.value = false
+}
+
+provide('form-errors', errors)
+
+const onFormSubmit = async () => {
+  await getZodErrors(track, trackSchema)
+
+  if (errors.value.length) return
+  emits('on-apply')
+}
+</script>
+
+<template>
+  <div class="track-editor">
+    <form class="track-editor__content" @submit.prevent="onFormSubmit">
+      <div class="track-editor__props">
+        <div class="track-editor__media">
+          <img
+            :src="track.cover"
+            v-if="track.cover"
+            class="track-editor__image"
+          />
+          />
+        </div>
+        <div class="track-editor__info">
+          <HdFormGroup name="artistName" label="Артист">
+            <HdInput v-model="track.artistName" />
+          </HdFormGroup>
+          <HdFormGroup name="trackTitle" label="Название трека">
+            <HdInput v-model="track.trackTitle" />
+          </HdFormGroup>
+        </div>
+        <div class="track-editor__preview" v-if="track.preview">
+          <audio :src="track.preview" controls></audio>
+        </div>
+      </div>
+      <div class="track-editor__controllers">
+        <HdButton @click="findInITunes" text="Найти в iTunes" color="primary" />
+        <HdButton @click="$emit('on-cancel')" text="Отменить" color="danger" />
+        <HdButton type="submit" text="Сохранить" color="success" />
+      </div>
+      <div class="track-editor__itunes-tracks">
+        <ITunesTrackList :track-list="iTunesTracks" :pending />
+      </div>
+    </form>
+  </div>
+</template>
+
+<style lang="scss" scoped src="./styles.scss" />

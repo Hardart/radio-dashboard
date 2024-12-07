@@ -16,8 +16,8 @@ const { articlesCount } = storeToRefs(newsStore)
 <template>
   <DashboardContentLayout header>
     <DashboardContentHeaderLayout>
-      <div>
-        <h3>Новости</h3>
+      <div class="dashboard__header--left">
+        <h3 class="dashboard__header-title">Новости</h3>
         <HdBadge :label="articlesCount" type="warning" />
       </div>
       <HdButton

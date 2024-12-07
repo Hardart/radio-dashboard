@@ -43,6 +43,19 @@
     justify-content: space-between;
     padding: 15px 20px;
     border-bottom: 1px solid hsl(var(--foreground), 0.3);
+
+    &--right,
+    &--left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  }
+
+  &__header-title {
+    font-size: var(--fs-2xl);
+    font-weight: var(--fw-m);
+    letter-spacing: 1px;
   }
 
   &__content {
