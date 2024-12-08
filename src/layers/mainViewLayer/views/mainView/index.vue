@@ -1,11 +1,7 @@
-<script setup lang="ts">
-import RefSortable from '@/components/hdrt/sortable/RefSortable.vue'
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <div class="test">
-    <RefSortable></RefSortable>
-  </div>
+  <div class="test"></div>
 </template>
 
 <style lang="scss" scoped src="./style.scss" />
