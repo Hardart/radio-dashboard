@@ -4,6 +4,7 @@ import { Sortable } from './Sortable'
 
 const sortableItems = defineModel<any[]>({ required: true })
 const sortable = new Sortable()
+
 const { selector, handle } = defineProps<{
   itemKey: string
   selector: string

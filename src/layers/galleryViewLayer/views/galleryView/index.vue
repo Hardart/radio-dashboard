@@ -60,6 +60,11 @@ function onEdit(slide: Slide) {
   toggle(true)
 }
 
+async function onDelete(slide: Slide) {
+  await galleryAPI.deleteOne({ id: slide.id })
+  gallery.value = gallery.value.filter((item) => item.id !== slide.id)
+}
+
 function onUpdate(slide: Slide) {
   const keys = Object.keys(slide) as (keyof typeof slide)[]
   keys.forEach((key) => {
@@ -82,17 +87,20 @@ async function onSaveChanges() {
   await galleryAPI.saveAllSlides(gallery)
 }
 
-const children = ref()
-
 fetchGallery()
 </script>
 
 <template>
   <div class="gallery">
     <div class="gallery__header">
-      <HdButton text="Добавить слайд" color="primary" @click="toggle()" />
+      <HdButton
+        text="Добавить слайд"
+        color="primary"
+        @click="toggle()"
+        icon="image-add"
+      />
     </div>
-    <div class="gallery__content" ref="children">
+    <div class="gallery__content">
       <Sortable
         v-if="gallery"
         item-key="id"
@@ -119,10 +127,16 @@ fetchGallery()
               <div class="gallery-slide__controllers">
                 <HdButton
                   @click="onEdit(item)"
-                  variant="solid"
                   icon="edit"
                   square
-                  v-tooltip="{ label: 'Редактировать' }"
+                  v-tooltip="{ label: 'редактировать' }"
+                />
+                <HdButton
+                  @click="onDelete(item)"
+                  icon="delete"
+                  color="danger"
+                  square
+                  v-tooltip="{ label: 'удалить' }"
                 />
               </div>
             </div>

@@ -44,4 +44,5 @@ export declare namespace ResponseApi {
   type TrackList = { tracks: Track[] }
   type TrackSingle = { track: Track }
   type SlideList = { slides: Slide[] }
+  type SlideDelete = { id: string }
 }

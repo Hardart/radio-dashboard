@@ -17,4 +17,16 @@ export const galleryAPI = {
     )
     return data.value?.slides || []
   },
+
+  async deleteOne(body: { id: string }) {
+    body = toValue(body)
+
+    const { data } = await useHdFetch<ResponseApi.SlideDelete>(
+      '/gallery-delete-single',
+      { body },
+      { text: 'Слайд успешно удален' }
+    )
+
+    return data.value
+  },
 }
