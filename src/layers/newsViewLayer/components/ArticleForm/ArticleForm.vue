@@ -9,29 +9,25 @@ import HdButton from '@/components/ui/hdButton/hdButton.vue'
 import HdEditor from '@/components/editor/HdEditor.vue'
 import HdSelect from '@/components/ui/hdSelect/hdSelect.vue'
 import HdFormGroup from '@/components/ui/hdFormGroup/HdFormGroup.vue'
-import { useFormValidation } from '@/composables/useFormValidation'
 import CalendarSelect from '../CalendarSelect/CalendarSelect.vue'
-import { provide } from 'vue'
-const { errors, getZodErrors } = useFormValidation()
+import HdForm from '@/components/ui/hdForm/HdForm.vue'
 const articleForm = defineModel<ArticleForm>({ required: true })
+
 defineProps<{
   categories: Category[]
   tags: string[]
 }>()
-const emits = defineEmits(['on-submit', 'on-delete'])
 
-provide('form-errors', errors)
-
-const onFormSubmit = async () => {
-  await getZodErrors(articleForm.value, articleFormSchema)
-
-  if (errors.value.length) return
-  emits('on-submit')
-}
+defineEmits(['on-submit', 'on-delete'])
 </script>
 
 <template>
-  <form class="news-item" @submit.prevent="onFormSubmit">
+  <HdForm
+    class="news-item"
+    :state="articleForm"
+    :schema="articleFormSchema"
+    @on-submit="$emit('on-submit')"
+  >
     <div class="news-item__details">
       <HdFormGroup label="Название новости" name="title" required>
         <HdInput v-model="articleForm.title" />
@@ -100,7 +96,7 @@ const onFormSubmit = async () => {
         />
       </div>
     </div>
-  </form>
+  </HdForm>
 </template>
 
 <style lang="scss" scoped src="./styles.scss" />

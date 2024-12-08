@@ -2,12 +2,19 @@
 import { RouterLink } from 'vue-router'
 import SvgIcon from '@/components/SvgIcon/SvgIcon.vue'
 import type { Icon } from '@/shared/types/Icon'
+import OpenButton from './components/openButton/OpenButton.vue'
 type Link = {
   id: number
   icon: Icon
   label: string
   to: string
 }
+
+defineProps<{
+  isOpen: boolean
+}>()
+
+defineEmits(['on-toggle'])
 const links: Link[] = [
   { id: 1, icon: 'dashboard', label: 'Главная', to: '/' },
   { id: 2, icon: 'category', label: 'Категории', to: '/categories' },
@@ -38,6 +45,8 @@ const links: Link[] = [
       </li>
     </RouterLink>
   </ul>
+
+  <OpenButton :is-menu-open="isOpen" @on-toggle="$emit('on-toggle')" />
 </template>
 
 <style lang="scss" scoped src="./Navigation.scss" />

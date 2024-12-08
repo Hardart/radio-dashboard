@@ -15,13 +15,15 @@ const imageAlt = computed(
 </script>
 
 <template>
-  <div class="user" @click="toggle()" ref="userBtn">
-    <div class="user__logo">
-      <img :src="user?.avatar" :alt="imageAlt" />
+  <div class="dashboard__aside--bottom">
+    <div class="user" @click="toggle()" ref="userBtn">
+      <div class="user__logo">
+        <img :src="user?.avatar" :alt="imageAlt" />
+      </div>
+      <div class="user__name">{{ user?.fullName }}</div>
     </div>
-    <div class="user__name">{{ user?.fullName }}</div>
   </div>
   <Teleport defer to=".dashboard">
-    <UserMenu :is-open="isOpen" />
+    <UserMenu v-if="user" :is-open="isOpen" :user />
   </Teleport>
 </template>

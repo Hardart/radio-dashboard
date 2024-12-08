@@ -5,12 +5,11 @@ import HdFormGroup from '@/components/ui/hdFormGroup/HdFormGroup.vue'
 import HdInput from '@/components/ui/hdInput/hdInput.vue'
 import { trackSchema, type Track } from '@/shared/schemes/track-schema'
 import type { ITunesTrack } from '@/shared/types/itunes'
-import { provide, ref } from 'vue'
+import { ref } from 'vue'
 import ITunesTrackList from '../iTunesTrackList/iTunesTrackList.vue'
-import { useFormValidation } from '@/composables/useFormValidation'
-const { errors, getZodErrors } = useFormValidation()
+import HdForm from '@/components/ui/hdForm/HdForm.vue'
 const { track } = defineProps<{ track: Track }>()
-const emits = defineEmits(['on-apply', 'on-cancel'])
+defineEmits(['on-apply', 'on-cancel'])
 const iTunesTracks = ref<ITunesTrack[] | null>(null)
 const pending = ref(false)
 
@@ -22,20 +21,17 @@ const findInITunes = async () => {
   iTunesTracks.value = res
   pending.value = false
 }
-
-provide('form-errors', errors)
-
-const onFormSubmit = async () => {
-  await getZodErrors(track, trackSchema)
-
-  if (errors.value.length) return
-  emits('on-apply')
-}
 </script>
 
 <template>
   <div class="track-editor">
-    <form class="track-editor__content" @submit.prevent="onFormSubmit">
+    <!-- <form class="track-editor__content" @submit.prevent="onFormSubmit"> -->
+    <HdForm
+      :state="track"
+      :schema="trackSchema"
+      class="track-editor__content"
+      @on-submit="$emit('on-apply')"
+    >
       <div class="track-editor__props">
         <div class="track-editor__media">
           <img
@@ -65,7 +61,7 @@ const onFormSubmit = async () => {
       <div class="track-editor__itunes-tracks">
         <ITunesTrackList :track-list="iTunesTracks" :pending />
       </div>
-    </form>
+    </HdForm>
   </div>
 </template>
 

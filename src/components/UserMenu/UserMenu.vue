@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import type { User } from '@/shared/schemes/user-schema'
 import { useAuthStore } from '@/store/useAuthStore'
+import { computed } from 'vue'
 
-defineProps<{
+const { user } = defineProps<{
+  user: User
   isOpen: boolean
 }>()
 
@@ -9,6 +12,10 @@ const logout = async (navigate: () => void) => {
   await useAuthStore().logout()
   navigate()
 }
+
+const imageAlt = computed(
+  () => `${user?.lastName.charAt(0)}${user?.firstName.charAt(0)}`
+)
 </script>
 
 <template>
@@ -16,11 +23,11 @@ const logout = async (navigate: () => void) => {
     <div class="user-menu__wrapper">
       <div class="user-menu__info">
         <div class="user-menu__media">
-          <img src="@/assets/images/user.png" class="user-menu__image" alt="" />
+          <img :src="user.avatar" class="user-menu__image" :alt="imageAlt" />
         </div>
         <div>
-          <p class="user-menu__name">David McMichael</p>
-          <p class="user-menu__mail">david@wrappixel.com</p>
+          <p class="user-menu__name">{{ user.fullName }}</p>
+          <p class="user-menu__mail">{{ user.email }}</p>
         </div>
       </div>
 

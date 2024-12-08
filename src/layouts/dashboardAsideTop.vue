@@ -8,12 +8,14 @@ const logoText = defineAsyncComponent(
 </script>
 
 <template>
-  <div class="logo">
-    <div class="logo__main">
-      <component :is="logo"></component>
-    </div>
-    <div class="logo__text">
-      <component :is="logoText"></component>
+  <div class="dashboard__aside--top">
+    <div class="logo">
+      <div class="logo__main">
+        <component :is="logo"></component>
+      </div>
+      <div class="logo__text">
+        <component :is="logoText"></component>
+      </div>
     </div>
   </div>
 </template>

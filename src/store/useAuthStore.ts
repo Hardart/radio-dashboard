@@ -24,6 +24,12 @@ export const useAuthStore = defineStore('auth', () => {
     user.value = decodeAccessToken()
   }
 
+  function clearTokens() {
+    isLocalAuth.value = null
+    cleanAccessToken()
+    user.value = null
+  }
+
   async function login(userData: UserLoginForm) {
     const { data } = await authAPI.login(userData)
     if (!data.value) return
@@ -43,11 +49,18 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function logout() {
     await authAPI.logout()
-    isLocalAuth.value = null
-    cleanAccessToken()
-    user.value = null
+    clearTokens()
     return
   }
 
-  return { isAuth, isReady, user, login, loginAuto, logout, setUserFromToken }
+  return {
+    isAuth,
+    isReady,
+    user,
+    login,
+    loginAuto,
+    logout,
+    setUserFromToken,
+    clearTokens,
+  }
 })

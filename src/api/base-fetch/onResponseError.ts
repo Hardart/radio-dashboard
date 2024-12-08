@@ -11,9 +11,9 @@ import {
 type ResponseCtx = FetchContext & { response: FetchResponse<ResponseType> }
 
 async function onRefreshResponseError({ response }: ResponseCtx) {
-  const { cleanAccessToken } = useTokens()
   if (response.status !== 401) return
-  cleanAccessToken()
+  const authStore = useAuthStore()
+  authStore.clearTokens()
 }
 
 export const onDefaultResponseError = async ({ response }: ResponseCtx) => {
@@ -32,7 +32,7 @@ export const onDefaultResponseError = async ({ response }: ResponseCtx) => {
       try {
         const res = await ofetch('/refresh', refreshOptions)
         if (res.status === 'success') {
-          await authStore.setUserFromToken(res.data.accessToken)
+          authStore.setUserFromToken(res.data.accessToken)
         }
       } catch (error) {
         console.error(error)

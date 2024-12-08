@@ -39,7 +39,6 @@ export const useHdFetch = async <T>(
       })
   } catch (err) {
     error.value = err
-    toast.add({ text: `${err}`, status: 'warning' })
   }
 
   return { data, error }
