@@ -18,6 +18,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   const isAuth = computed(() => user.value !== null)
   const isReady = simplePromise
+  const pending = ref(false)
 
   function setUserFromToken(token: string) {
     setAccessToken(token)
@@ -31,7 +32,9 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function login(userData: UserLoginForm) {
+    pending.value = true
     const { data } = await authAPI.login(userData)
+    pending.value = false
     if (!data.value) return
     isLocalAuth.value = true
     user.value = data.value.user || null
@@ -48,8 +51,10 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function logout() {
+    pending.value = true
     await authAPI.logout()
     clearTokens()
+    pending.value = false
     return
   }
 
@@ -57,6 +62,7 @@ export const useAuthStore = defineStore('auth', () => {
     isAuth,
     isReady,
     user,
+    pending,
     login,
     loginAuto,
     logout,

@@ -7,7 +7,7 @@ import DashboardContentLayout from '@/layouts/dashboardContentLayout.vue'
 import { normalizeDate } from '@/shared/helpers/date'
 import { useTracksStore } from '@/store/useTracksStore'
 import { storeToRefs } from 'pinia'
-import { isRef, provide, reactive, ref, unref } from 'vue'
+import { provide, reactive, ref } from 'vue'
 import TrackEditor from '../../components/trackEditor/TrackEditor.vue'
 import type { Track } from '@/shared/schemes/track-schema'
 import type { ITunesTrack } from '@/shared/types/itunes'
@@ -16,8 +16,10 @@ import { trackAPI } from '@/api/track-api'
 import HdInput from '@/components/ui/hdInput/hdInput.vue'
 import HdBadge from '@/components/ui/hdBadge/hdBadge.vue'
 import HdContextMenu from '@/components/ui/hdContextMenu/hdContextMenu.vue'
-import { useMouse, useToggle } from '@vueuse/core'
+import { useToggle } from '@vueuse/core'
+import { initCoords, coords } from '@/components/ui/hdContextMenu/hdContextMenu'
 const tracksStore = useTracksStore()
+
 const {
   tracksByPage,
   page,
@@ -27,6 +29,7 @@ const {
   artistFilter,
   filteredCount,
   isShowPagination,
+  pending,
 } = storeToRefs(tracksStore)
 
 tracksStore.fetchTracks()
@@ -55,17 +58,11 @@ const columns = [
 
 const trackItem = ref<Track>()
 
-const { x, y } = useMouse()
-const coords = reactive({
-  x: 0,
-  y: 0,
-})
 const [isOpenContext, toggleContextState] = useToggle()
 const [isOpenEditor, toggleEditorState] = useToggle()
 
 const onContext = (item: Track) => {
-  coords.x = x.value
-  coords.y = y.value
+  initCoords()
   toggleContextState(true)
   trackItem.value = { ...item }
 }
@@ -87,6 +84,13 @@ const onCancel = () => {
   toggleEditorState(false)
 }
 
+const onDelete = () => {
+  tracks.value = tracks.value.filter(
+    (track) => track.id !== trackItem.value?.id
+  )
+  toggleContextState(false)
+}
+
 const onSetITunesTrack = (track: ITunesTrack) => {
   if (!trackItem.value) return
   const { artistName, previewUrl, artworkUrl60, trackName } = track
@@ -95,6 +99,7 @@ const onSetITunesTrack = (track: ITunesTrack) => {
   trackItem.value.cover = artworkUrl60
   trackItem.value.preview = previewUrl
 }
+
 provide('iTunesTrack', onSetITunesTrack)
 
 function changeTrack(track: Track) {
@@ -116,7 +121,11 @@ function changeTrack(track: Track) {
           type="warning"
           v-if="artistFilter.trim().length"
         />
-        <HdInput icon="search" v-model="artistFilter" />
+        <HdInput
+          icon="search"
+          placeholder="поиск треков"
+          v-model="artistFilter"
+        />
       </div>
     </DashboardContentHeaderLayout>
     <DashboardContentBodyLayout>
@@ -126,6 +135,7 @@ function changeTrack(track: Track) {
         :columns
         @on-context="onContext"
         :page
+        :pending
       >
         <template #cover-column="{ item }">
           <div class="track__cover">
@@ -141,7 +151,7 @@ function changeTrack(track: Track) {
       <HdPagination v-model="page" :page-count :total="filteredCount" />
     </DashboardContentFooterLayout>
   </DashboardContentLayout>
-  <Teleport to=".dashboard__content">
+  <Teleport to=".dashboard__content" defer>
     <TrackEditor
       v-if="trackItem && isOpenEditor"
       :track="trackItem"
@@ -150,7 +160,12 @@ function changeTrack(track: Track) {
     />
   </Teleport>
   <Teleport to=".dashboard__content" defer>
-    <HdContextMenu v-model="isOpenContext" :coords @on-edit="onEdit" />
+    <HdContextMenu
+      v-model="isOpenContext"
+      :coords
+      @on-edit="onEdit"
+      @on-delete="onDelete"
+    />
   </Teleport>
 </template>
 

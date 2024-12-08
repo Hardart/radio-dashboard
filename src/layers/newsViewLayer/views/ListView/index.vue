@@ -42,13 +42,11 @@ const columns = [
 </script>
 
 <template>
-  <h3 v-if="pending"><span>Загрузка...</span></h3>
-  <h1 v-else-if="error">{{ error }}</h1>
   <HdTable
-    v-else
     :columns
     :data="articlesFilteredByTitle"
     :link="{ basePath: '/news', itemKey: 'id' }"
+    :pending
   >
     <template #title-column="{ item }">
       <div>{{ item.title }}</div>

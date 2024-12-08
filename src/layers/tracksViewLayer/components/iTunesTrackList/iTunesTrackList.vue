@@ -25,7 +25,7 @@ const onSetITunesTrack = inject<(track: ITunesTrack) => void>('iTunesTrack')
       @click.prevent="onSetITunesTrack!(track)"
     >
       <div class="itunes-track__media">
-        <img :src="track.artworkUrl30" class="itunes-track__image" alt="" />
+        <img :src="track.artworkUrl60" class="itunes-track__image" alt="" />
       </div>
       <div class="itunes-track__info">
         <div class="itunes-track__artist">{{ track.artistName }}</div>

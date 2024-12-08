@@ -12,6 +12,7 @@ const { page = 1, perPage = 20 } = defineProps<{
   page?: number
   perPage?: number
   size?: 's' | 'l'
+  pending?: boolean
 }>()
 defineEmits(['on-context', 'on-item'])
 
@@ -42,7 +43,17 @@ const pageNumber = computed(() => (page === 1 ? 0 : (page - 1) * perPage))
         </th>
       </tr>
     </thead>
-    <tbody>
+    <tbody v-if="pending">
+      <tr v-for="_ in 20">
+        <td class="hd-table--center">
+          <span class="hd-table__placeholder"></span>
+        </td>
+        <td v-for="_ in columns">
+          <span class="hd-table__placeholder"></span>
+        </td>
+      </tr>
+    </tbody>
+    <tbody v-else>
       <RouterLink
         v-if="link"
         custom

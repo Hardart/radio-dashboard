@@ -8,7 +8,7 @@ import { computed, ref } from 'vue'
 export const useTracksStore = defineStore('tracks', () => {
   const [isTrackEditModalOpen, toggleEditTrackModalState] = useToggle()
 
-  const loading = ref(false)
+  const pending = ref(false)
   const tracks = ref<Track[]>([])
   const track = ref<Track>()
 
@@ -48,8 +48,10 @@ export const useTracksStore = defineStore('tracks', () => {
   const isShowPagination = computed(() => filteredCount.value > pageCount.value)
 
   async function fetchTracks() {
+    pending.value = true
     const res = await trackAPI.list()
     tracks.value = res
+    pending.value = false
   }
 
   return {
@@ -63,5 +65,6 @@ export const useTracksStore = defineStore('tracks', () => {
     artistFilter,
     filteredCount,
     isShowPagination,
+    pending,
   }
 })

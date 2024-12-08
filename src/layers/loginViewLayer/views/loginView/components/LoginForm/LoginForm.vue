@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import { computed, provide, reactive } from 'vue'
+import { computed, reactive } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/store/useAuthStore'
+import { userLoginSchema } from '@/shared/schemes/user-schema'
 import HdFormGroup from '@/components/ui/hdFormGroup/HdFormGroup.vue'
 import HdButton from '@/components/ui/hdButton/hdButton.vue'
+import HdForm from '@/components/ui/hdForm/HdForm.vue'
 import HdInput from '@/components/ui/hdInput/hdInput.vue'
-import { useFormValidation } from '@/composables/useFormValidation'
-import { userLoginSchema } from '@/shared/schemes/user-schema'
-const { errors, getZodErrors } = useFormValidation()
 const authStore = useAuthStore()
 const { isAuth } = storeToRefs(authStore)
 const router = useRouter()
@@ -18,11 +17,7 @@ const userData = reactive({
   password: '',
 })
 
-provide('form-errors', errors)
-
 const onSubmit = async () => {
-  await getZodErrors(userData, userLoginSchema)
-  if (errors.value.length) return
   await authStore.login(userData)
   if (isAuth.value) router.push({ name: 'home' })
 }
@@ -31,7 +26,12 @@ const isDisabled = computed(() => userData.email.trim().length < 3)
 </script>
 
 <template>
-  <form class="login-form" @submit.prevent="onSubmit">
+  <HdForm
+    class="login-form"
+    :state="userData"
+    :schema="userLoginSchema"
+    @on-submit="onSubmit"
+  >
     <HdFormGroup name="email" label="Логин" required>
       <HdInput
         class="login-form__input"
@@ -61,7 +61,7 @@ const isDisabled = computed(() => userData.email.trim().length < 3)
       type="submit"
       :disabled="isDisabled"
     />
-  </form>
+  </HdForm>
 </template>
 
 <style lang="scss" scoped src="./LoginForm.scss"></style>
