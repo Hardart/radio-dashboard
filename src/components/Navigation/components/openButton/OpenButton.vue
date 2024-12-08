@@ -7,8 +7,9 @@ defineEmits(['on-toggle'])
 </script>
 
 <template>
-  <div class="dashboard__open-btn">
+  <div class="dashboard__button" :class="isMenuOpen && 'open'">
     <HdButton
+      class="menu-button"
       icon="arrow-forward-ios"
       :icon-class="isMenuOpen ? 'arrow-reverse' : undefined"
       square

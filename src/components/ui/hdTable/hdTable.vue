@@ -11,6 +11,7 @@ const { page = 1, perPage = 20 } = defineProps<{
   }
   page?: number
   perPage?: number
+  size?: 's' | 'l'
 }>()
 defineEmits(['on-context', 'on-item'])
 
@@ -18,11 +19,18 @@ const pageNumber = computed(() => (page === 1 ? 0 : (page - 1) * perPage))
 </script>
 
 <template>
-  <table class="hd-table hd-table__small">
+  <table
+    class="hd-table"
+    :class="[size && `hd-table--${size}`, link && 'hd-table--link']"
+  >
     <thead>
       <tr>
-        <th>N</th>
-        <th v-for="column in columns" :key="column.key">
+        <th class="hd-table--width-shrink hd-table--center">N</th>
+        <th
+          v-for="column in columns"
+          :key="column.key"
+          :class="column.class && `hd-table--${column.class}`"
+        >
           <SortableButton
             v-if="column.sortable"
             :text="column.label ?? column.key"
@@ -43,8 +51,8 @@ const pageNumber = computed(() => (page === 1 ? 0 : (page - 1) * perPage))
         v-for="(item, i) in data"
         :key="item.id"
       >
-        <tr @click="navigate" class="hd-table__link">
-          <td>{{ (i + 1) * (page || 1) }}</td>
+        <tr @click="navigate">
+          <td class="hd-table--center">{{ (i + 1) * (page || 1) }}</td>
           <td
             v-for="column in columns"
             @contextmenu="$emit('on-context', item)"
@@ -60,11 +68,8 @@ const pageNumber = computed(() => (page === 1 ? 0 : (page - 1) * perPage))
           @click="$emit('on-item', item)"
           @contextmenu.prevent="$emit('on-context', item)"
         >
-          <td>{{ i + pageNumber + 1 }}</td>
-          <td
-            v-for="column in columns"
-            :class="column.class && `hd-table__${column.class}`"
-          >
+          <td class="hd-table--center">{{ i + pageNumber + 1 }}</td>
+          <td v-for="column in columns">
             <slot :name="`${column.key}-column`" :item>
               {{ item[column.key] }}
             </slot>

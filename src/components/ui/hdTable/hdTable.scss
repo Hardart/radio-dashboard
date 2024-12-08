@@ -1,60 +1,129 @@
+// .hd-table {
+//   min-width: 100%;
+//   border-collapse: collapse;
+//   table-layout: fixed;
+
+//   thead {
+//     th {
+//       min-width: min-content;
+//       padding: 14px 16px;
+//       font-size: var(--fs-m);
+//       font-weight: var(--fw-l);
+//       text-align: left;
+
+//       &:first-child {
+//         width: 44px;
+//         min-width: 44px;
+//         padding-right: 0;
+//         text-align: center;
+//       }
+
+//       &:last-child {
+//         width: min-content;
+//       }
+//     }
+//   }
+
+//   tbody {
+//     tr {
+//       &:hover {
+//         background-color: hsla(var(--foreground), 0.02);
+//       }
+//     }
+
+//     td {
+//       padding: 12px 16px;
+//       border-top: 1px solid var(--color-border);
+//       font-size: var(--fs-s);
+//       user-select: none;
+//       -webkit-user-select: none;
+//       cursor: default;
+
+//       &:first-child {
+//         width: 20px;
+//         padding-right: 5px;
+//         text-align: center;
+//       }
+//     }
+//   }
+
+//   &__auto-width {
+//     max-width: 0;
+//   }
+
+//   &__small {
+
+//     tbody td {
+//       padding: 8px 12px;
+//     }
+//   }
+
+//   &__link {
+//     cursor: pointer;
+//   }
+// }
+
 .hd-table {
-  min-width: 100%;
+  --padding: 16px 12px;
+
+  width: 100%;
   border-collapse: collapse;
-  table-layout: fixed;
+  border-spacing: 0;
 
-  thead {
-    th {
-      min-width: min-content;
-      padding: 14px 16px;
-      font-size: var(--fs-m);
-      font-weight: var(--fw-l);
-      text-align: left;
+  & th {
+    padding: 16px 12px;
+    text-align: left;
+    font-size: var(--fs-s);
+    font-weight: var(--fw-l);
+    color: hsl(var(--foreground), 0.6);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
 
-      &:first-child {
-        width: 44px;
-        min-width: 44px;
-        padding-right: 0;
-        text-align: center;
-      }
+  & td {
+    padding: var(--padding);
+    user-select: none;
+    -webkit-user-select: none;
+  }
 
-      &:last-child {
-        width: min-content;
-      }
+  & tbody {
+    cursor: default;
+
+    tr:hover {
+      background-color: hsl(var(--foreground), 0.02);
     }
   }
 
-  tbody {
-    tr {
-      &:hover {
-        background-color: hsla(var(--foreground), 0.02);
-      }
-    }
-
-    td {
-      padding: 12px 16px;
-      border-top: 1px solid var(--color-border);
-      font-size: var(--fs-s);
-
-      &:first-child {
-        max-width: 0px;
-        padding-right: 5px;
-        text-align: center;
-      }
-    }
-  }
-
-  &__auto-width {
-    max-width: 0;
-  }
-
-  &__small {
-    tbody td {
-      padding: 8px 12px;
-    }
-  }
-
-  &__link {
+  &--link tbody {
     cursor: pointer;
+  }
+
+  #{&} &--center {
+    text-align: center;
+  }
+
+  &--s {
+    --padding: 8px 10px;
+  }
+
+  &--width-shrink {
+    width: 1px;
+  }
+
+  &--width-s {
+    width: 150px;
+  }
+
+  &--width-m {
+    width: 300px;
+  }
+
+  &--width-l {
+    width: 450px;
+  }
+
+  &--width-expand {
+    max-width: 0;
+    min-width: 150px;
   }
 }

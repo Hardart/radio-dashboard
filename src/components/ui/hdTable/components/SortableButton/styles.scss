@@ -1,21 +1,31 @@
 .sortable-button {
   display: inline-flex;
   align-items: center;
-  margin-left: -8px;
-  padding-left: 8px;
+  margin-left: -10px;
+  padding-left: 10px;
   padding-right: 5px;
-  font-size: var(--fs-m);
+  font-size: var(--fs-s);
   font-weight: var(--fw-l);
+  color: hsl(var(--foreground), 0.6);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  user-select: none;
+  -webkit-user-select: none;
 
   &:hover {
     // @include set-color($main-color, 3, 15);
     color: var(--color-text);
-    background-color: _scaleAlpha('primary', -90, -100);
+    background-color: hsl(var(--foreground), 0.03) !important;
   }
 
   span {
     font-size: inherit;
     font-weight: inherit;
     line-height: 25px;
+  }
+
+  :deep(.sortable-button__icon) {
+    width: 18px;
+    height: 18px;
   }
 }

@@ -14,24 +14,29 @@ const columns = [
     key: 'title',
     label: 'Название новости',
     sortable: true,
+    class: 'width-expand',
   },
   {
     key: 'category',
     label: 'Категория',
+    class: 'width-m',
   },
   {
     key: 'createdAt',
     label: 'Дата создания',
     sortable: true,
+    class: 'width-m',
   },
   {
     key: 'publishAt',
     label: 'Дата публикации',
     sortable: true,
+    class: 'width-m',
   },
   {
     key: 'status',
-    label: 'Статус публикации',
+    label: 'Статус',
+    class: 'width-s',
   },
 ]
 </script>

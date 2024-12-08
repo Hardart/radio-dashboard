@@ -12,6 +12,7 @@ defineProps<{
     :text
     flip-icon="sort"
     class="sortable-button"
+    flip-icon-class="sortable-button__icon"
     @click="toggleSort(sortKey)"
   />
 </template>

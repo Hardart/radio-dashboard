@@ -16,7 +16,7 @@
     z-index: 200;
 
     &--open {
-      width: 200px;
+      width: 180px;
     }
 
     &--main {
@@ -26,15 +26,46 @@
     }
   }
 
-  &__open-btn {
-    display: flex;
-    justify-content: end;
-    width: inherit;
-    padding-right: 5px;
+  &__button {
+    position: relative;
 
-    & .arrow-reverse {
-      transform: rotate(180deg);
+    display: inline-flex;
+    margin-left: auto;
+    margin-bottom: 5px;
+    width: max-content;
+
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+    background-color: hsl(var(--foreground), 0.03);
+
+    &:hover {
+      outline: 1px solid var(--color-border);
     }
+
+    & .menu-button:hover {
+      background-color: transparent !important;
+    }
+
+    .hd-icon.hd-button__icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    &.open {
+      .arrow-reverse {
+        transform: rotate(180deg);
+      }
+    }
+
+    // & .menu-button {
+    //   margin-left: 5px;
+
+    //   &:hover {
+    //     background-color: transparent !important;
+    //   }
+    // }
+
+    // &
   }
 
   &__wrapper {

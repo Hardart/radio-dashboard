@@ -1,19 +1,42 @@
 .context-menu {
   position: fixed;
-  padding: 10px 20px;
+  padding: 15px;
   margin: auto;
   background-color: hsl(var(--foreground), 0.1);
-  outline: 1px solid hsl(var(--color-border));
+  border: 1px solid var(--color-border);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
+  border-radius: 8px;
   z-index: 9999;
 
-  &__item {
-    font-size: var(--fs-xs);
-    font-weight: var(--fw-m);
+  & > &__item ~ &__item {
+    margin-top: 10px;
+  }
 
-    & + & {
-      margin-top: 5px;
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 30px 5px 15px;
+    color: hsl(var(--foreground), 0.6);
+    font-size: var(--fs-s);
+    font-weight: var(--fw-l);
+    border-radius: 6px;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: pointer;
+
+    &:hover {
+      color: hsl(var(--foreground));
+      background-color: hsl(var(--foreground), 0.05);
+    }
+
+    &--danger {
+      color: hsl(var(--color-danger), 0.6);
+
+      &:hover {
+        color: hsl(var(--color-danger));
+      }
     }
   }
 }

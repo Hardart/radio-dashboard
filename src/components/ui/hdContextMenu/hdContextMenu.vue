@@ -1,25 +1,17 @@
 <script lang="ts" setup>
+import SvgIcon from '@/components/SvgIcon/SvgIcon.vue'
 import { useClickOutside } from '@/composables/useClickOutside'
-import { usePointerCoords } from '@/composables/usePointerCoords'
-import { computed, provide, ref, type Ref } from 'vue'
+
+import { ref } from 'vue'
+
 const context = ref()
 const isOpen = defineModel({ required: true })
 
 defineProps<{
-  contextItem: unknown
+  coords: { x: number; y: number }
 }>()
 useClickOutside(context, () => (isOpen.value = false))
 defineEmits(['on-edit', 'on-delete'])
-
-const x = ref()
-const y = ref()
-
-function onDocumentClick() {
-  document.body.addEventListener('pointerdown', (event: PointerEvent) => {
-    x.value = event.pageX
-  })
-}
-onDocumentClick()
 </script>
 
 <template>
@@ -27,12 +19,19 @@ onDocumentClick()
     v-if="isOpen"
     ref="context"
     class="context-menu"
-    :style="{ left: `${x}px` }"
+    :style="{ left: `${coords.x}px`, top: `${coords.y}px` }"
   >
-    <li class="context-menu__item" @click="$emit('on-edit', contextItem)">
-      {{ contextItem }}
+    <li class="context-menu__item" @click="$emit('on-edit')">
+      <SvgIcon icon="edit" class="context-menu__icon" />
+      <span>Редактировать</span>
     </li>
-    <li class="context-menu__item" @click="$emit('on-delete')">Удалить</li>
+    <li
+      class="context-menu__item context-menu__item--danger"
+      @click="$emit('on-delete')"
+    >
+      <SvgIcon icon="delete" class="context-menu__icon" />
+      <span>Удалить</span>
+    </li>
   </ul>
 </template>
 

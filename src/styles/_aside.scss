@@ -33,10 +33,11 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-top: 20px;
   margin-left: 5px;
 
   &__main {
-    min-width: 35px;
+    min-width: 33px;
   }
 
   &__text {

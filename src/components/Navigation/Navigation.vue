@@ -19,7 +19,7 @@ const links: Link[] = [
   { id: 1, icon: 'dashboard', label: 'Главная', to: '/' },
   { id: 2, icon: 'category', label: 'Категории', to: '/categories' },
   { id: 3, icon: 'news', label: 'Новости', to: '/news' },
-  { id: 4, icon: 'settings', label: 'Треки', to: '/tracks' },
+  { id: 4, icon: 'music-library', label: 'Треки', to: '/tracks' },
   { id: 5, icon: 'gallery', label: 'Галерея', to: '/gallery' },
   // {id: 6, icon: '', label: '', to: '/'},
   // {id: 7, icon: '', label: '', to: '/'},
