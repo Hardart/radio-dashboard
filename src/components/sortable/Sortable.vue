@@ -1,13 +1,17 @@
 <script lang="ts" setup>
-import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { onMounted, onUnmounted, onUpdated, ref, watch } from 'vue'
 import { Sortable } from './Sortable'
 
 const sortableItems = defineModel<any[]>({ required: true })
 const sortable = new Sortable()
 
-const { selector, handle } = defineProps<{
-  itemKey: string
-  selector: string
+const {
+  selector = '[sortable-item]',
+  handle,
+  itemKey = 'id',
+} = defineProps<{
+  itemKey?: string
+  selector?: string
   handle?: string
 }>()
 const sortableContainer = ref<HTMLElement | null>(null)
