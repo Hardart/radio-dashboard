@@ -41,8 +41,6 @@ const onPointerDown = (id: number) => {
   if (isDragStart.value) return
 
   selectedId.value = id
-  console.log(id)
-
   clone.id = id
   isDragStart.value = true
   window.addEventListener('pointerup', onPointerUp)
@@ -65,7 +63,7 @@ const onPointerEnter = (id: number) => {
 
   const [swapBoundsId] = $sortableElements.value.splice(selectedId.value, 1)
   $sortableElements.value.splice(id, 0, swapBoundsId)
-
+  isSetStyles.value = false
   selectedId.value = id
 }
 
