@@ -1,0 +1,41 @@
+.sortable {
+  position: relative;
+
+  &__item {
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: grab;
+
+    &--absolute {
+      position: absolute;
+      pointer-events: none;
+      transition-property: top, left;
+      transition-duration: 200ms;
+      transition-timing-function: ease;
+    }
+
+    &--selected {
+      opacity: 0;
+    }
+
+    &--clone {
+      position: absolute;
+      pointer-events: none;
+    }
+
+    &--animate {
+      transition-property: top, left;
+      transition-duration: 200ms;
+      transition-timing-function: ease;
+    }
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 200px 200px 1fr;
+
+  .text-xs {
+    font-size: var(--fs-2xs);
+  }
+}
