@@ -16,6 +16,10 @@ async function onRefreshResponseError({ response }: ResponseCtx) {
   authStore.clearTokens()
 }
 
+async function onRefreshResponse({ response }: ResponseCtx) {
+  console.log('refresh response')
+}
+
 export const onDefaultResponseError = async ({ response }: ResponseCtx) => {
   const toast = useNotifications()
   const authStore = useAuthStore()
@@ -25,12 +29,16 @@ export const onDefaultResponseError = async ({ response }: ResponseCtx) => {
     credentials: 'include',
     method: 'POST',
     onResponseError: onRefreshResponseError,
+    onResponse: onRefreshResponse,
   }
 
   switch (response.status) {
     case 401:
       try {
         const res = await ofetch('/refresh', refreshOptions)
+
+        console.log(res.data)
+
         if (res.status === 'success') {
           authStore.setUserFromToken(res.data.accessToken)
         }

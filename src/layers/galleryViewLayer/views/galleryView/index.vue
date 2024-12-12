@@ -53,7 +53,6 @@ fetchGallery()
               alt=""
               v-if="item.src"
             />
-            <!-- <div class="gallery-slide__placeholder"></div> -->
 
             <h3 class="gallery-slide__title">{{ item.title }}</h3>
 
@@ -85,7 +84,6 @@ fetchGallery()
               alt=""
               v-if="data.src"
             />
-            <!-- <div class="gallery-slide__placeholder"></div> -->
 
             <h3 class="gallery-slide__title">{{ data.title }}</h3>
 

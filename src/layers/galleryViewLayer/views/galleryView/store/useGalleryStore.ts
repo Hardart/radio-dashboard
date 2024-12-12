@@ -27,8 +27,11 @@ export const useGalleryStore = defineStore('gallery', () => {
   }
 
   async function onAdd() {
-    slideFormData.id = `${slides.value.length + 1}`
-    slides.value?.push({ ...slideFormData })
+    slideFormData.priority = slides.value.length
+    const res = await galleryAPI.addOne(slideFormData)
+    if (typeof res === 'undefined') return onCancel()
+
+    slides.value?.push(res)
     onCancel()
   }
 

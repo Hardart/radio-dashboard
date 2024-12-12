@@ -9,8 +9,9 @@
 .gallery-slide {
   position: relative;
   display: flex;
-  width: 308px;
-  aspect-ratio: 7 / 4;
+  width: 350px;
+  background-color: hsl(var(--foreground), 0.1);
+  aspect-ratio: 7 / 3;
 
   &:hover {
     .gallery-slide__handle {
@@ -68,11 +69,5 @@
     position: absolute;
     top: 0;
     z-index: 2;
-  }
-}
-
-.sortable__clone {
-  .gallery-slide__handle {
-    transform: translate(-50%, 0);
   }
 }
