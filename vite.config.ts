@@ -7,6 +7,7 @@ import createTypeIcon from './vite-pugins/createTypeIcon'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue(), svgLoader(), createTypeIcon()],
+
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
