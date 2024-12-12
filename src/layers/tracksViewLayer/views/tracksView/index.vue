@@ -109,7 +109,7 @@ function changeTrack(track: Track) {
 </script>
 
 <template>
-  <DashboardContentLayout header footer>
+  <DashboardContentLayout>
     <DashboardContentHeaderLayout>
       <div class="dashboard__header--left">
         <h3 class="dashboard__header-title">Треки</h3>
@@ -133,13 +133,13 @@ function changeTrack(track: Track) {
         size="s"
         :data="tracksByPage"
         :columns
-        @on-context="onContext"
         :page
         :pending
+        @on-context="onContext"
       >
         <template #cover-column="{ item }">
           <div class="track__cover">
-            <img :src="item.cover" />
+            <img v-if="item.cover" :src="item.cover" />
           </div>
         </template>
         <template #createdAt-column="{ item }">

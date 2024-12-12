@@ -14,7 +14,7 @@ const { articlesCount } = storeToRefs(newsStore)
 </script>
 
 <template>
-  <DashboardContentLayout header>
+  <DashboardContentLayout>
     <DashboardContentHeaderLayout>
       <div class="dashboard__header--left">
         <h3 class="dashboard__header-title">Новости</h3>
