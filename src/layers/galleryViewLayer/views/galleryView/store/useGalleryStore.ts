@@ -28,6 +28,7 @@ export const useGalleryStore = defineStore('gallery', () => {
 
   async function onAdd() {
     slideFormData.priority = slides.value.length
+    slideFormData.src = slideFormData.src.replace('350x150', '1536x658')
     const res = await galleryAPI.addOne(slideFormData)
     if (typeof res === 'undefined') return onCancel()
 
