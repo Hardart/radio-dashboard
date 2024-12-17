@@ -17,12 +17,14 @@ async function onRefreshResponseError({ response }: ResponseCtx) {
 }
 
 async function onRefreshResponse({ response }: ResponseCtx) {
-  console.log('refresh response')
+  if (response.status === 200) {
+    const authStore = useAuthStore()
+    authStore.setUserFromToken(response._data.data.accessToken)
+  }
 }
 
 export const onDefaultResponseError = async ({ response }: ResponseCtx) => {
   const toast = useNotifications()
-  const authStore = useAuthStore()
 
   const refreshOptions: FetchOptions = {
     baseURL: '/api',
@@ -35,17 +37,10 @@ export const onDefaultResponseError = async ({ response }: ResponseCtx) => {
   switch (response.status) {
     case 401:
       try {
-        const res = await ofetch('/refresh', refreshOptions)
-
-        console.log(res.data)
-
-        if (res.status === 'success') {
-          authStore.setUserFromToken(res.data.accessToken)
-        }
+        await ofetch('/refresh', refreshOptions)
       } catch (error) {
         console.error(error)
       }
-
       break
 
     case 500:

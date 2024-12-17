@@ -56,6 +56,11 @@ const router = createRouter({
       name: 'login',
       component: LoginView,
     },
+    {
+      path: '/settings',
+      component: () =>
+        import(`@/layers/settingsViewLayer/views/settingsView/index.vue`),
+    },
   ],
 })
 

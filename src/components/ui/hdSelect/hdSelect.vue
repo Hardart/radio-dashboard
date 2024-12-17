@@ -32,6 +32,7 @@ const {
   options: string[] | ObjectItem[]
   multiple?: boolean
   label?: string
+  fullWidth?: boolean
 }>()
 const [isOpen, toggleOpen] = useToggle()
 
@@ -167,7 +168,11 @@ const printSelected = computed(() => determineOptions(selected))
 </script>
 
 <template>
-  <div class="hd-select" :class="isOpen && 'hd-select--open'" ref="$select">
+  <div
+    class="hd-select"
+    :class="[isOpen && 'hd-select--open', fullWidth && 'hd-select--full-width']"
+    ref="$select"
+  >
     <SelectButton :text="printSelected" @click="toggleOpen()" />
 
     <div class="hd-select__wrapper" v-if="isOpen">

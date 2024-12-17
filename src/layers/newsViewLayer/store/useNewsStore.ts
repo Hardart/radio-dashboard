@@ -6,7 +6,9 @@ import type { Article } from '@/shared/schemes/article-schema'
 import type { ArticleForm } from '@/shared/schemes/article-form-schema'
 import type { Category } from '@/shared/schemes/category-schema'
 import transcript from '@/shared/helpers/slugTranscript'
+import router from '@/router'
 
+import { isEqual, cloneDeep } from 'lodash'
 export const useNewsStore = defineStore('news', () => {
   const search = ref('')
 
@@ -26,7 +28,11 @@ export const useNewsStore = defineStore('news', () => {
     content: '',
   })
 
+  let toEqualForm: ArticleForm = cloneDeep(articleForm)
+
   const articlesCount = computed(() => articles.value.length)
+
+  const isFormNotChanged = computed(() => isEqual(articleForm, toEqualForm))
 
   const sortedArticles = computed(() =>
     articles.value?.sort((a, b) => {
@@ -60,6 +66,7 @@ export const useNewsStore = defineStore('news', () => {
     const response = await articlesAPI.byId(id)
     article.value = response.article
     initArticleForm(article, articleForm)
+    toEqualForm = cloneDeep(articleForm)
     pending.value = false
   }
 
@@ -68,26 +75,28 @@ export const useNewsStore = defineStore('news', () => {
     pending.value = true
     const articleData = await articlesAPI.updateOne(input)
     pending.value = false
-    if (!articleData) return console.warn('Данные не получены')
+    if (!articleData) return
     articles.value = articles.value.filter((item) => item.id !== input.id)
     articles.value.push(articleData)
   }
 
-  async function addArticle(input: ArticleForm) {
-    input.slug = transcript(input.title)
+  async function addArticle() {
+    articleForm.slug = transcript(articleForm.title)
     pending.value = true
-    const articleData = await articlesAPI.addOne(input)
+    const articleData = await articlesAPI.addOne(articleForm)
     pending.value = false
-    if (!articleData) return console.warn('Данныеrr не получены')
+    if (!articleData) return
     articles.value.push(articleData)
+    router.push(`/news/${articleData.id}`)
   }
 
   async function deleteArticle(id: string) {
     pending.value = true
     const data = await articlesAPI.deleteOne({ id })
     pending.value = false
-    if (!data) return console.warn('Данные не получены')
+    if (!data) return
     articles.value = articles.value.filter((item) => item.id !== id)
+    router.push('/news')
   }
 
   async function fetchBaseData() {
@@ -119,6 +128,8 @@ export const useNewsStore = defineStore('news', () => {
     tags,
     categories,
     articlesCount,
+    isFormNotChanged,
+    toEqualForm,
     fetchBaseData,
     fetchArticles,
     fetchArticle,

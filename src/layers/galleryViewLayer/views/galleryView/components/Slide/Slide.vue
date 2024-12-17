@@ -27,8 +27,6 @@ defineEmits(['onAdd', 'onEdit', 'onCancel'])
       </div>
     </div>
     <div class="slide__body">
-      <HdInput placeholder="Заголовок" v-model="slide.title" />
-      <HdInput placeholder="Описание" v-model="slide.subtitle" />
       <HdInput placeholder="Ссылка" v-model="slide.to" />
     </div>
     <div class="slide__footer">

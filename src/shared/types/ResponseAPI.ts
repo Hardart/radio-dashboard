@@ -3,6 +3,7 @@ import type { Category } from '@/shared/schemes/category-schema'
 import type { User } from '@/shared/schemes/user-schema'
 import type { Slide } from '@/shared/schemes/slide-schema'
 import type { Track } from '../schemes/track-schema'
+import type { Address, BaseContact, Mail, Phone } from './contact'
 
 export interface CustomFetchOptions {
   url: string
@@ -46,4 +47,13 @@ export declare namespace ResponseApi {
   type SlideList = { slides: Slide[] }
   type SlideSingle = { slide: Slide }
   type SlideDelete = { id: string }
+  type BaseContacts = { phones: Phone[]; emails: Mail[]; addresses: Address[] }
+  type PhoneSingle = { phone: Phone }
+  type MailSingle = { mail: Mail }
+  type AddressSingle = { address: Address }
+
+  namespace SettingAPI {
+    type Footer = { contact: BaseContact }
+    type Contacts = { contact: BaseContact }
+  }
 }

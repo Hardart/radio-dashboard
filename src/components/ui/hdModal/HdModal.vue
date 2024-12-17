@@ -1,13 +1,21 @@
 <script lang="ts" setup>
-defineProps<{
-  isOpen: boolean
-}>()
+import HdButton from '../hdButton/hdButton.vue'
+
+const isOpen = defineModel({ required: true })
 </script>
 
 <template>
   <Teleport to=".dashboard" defer>
     <Transition>
-      <div class="modal" v-if="isOpen">
+      <div class="modal" v-if="isOpen" tabindex="-1">
+        <HdButton
+          class="modal__close"
+          icon="close"
+          color="danger"
+          variant="solid"
+          square
+          @click="isOpen = !isOpen"
+        />
         <slot />
       </div>
     </Transition>

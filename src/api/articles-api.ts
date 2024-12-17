@@ -15,7 +15,6 @@ export const articlesAPI = {
   async list() {
     const { data } = await useHdFetch<ResponseApi.ArticleList>('/article-list')
     const articles = data.value?.articles.map(addStatus) || []
-
     return { articles }
   },
 
@@ -31,46 +30,32 @@ export const articlesAPI = {
   },
 
   async addOne(body: ArticleForm) {
-    const toast = useNotifications()
     const { data } = await useHdFetch<ResponseApi.ArticleSingle>(
       '/article-add',
-      { body }
+      { body },
+      { text: 'Новость успешно добавлена' }
     )
-    if (data.value)
-      toast.add({
-        text: 'Новость успешно добавлена',
-        duration: 3000,
-        status: 'success',
-        icon: 'check',
-      })
+
     return data.value ? addStatus(data.value.article) : undefined
   },
 
   async updateOne(body: ArticleForm) {
-    const toast = useNotifications()
     const { data } = await useHdFetch<ResponseApi.ArticleSingle>(
       '/article-update',
-      { body }
+      { body },
+      { text: 'Новость успешно обновлена' }
     )
-    if (data.value)
-      toast.add({
-        text: 'Новость успешно обновлена',
-        duration: 3000,
-        status: 'success',
-        icon: 'check',
-      })
 
     return data.value ? addStatus(data.value.article) : undefined
   },
 
   async deleteOne(body: { id: string }) {
-    const toast = useNotifications()
     const { data } = await useHdFetch<ResponseApi.ArticleSingle>(
       '/article-delete',
-      { body }
+      { body },
+      { text: 'Новость успешно удалена' }
     )
-    if (data.value)
-      toast.add({ text: 'Новость успешно обновлена', duration: 3000 })
+
     return data.value?.article
   },
 }

@@ -1,0 +1,20 @@
+<script lang="ts" setup>
+import HdButton from '@/components/ui/hdButton/hdButton.vue'
+import DashboardContentHeaderLayout from '@/layouts/dashboardContentHeaderLayout.vue'
+defineEmits(['toggle-phone', 'toggle-mail', 'toggle-address'])
+</script>
+
+<template>
+  <DashboardContentHeaderLayout>
+    <div class="dashboard__header--left">
+      <h3 class="dashboard__header-title">Настройки</h3>
+    </div>
+    <div class="dashboard__header--right">
+      <HdButton icon="phone-add" square @click="$emit('toggle-phone')" />
+      <HdButton icon="mail" square @click="$emit('toggle-mail')" />
+      <HdButton icon="address-add" square @click="$emit('toggle-address')" />
+    </div>
+  </DashboardContentHeaderLayout>
+</template>
+
+<style lang="scss" scoped src="" />

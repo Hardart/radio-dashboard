@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import HdBadge from '@ui/hdBadge/hdBadge.vue'
-import { useNewsStore } from '@/store/useNewsStore'
+import { useNewsStore } from '@/layers/newsViewLayer/store/useNewsStore'
 import { getStatus } from '@/shared/helpers/set-status'
 import { normalizeDate } from '@/shared/helpers/date'
 import HdTable from '@/components/ui/hdTable/hdTable.vue'

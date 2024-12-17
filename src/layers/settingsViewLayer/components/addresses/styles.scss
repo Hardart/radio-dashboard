@@ -1,0 +1,7 @@
+.contact-add-form {
+  display: grid;
+  grid-template-columns: 1fr 500px;
+  align-items: start;
+  column-gap: 20px;
+  background-color: hsl(var(--background));
+}

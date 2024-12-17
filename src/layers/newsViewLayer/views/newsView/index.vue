@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import HdButton from '@ui/hdButton/hdButton.vue'
-import { useNewsStore } from '@/store/useNewsStore'
+import { useNewsStore } from '@/layers/newsViewLayer/store/useNewsStore'
 import DashboardContentLayout from '@/layouts/dashboardContentLayout.vue'
 import DashboardContentBodyLayout from '@/layouts/dashboardContentBodyLayout.vue'
 import DashboardContentHeaderLayout from '@/layouts/dashboardContentHeaderLayout.vue'
@@ -28,7 +28,7 @@ const { articlesCount } = storeToRefs(newsStore)
         @click="$router.push('/news/create')"
       />
     </DashboardContentHeaderLayout>
-    <DashboardContentBodyLayout>
+    <DashboardContentBodyLayout no-padding>
       <RouterView />
     </DashboardContentBodyLayout>
   </DashboardContentLayout>

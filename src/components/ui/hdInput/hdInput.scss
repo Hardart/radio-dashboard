@@ -63,4 +63,12 @@ input {
       width: 60px;
     }
   }
+
+  &--s {
+    max-width: 40px;
+  }
+
+  &--l {
+    max-width: 140px;
+  }
 }

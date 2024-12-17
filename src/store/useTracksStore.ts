@@ -14,11 +14,14 @@ export const useTracksStore = defineStore('tracks', () => {
 
   const page = ref(1)
   const pageCount = ref(20)
-
   const artistFilter = ref('')
+  const withCover = ref(false)
 
   const filteredTracks = computed(() => {
-    const filtered = tracks.value.filter(
+    const withoutCoverTracks = withCover.value
+      ? tracks.value.filter((track) => track.cover.charAt(0) == '/')
+      : tracks.value
+    const filtered = withoutCoverTracks.filter(
       (track) =>
         track.artistName
           .toLowerCase()
@@ -66,5 +69,6 @@ export const useTracksStore = defineStore('tracks', () => {
     filteredCount,
     isShowPagination,
     pending,
+    withCover,
   }
 })

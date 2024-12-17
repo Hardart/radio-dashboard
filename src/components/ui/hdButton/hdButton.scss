@@ -208,13 +208,31 @@
 
   &__icon,
   &__flip-icon {
-    width: 22px;
-    height: 22px;
     color: inherit;
     pointer-events: none;
   }
 
   &--square {
     padding: 5px;
+  }
+
+  &--xs {
+    padding: 5px 10px;
+    font-size: var(--fs-xs);
+    line-height: 8px;
+
+    &:focus:not(&:disabled) {
+      outline-width: 1px;
+    }
+  }
+
+  &--s {
+    padding: 5px 12px;
+    font-size: var(--fs-s);
+    line-height: 10px;
+
+    &:focus:not(&:disabled) {
+      outline-width: 1px;
+    }
   }
 }

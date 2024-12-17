@@ -5,6 +5,10 @@
   display: inline-block;
   width: clamp(200px, 15rem, 400px);
 
+  &--full-width {
+    width: 100%;
+  }
+
   &__wrapper {
     position: absolute;
     width: 100%;

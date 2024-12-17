@@ -33,7 +33,9 @@ const imageAlt = computed(
 
       <ul class="user-menu__list">
         <li class="user-menu__item">Профиль</li>
-        <li class="user-menu__item">Настройки</li>
+        <RouterLink custom to="/settings" v-slot="{ navigate }">
+          <li class="user-menu__item" @click="navigate">Настройки</li>
+        </RouterLink>
         <RouterLink custom to="/login" v-slot="{ navigate }">
           <li class="user-menu__item" @click="logout(navigate)">Выйти</li>
         </RouterLink>

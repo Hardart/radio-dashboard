@@ -7,7 +7,7 @@ import DashboardContentLayout from '@/layouts/dashboardContentLayout.vue'
 import { normalizeDate } from '@/shared/helpers/date'
 import { useTracksStore } from '@/store/useTracksStore'
 import { storeToRefs } from 'pinia'
-import { provide, reactive, ref } from 'vue'
+import { provide, ref } from 'vue'
 import TrackEditor from '../../components/trackEditor/TrackEditor.vue'
 import type { Track } from '@/shared/schemes/track-schema'
 import type { ITunesTrack } from '@/shared/types/itunes'
@@ -18,6 +18,7 @@ import HdBadge from '@/components/ui/hdBadge/hdBadge.vue'
 import HdContextMenu from '@/components/ui/hdContextMenu/hdContextMenu.vue'
 import { useToggle } from '@vueuse/core'
 import { initCoords, coords } from '@/components/ui/hdContextMenu/hdContextMenu'
+import HdSwitch from '@/components/ui/hdSwitch/hdSwitch.vue'
 const tracksStore = useTracksStore()
 
 const {
@@ -30,6 +31,7 @@ const {
   filteredCount,
   isShowPagination,
   pending,
+  withCover,
 } = storeToRefs(tracksStore)
 
 tracksStore.fetchTracks()
@@ -126,9 +128,10 @@ function changeTrack(track: Track) {
           placeholder="поиск треков"
           v-model="artistFilter"
         />
+        <HdSwitch v-model="withCover" />
       </div>
     </DashboardContentHeaderLayout>
-    <DashboardContentBodyLayout>
+    <DashboardContentBodyLayout no-padding>
       <HdTable
         size="s"
         :data="tracksByPage"

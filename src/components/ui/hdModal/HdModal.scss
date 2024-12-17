@@ -9,6 +9,12 @@
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
   z-index: 999;
+
+  &__close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
 }
 
 .v-enter-active,

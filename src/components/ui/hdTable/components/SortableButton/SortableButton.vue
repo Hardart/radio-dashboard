@@ -3,7 +3,7 @@ import HdButton from '@ui/hdButton/hdButton.vue'
 import { toggleSort } from '@/shared/helpers/sort-articles'
 defineProps<{
   text: string
-  sortKey: 'title' | 'createdAt' | 'status' | 'category'
+  sortKey: string
 }>()
 </script>
 

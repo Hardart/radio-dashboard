@@ -16,6 +16,8 @@ const articleForm = defineModel<ArticleForm>({ required: true })
 defineProps<{
   categories: Category[]
   tags: string[]
+  loading?: boolean
+  isSame?: boolean
 }>()
 
 defineEmits(['on-submit', 'on-delete'])
@@ -90,6 +92,7 @@ defineEmits(['on-submit', 'on-delete'])
           v-if="articleForm.id"
         />
         <HdButton
+          :disabled="loading || isSame"
           :text="articleForm.id ? 'Обновить' : 'Сохранить'"
           color="success"
           type="submit"

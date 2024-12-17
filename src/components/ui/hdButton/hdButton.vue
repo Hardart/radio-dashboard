@@ -17,6 +17,7 @@ const {
   disabled?: boolean
   square?: boolean
   type?: 'button' | 'submit'
+  size?: 'xs' | 's' | 'l' | 'xl'
   pending?: boolean
 }>()
 </script>
@@ -24,7 +25,11 @@ const {
 <template>
   <button
     class="hd-button"
-    :class="[`hd-button--${color}-${variant}`, square && 'hd-button--square']"
+    :class="[
+      `hd-button--${color}-${variant}`,
+      square && 'hd-button--square',
+      size && `hd-button--${size}`,
+    ]"
     :type
     :disabled="disabled || pending"
   >

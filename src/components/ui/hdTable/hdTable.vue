@@ -1,9 +1,14 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import SortableButton from './components/SortableButton/SortableButton.vue'
-
+type TableColumn = {
+  key: string
+  label?: string
+  sortable?: boolean
+  class?: string
+}
 const { page = 1, perPage = 20 } = defineProps<{
-  columns: any[]
+  columns: TableColumn[]
   data: any[]
   link?: {
     basePath: string

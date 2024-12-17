@@ -11,13 +11,14 @@ defineProps<{
   placeholder?: string
   requried?: boolean
   type?: InputTypeHTMLAttribute
+  size?: 'xs' | 's' | 'l' | 'xl'
 }>()
 
 const id = inject<string | undefined>('input-id', undefined)
 </script>
 
 <template>
-  <div class="hd-input">
+  <div class="hd-input" :class="size && `hd-input--${size}`">
     <div class="hd-input__container">
       <span class="hd-input__icon" v-if="icon">
         <SvgIcon :icon :class="iconClass" />

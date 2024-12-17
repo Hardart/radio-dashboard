@@ -1,7 +1,7 @@
 import { ref } from 'vue'
-
+type ColumnKey = 'title' | 'createdAt' | 'status' | 'category'
 interface SortBy {
-  column: 'title' | 'createdAt' | 'status' | 'category'
+  column: ColumnKey
   direction: boolean
 }
 
@@ -10,9 +10,7 @@ export const sort = ref<SortBy>({
   direction: false,
 })
 
-export function toggleSort(
-  column: 'title' | 'createdAt' | 'status' | 'category'
-) {
-  sort.value.column = column
+export function toggleSort(column: unknown) {
+  sort.value.column = column as ColumnKey
   sort.value.direction = !sort.value.direction
 }
