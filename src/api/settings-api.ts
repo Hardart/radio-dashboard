@@ -94,4 +94,14 @@ export const SettingsAPI = {
     )
     return data.value
   },
+
+  async deletePhone(id: string) {
+    const { data } = await useHdFetch<ResponseApi.PhoneSingle>(
+      '/settings/phone/delete',
+      {
+        body: { id },
+      }
+    )
+    return data.value
+  },
 }

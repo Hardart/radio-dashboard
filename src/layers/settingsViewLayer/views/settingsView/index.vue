@@ -11,6 +11,7 @@ import SettingsContactsForm from '@/components/settings/SettingsContactsForm.vue
 import DashboardContentFooterLayout from '@/layouts/dashboardContentFooterLayout.vue'
 import ControllersBar from '../../components/controllersBar/ControllersBar.vue'
 import HeaderBar from '../../components/headerBar/HeaderBar.vue'
+import Phones from '../../components/phones/Phones.vue'
 
 const store = useDefaultStore()
 const {
@@ -20,8 +21,10 @@ const {
   addresses,
   isOpenAddressModal,
   isOpenMailModal,
+  isOpenPhoneModal,
   address,
   mail,
+  phone,
 } = storeToRefs(store)
 store.fetchBaseData()
 store.fetchBaseContacts()
@@ -121,6 +124,14 @@ store.fetchBaseContacts()
     @add="store.addMail"
     @cancel="store.toggleMailModalState(false)"
     @delete="store.deleteMail"
+  />
+  <Phones
+    v-model="isOpenPhoneModal"
+    :phone
+    :phones
+    @add="store.addPhone"
+    @cancel="store.togglePhoneModalState(false)"
+    @delete="store.deletePhone"
   />
 </template>
 

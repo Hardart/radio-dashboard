@@ -130,6 +130,28 @@ export const useDefaultStore = defineStore('default', () => {
     return true
   }
 
+  async function addPhone() {
+    if (!phone.value.number) return false
+    pending.value = true
+    const response = await SettingsAPI.addPhone(phone)
+    pending.value = false
+    if (!response)
+      return console.warn('Some trouble with adding phone to Data Base')
+    phones.value.push(response.phone)
+    _resetModels()
+    return true
+  }
+
+  async function deletePhone(id: string, toggleContext?: () => void) {
+    pending.value = true
+    const response = await SettingsAPI.deletePhone(id)
+    pending.value = false
+    if (!response?.phone) return
+    phones.value = phones.value.filter((adr) => adr.id !== response.phone.id)
+    if (toggleContext) toggleContext()
+    return true
+  }
+
   function _resetModels() {
     phone.value = { number: '' }
     mail.value = { address: '' }
@@ -168,8 +190,10 @@ export const useDefaultStore = defineStore('default', () => {
     toggleAddressModalState,
     addAddress,
     addMail,
+    addPhone,
     deleteAddress,
     deleteMail,
+    deletePhone,
     baseContacts,
     phones,
     emails,
