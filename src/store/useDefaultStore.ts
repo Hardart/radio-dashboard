@@ -53,18 +53,18 @@ export const useDefaultStore = defineStore('default', () => {
   const toggleMenuOpenState = () => (isMenuOpen.value = !isMenuOpen.value)
 
   function addPhoneModel() {
-    if (typeof baseContacts.value === 'undefined') return
-    baseContacts.value.phones.push({ ...phoneModel })
+    if (typeof contacts.value === 'undefined') return
+    contacts.value.phones.push({ ...phoneModel })
   }
 
   function addMailModel() {
-    if (typeof baseContacts.value === 'undefined') return
-    baseContacts.value.emails.push({ ...mailModel })
+    if (typeof contacts.value === 'undefined') return
+    contacts.value.emails.push({ ...mailModel })
   }
 
   function addAddressModel() {
-    if (typeof baseContacts.value === 'undefined') return
-    baseContacts.value.addresses.push({ ...addressModel })
+    if (typeof contacts.value === 'undefined') return
+    contacts.value.addresses.push({ ...addressModel })
   }
 
   async function fetchBaseContacts() {
