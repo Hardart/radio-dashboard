@@ -1,5 +1,4 @@
 import { authAPI } from '@/api/auth-api'
-import { useLocalStorage } from '@/composables/useLocalStorage'
 import { useTokens } from '@/composables/useTokensDecode'
 import { type User, type UserLoginForm } from '@/shared/schemes/user-schema'
 import { defineStore } from 'pinia'
@@ -8,7 +7,6 @@ import { computed, ref } from 'vue'
 export const useAuthStore = defineStore('auth', () => {
   const { decodeAccessToken, setAccessToken, cleanAccessToken } = useTokens()
 
-  const isLocalAuth = useLocalStorage('is_auth')
   let dispatchIsReady: (value: boolean) => void
 
   const simplePromise = new Promise<boolean>((resolve) => {
@@ -27,7 +25,6 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   function clearTokens() {
-    isLocalAuth.value = null
     cleanAccessToken()
     user.value = null
   }
@@ -37,17 +34,13 @@ export const useAuthStore = defineStore('auth', () => {
     const { data } = await authAPI.login(userData)
     pending.value = false
     if (!data.value) return
-    isLocalAuth.value = true
     user.value = data.value.user || null
     setAccessToken(data.value.accessToken)
   }
 
   async function loginAuto() {
-    if (isLocalAuth.value) {
-      const { data } = await authAPI.checkToken()
-      if (data.value?.userId) user.value = decodeAccessToken()
-    }
-
+    const { data } = await authAPI.checkToken()
+    if (data.value?.userId) user.value = decodeAccessToken()
     dispatchIsReady(true)
   }
 
