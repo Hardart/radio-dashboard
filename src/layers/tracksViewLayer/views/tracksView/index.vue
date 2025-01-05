@@ -6,12 +6,12 @@ import { provide, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useToggle } from '@vueuse/core'
 import { trackAPI } from '@/api/track-api'
-import HdContextMenu from '@/components/ui/hdContextMenu/hdContextMenu.vue'
-import HdPagination from '@/components/ui/hdPagination/hdPagination.vue'
-import HdSwitch from '@/components/ui/hdSwitch/HdSwitch.vue'
-import HdTable from '@/components/ui/hdTable/hdTable.vue'
-import HdInput from '@/components/ui/hdInput/hdInput.vue'
-import HdBadge from '@/components/ui/hdBadge/hdBadge.vue'
+import HdContextMenu from '@ui/hdContextMenu/hdContextMenu.vue'
+import HdPagination from '@ui/hdPagination/hdPagination.vue'
+// import HdSwitch from '@ui/hdSwitch/HdSwitch.vue'
+import HdTable from '@ui/hdTable/hdTable.vue'
+import HdInput from '@ui/hdInput/hdInput.vue'
+import HdBadge from '@ui/hdBadge/hdBadge.vue'
 import TrackEditor from '../../components/trackEditor/TrackEditor.vue'
 import DashboardContentHeaderLayout from '@/layouts/dashboardContentHeaderLayout.vue'
 import DashboardContentFooterLayout from '@/layouts/dashboardContentFooterLayout.vue'
@@ -129,7 +129,7 @@ function changeTrack(track: Track) {
           placeholder="поиск треков"
           v-model="artistFilter"
         />
-        <HdSwitch v-model="withCover" />
+        <!-- <HdSwitch v-model="withCover" /> -->
       </div>
     </DashboardContentHeaderLayout>
     <DashboardContentBodyLayout no-padding>
