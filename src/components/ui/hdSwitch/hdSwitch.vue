@@ -11,4 +11,4 @@ const toggleSwitch = () => (isOn.value = !isOn.value)
   </div>
 </template>
 
-<style lang="scss" scoped src="./HdSwitch.scss" />
+<style lang="scss" scoped src="./hdSwitch.scss" />

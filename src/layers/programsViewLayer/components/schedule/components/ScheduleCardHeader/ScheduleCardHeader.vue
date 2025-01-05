@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import HdFormGroup from '@/components/ui/hdFormGroup/HdFormGroup.vue'
-import HdSwitch from '@/components/ui/hdSwitch/HdSwitch.vue'
+import HdSwitch from '@/components/ui/hdSwitch/hdSwitch.vue'
 import ScheduleCardDays from '../ScheduleCardDays/ScheduleCardDays.vue'
 import ScheduleCardHelpButtons from '../ScheduleCardHelpButtons/ScheduleCardHelpButtons.vue'
 import { useScheduleStore } from '@/layers/programsViewLayer/store/useScheduleStore'

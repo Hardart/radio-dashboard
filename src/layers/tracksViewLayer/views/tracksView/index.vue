@@ -8,7 +8,7 @@ import { useToggle } from '@vueuse/core'
 import { trackAPI } from '@/api/track-api'
 import HdContextMenu from '@ui/hdContextMenu/hdContextMenu.vue'
 import HdPagination from '@ui/hdPagination/hdPagination.vue'
-// import HdSwitch from '@ui/hdSwitch/HdSwitch.vue'
+import HdSwitch from '@ui/hdSwitch/hdSwitch.vue'
 import HdTable from '@ui/hdTable/hdTable.vue'
 import HdInput from '@ui/hdInput/hdInput.vue'
 import HdBadge from '@ui/hdBadge/hdBadge.vue'
@@ -129,7 +129,7 @@ function changeTrack(track: Track) {
           placeholder="поиск треков"
           v-model="artistFilter"
         />
-        <!-- <HdSwitch v-model="withCover" /> -->
+        <HdSwitch v-model="withCover" />
       </div>
     </DashboardContentHeaderLayout>
     <DashboardContentBodyLayout no-padding>

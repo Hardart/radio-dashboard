@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import HdFormGroup from '@/components/ui/hdFormGroup/HdFormGroup.vue'
 import HdSelect from '@/components/ui/hdSelect/hdSelect.vue'
-import HdSwitch from '@/components/ui/hdSwitch/HdSwitch.vue'
+import HdSwitch from '@/components/ui/hdSwitch/hdSwitch.vue'
 import { hours, minutes } from '@/shared/helpers/time'
 import type { ScheduleProperty } from '@/shared/schemes/schedule-schema'
 import { computed, watch } from 'vue'
