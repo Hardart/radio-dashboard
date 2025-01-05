@@ -1,12 +1,12 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
-import HdModal from '@/components/ui/hdModal/HdModal.vue'
-import { useProgramsStore } from '../../store/useProgramsStore'
-import { useScheduleStore } from '../../store/useScheduleStore'
+import HdModal from '@ui/hdModal/HdModal.vue'
 import ScheduleTable from '../../components/scheduleTable/ScheduleTable.vue'
 import ScheduleCard from '../../components/schedule/ScheduleCard.vue'
 import ProgramForm from '../../components/programForm/ProgramForm.vue'
-import { onMounted } from 'vue'
+import { useScheduleStore } from '../../store/useScheduleStore'
+import { useProgramsStore } from '../../store/useProgramsStore'
 
 const programsStore = useProgramsStore()
 const scheduleStore = useScheduleStore()

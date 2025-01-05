@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import HdBadge from '@ui/hdBadge/hdBadge.vue'
-import HdTable from '@/components/ui/hdTable/hdTable.vue'
+import HdTable from '@ui/hdTable/hdTable.vue'
 import { useProgramsStore } from '../../store/useProgramsStore'
-import { correctImageUrl } from '@/shared/helpers/utils'
 
 const scheduleStore = useProgramsStore()
 const { programs, pending } = storeToRefs(scheduleStore)

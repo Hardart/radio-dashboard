@@ -7,7 +7,7 @@ import { useProgramsStore } from '../../store/useProgramsStore'
 import ScheduleTable from '../../components/scheduleTable/ScheduleTable.vue'
 import ProgramForm from '../../components/programForm/ProgramForm.vue'
 import ScheduleCard from '../../components/schedule/ScheduleCard.vue'
-import HdModal from '@/components/ui/hdModal/HdModal.vue'
+import HdModal from '@ui/hdModal/HdModal.vue'
 
 const route = useRoute()
 const programsStore = useProgramsStore()

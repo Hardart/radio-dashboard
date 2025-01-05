@@ -1,13 +1,14 @@
 <script lang="ts" setup>
+import { ref } from 'vue'
 import { trackAPI } from '@/api/track-api'
+import type { ITunesTrack } from '@/shared/types/itunes'
+import { trackSchema, type Track } from '@/shared/schemes/track-schema'
+import HdForm from '@/components/ui/hdForm/HdForm.vue'
+import HdInput from '@/components/ui/hdInput/hdInput.vue'
 import HdButton from '@/components/ui/hdButton/hdButton.vue'
 import HdFormGroup from '@/components/ui/hdFormGroup/HdFormGroup.vue'
-import HdInput from '@/components/ui/hdInput/hdInput.vue'
-import { trackSchema, type Track } from '@/shared/schemes/track-schema'
-import type { ITunesTrack } from '@/shared/types/itunes'
-import { ref } from 'vue'
 import ITunesTrackList from '../iTunesTrackList/iTunesTrackList.vue'
-import HdForm from '@/components/ui/hdForm/HdForm.vue'
+
 const { track } = defineProps<{ track: Track }>()
 defineEmits(['on-apply', 'on-cancel'])
 const iTunesTracks = ref<ITunesTrack[] | null>(null)
@@ -25,7 +26,6 @@ const findInITunes = async () => {
 
 <template>
   <div class="track-editor">
-    <!-- <form class="track-editor__content" @submit.prevent="onFormSubmit"> -->
     <HdForm
       :state="track"
       :schema="trackSchema"

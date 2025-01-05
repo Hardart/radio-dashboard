@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import HdForm from '@/components/ui/hdForm/HdForm.vue'
-import HdInput from '@/components/ui/hdInput/hdInput.vue'
-import HdButton from '@/components/ui/hdButton/hdButton.vue'
-import HdSelect from '@/components/ui/hdSelect/hdSelect.vue'
-import HdSwitch from '@/components/ui/hdSwitch/HdSwitch.vue'
-import HdFormGroup from '@/components/ui/hdFormGroup/HdFormGroup.vue'
-import HdUploadImage from '@/components/ui/hdUploadImage/hdUploadImage.vue'
 import type { User } from '@/shared/schemes/user-schema'
+import HdForm from '@ui/hdForm/HdForm.vue'
+import HdInput from '@ui/hdInput/hdInput.vue'
+import HdButton from '@ui/hdButton/hdButton.vue'
+import HdSelect from '@ui/hdSelect/hdSelect.vue'
+import HdSwitch from '@ui/hdSwitch/HdSwitch.vue'
+import HdFormGroup from '@ui/hdFormGroup/HdFormGroup.vue'
+import HdUploadImage from '@ui/hdUploadImage/hdUploadImage.vue'
 import { colors } from '@/shared/helpers/program-colors'
 import {
   scheduleTimeToString,
