@@ -23,6 +23,8 @@ async function onChange(e: Event) {
   const file = input.files[0]
   const body = new FormData()
   const correctName = props.name
+  console.log(file)
+
   body.append(correctName.trim().toLowerCase(), file, file.name)
 
   const { path } = await filesAPI.single(props.name, body)

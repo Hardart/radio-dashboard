@@ -217,9 +217,17 @@
   }
 
   &--xs {
-    padding: 5px 10px;
     font-size: var(--fs-xs);
     line-height: 8px;
+
+    &:not(.hd-button--square) {
+      padding: 5px 10px;
+    }
+
+    & .hd-button__icon {
+      width: 12px;
+      height: 12px;
+    }
 
     &:focus:not(&:disabled) {
       outline-width: 1px;

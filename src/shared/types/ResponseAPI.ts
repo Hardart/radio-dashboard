@@ -4,6 +4,7 @@ import type { User } from '@/shared/schemes/user-schema'
 import type { Slide } from '@/shared/schemes/slide-schema'
 import type { Track } from '../schemes/track-schema'
 import type { Address, BaseContact, Mail, Phone } from './contact'
+import type { Program } from '../schemes/program-schema'
 
 export interface CustomFetchOptions {
   url: string
@@ -39,8 +40,8 @@ export declare namespace ResponseApi {
   type CategorySingle = { category: Category }
   type FileList = { files: string[] }
   type FileSingle = { path: string }
-  // type ProgramList = { programs: Program[]; hosts: User[] }
-  // type ProgramSngle = { program: Program }
+  type ProgramList = { programs: Program[]; hosts: User[] }
+  type ProgramSngle = { program: Program }
   type UserList = { users: User[] }
   type TrackList = { tracks: Track[] }
   type TrackSingle = { track: Track }

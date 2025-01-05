@@ -18,7 +18,7 @@ import HdBadge from '@/components/ui/hdBadge/hdBadge.vue'
 import HdContextMenu from '@/components/ui/hdContextMenu/hdContextMenu.vue'
 import { useToggle } from '@vueuse/core'
 import { initCoords, coords } from '@/components/ui/hdContextMenu/hdContextMenu'
-import HdSwitch from '@/components/ui/hdSwitch/hdSwitch.vue'
+import HdSwitch from '@/components/ui/hdSwitch/HdSwitch.vue'
 const tracksStore = useTracksStore()
 
 const {

@@ -37,6 +37,7 @@ export type Icon =
   | 'news'
   | 'person'
   | 'phone-add'
+  | 'radio-show'
   | 'search'
   | 'settings'
   | 'sort-down'

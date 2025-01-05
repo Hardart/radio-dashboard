@@ -39,7 +39,7 @@ export const onDefaultResponseError = async ({ response }: ResponseCtx) => {
       try {
         await ofetch('/refresh', refreshOptions)
       } catch (error) {
-        console.error(error)
+        // console.error(error)
       }
       break
 

@@ -57,6 +57,27 @@ const router = createRouter({
       component: LoginView,
     },
     {
+      path: '/programs',
+      component: () => import(`@/layers/programsViewLayer/views/index.vue`),
+      children: [
+        {
+          path: '',
+          component: () =>
+            import(`@/layers/programsViewLayer/views/listView/index.vue`),
+        },
+        {
+          path: 'create',
+          component: () =>
+            import(`@/layers/programsViewLayer/views/createView/index.vue`),
+        },
+        {
+          path: ':id',
+          component: () =>
+            import(`@/layers/programsViewLayer/views/idView/index.vue`),
+        },
+      ],
+    },
+    {
       path: '/settings',
       component: () =>
         import(`@/layers/settingsViewLayer/views/settingsView/index.vue`),

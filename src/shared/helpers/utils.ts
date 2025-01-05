@@ -23,3 +23,11 @@ export function correctImageUrl(src: string | undefined) {
   if (!src) return undefined
   return import.meta.env.DEV ? `http://localhost:3068/images/home${src}` : src
 }
+
+export function removeLocalUrl(src: string | undefined) {
+  if (!src) return undefined
+  return src.replace('http://localhost:3068/images/home', '')
+}
+
+export const createArrayOfNumbers = (count: number, startFrom: number = 0) =>
+  new Array(count).fill('').map((_, index) => index + startFrom)

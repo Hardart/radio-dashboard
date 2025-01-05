@@ -21,8 +21,7 @@ const links: Link[] = [
   { id: 3, icon: 'news', label: 'Новости', to: '/news' },
   { id: 4, icon: 'music-library', label: 'Треки', to: '/tracks' },
   { id: 5, icon: 'gallery', label: 'Галерея', to: '/gallery' },
-  // {id: 6, icon: '', label: '', to: '/'},
-  // {id: 7, icon: '', label: '', to: '/'},
+  { id: 6, icon: 'radio-show', label: 'Программы', to: '/programs' },
 ]
 </script>
 
@@ -32,7 +31,7 @@ const links: Link[] = [
       custom
       :to="item.to"
       v-slot="{ navigate, isActive }"
-      v-for="(item, index) in links"
+      v-for="item in links"
       :key="item.id"
     >
       <li

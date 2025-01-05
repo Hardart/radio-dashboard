@@ -4,11 +4,11 @@ const toggleSwitch = () => (isOn.value = !isOn.value)
 </script>
 
 <template>
-  <div class="hd-switch" :class="isOn && 'hd-switch--on'" @click="toggleSwitch">
-    <div class="hd-switch__wrapper">
+  <div class="hd-switch" :class="isOn && 'hd-switch--on'">
+    <div class="hd-switch__wrapper" @click="toggleSwitch">
       <div class="hd-switch__handler"></div>
     </div>
   </div>
 </template>
 
-<style lang="scss" scoped src="./hdSwitch.scss" />
+<style lang="scss" scoped src="./HdSwitch.scss" />

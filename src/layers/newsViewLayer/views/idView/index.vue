@@ -1,21 +1,15 @@
 <script async setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { useNewsStore } from '@/layers/newsViewLayer/store/useNewsStore'
-
 import ArticleForm from '../../components/ArticleForm/ArticleForm.vue'
 import { computed, onUnmounted, watch } from 'vue'
+
 const route = useRoute()
 const newsStore = useNewsStore()
 
-const {
-  articleForm,
-  tags,
-  categories,
-  pending,
-  isFormNotChanged,
-  toEqualForm,
-} = storeToRefs(newsStore)
+const { articleForm, tags, categories, pending, isFormNotChanged } =
+  storeToRefs(newsStore)
 const id = computed(() => `${route.params.id}`)
 watch(id, () => newsStore.fetchArticle(id.value), {
   immediate: true,
@@ -35,7 +29,6 @@ onUnmounted(newsStore.clearArticleForm)
     @on-submit="newsStore.updateArticle"
     @on-delete="newsStore.deleteArticle"
   />
-  {{ toEqualForm }}
 </template>
 
 <style lang="scss" scoped src="./styles.scss" />

@@ -2,7 +2,7 @@ import { toValue, type MaybeRef } from 'vue'
 import type { Address, BaseContact, Mail, Phone } from '@/shared/types/contact'
 import type { ResponseApi } from '@/shared/types/ResponseAPI'
 import { useHdFetch } from './base-fetch/base-fetch'
-import { addFullAddressKey } from '@/shared/helpers/addFullAddress'
+import { addFullAddressKey } from '@/shared/helpers/add-full-address'
 
 export const SettingsAPI = {
   _emptyContacts: {

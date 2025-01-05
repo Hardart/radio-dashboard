@@ -5,7 +5,7 @@ import { sort } from '@/shared/helpers/sort-articles'
 import type { Article } from '@/shared/schemes/article-schema'
 import type { ArticleForm } from '@/shared/schemes/article-form-schema'
 import type { Category } from '@/shared/schemes/category-schema'
-import transcript from '@/shared/helpers/slugTranscript'
+import transcript from '@/shared/helpers/slug-transcript'
 import router from '@/router'
 
 import { isEqual, cloneDeep } from 'lodash'

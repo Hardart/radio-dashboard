@@ -1,0 +1,5 @@
+export const hours = new Array(24).fill('').map((_, index) => (index < 10 ? `0${index}` : `${index}`))
+export const minutes = new Array(60)
+  .fill('')
+  .map((_, index) => (index < 10 ? `0${index}` : `${index}`))
+  .filter((_, i) => i % 5 == 0)
