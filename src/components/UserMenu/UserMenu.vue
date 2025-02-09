@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { correctImageUrl } from '@/shared/helpers/utils'
 import type { User } from '@/shared/schemes/user-schema'
 import { useAuthStore } from '@/store/useAuthStore'
 import { computed } from 'vue'
@@ -23,7 +24,11 @@ const imageAlt = computed(
     <div class="user-menu__wrapper">
       <div class="user-menu__info">
         <div class="user-menu__media">
-          <img :src="user.avatar" class="user-menu__image" :alt="imageAlt" />
+          <img
+            :src="correctImageUrl(user.avatar)"
+            class="user-menu__image"
+            :alt="imageAlt"
+          />
         </div>
         <div>
           <p class="user-menu__name">{{ user.fullName }}</p>
