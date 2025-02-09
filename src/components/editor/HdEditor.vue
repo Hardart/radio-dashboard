@@ -2,7 +2,7 @@
 import Underline from '@tiptap/extension-underline'
 import StarterKit from '@tiptap/starter-kit'
 import { EditorContent, useEditor } from '@tiptap/vue-3'
-import { inject, provide, reactive, watch } from 'vue'
+import { inject, provide, reactive, watch, type CSSProperties } from 'vue'
 import { Image } from './extensions/Image'
 import ControllerBold from './controllers/Bold.vue'
 import ControllerHeading from './controllers/Heading.vue'
@@ -14,6 +14,7 @@ import ControllerFloatLeft from './controllers/FloatLeft.vue'
 import ControllerBlockquote from './controllers/Blockquote.vue'
 import ControllerTextWrap from './controllers/TextWrap.vue'
 import HdFormGroup from '../ui/hdFormGroup/HdFormGroup.vue'
+import type { EditorControls } from '@/shared/enums/editor-controls'
 const content = defineModel<string | undefined>({ required: true })
 
 const editor = useEditor({
@@ -47,26 +48,38 @@ watch(content, () => {
 })
 provide('tiptap', editor)
 const id = inject<string | undefined>('input-id', undefined)
+defineProps<{
+  label: string
+  controls: (keyof typeof EditorControls)[]
+  containerStyles?: CSSProperties
+}>()
+defineOptions({
+  inheritAttrs: false,
+})
 </script>
 
 <template>
   <div class="hd-editor">
     <div v-if="editor" class="hd-editor__controllers">
-      <ControllerHeading />
-      <ControllerBold />
-      <ControllerItalic />
-      <ControllerUnderline />
-      <ControllerBlockquote />
-      <ControllerFloatLeft />
-      <ControllerFloatRight />
-      <ControllerTextWrap />
-      <ControllerUploadImage v-model="image.src" />
+      <ControllerHeading v-if="controls.includes('heading')" />
+      <ControllerBold v-if="controls.includes('bold')" />
+      <ControllerItalic v-if="controls.includes('italic')" />
+      <ControllerUnderline v-if="controls.includes('underline')" />
+      <ControllerBlockquote v-if="controls.includes('blockquote')" />
+      <ControllerFloatLeft v-if="controls.includes('floatLeft')" />
+      <ControllerFloatRight v-if="controls.includes('floatRight')" />
+      <ControllerTextWrap v-if="controls.includes('textWrap')" />
+      <ControllerUploadImage
+        v-model="image.src"
+        v-if="controls.includes('uploadImage')"
+      />
     </div>
-    <HdFormGroup label="Текст новости" name="content" required>
+    <HdFormGroup :label name="content" required>
       <EditorContent
-        :editor="editor"
+        :editor
         class="hd-editor__container"
         @click="editor?.chain().focus().run()"
+        v-bind:style="{ ...containerStyles }"
       />
     </HdFormGroup>
   </div>
