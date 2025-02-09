@@ -2,12 +2,13 @@
 import type { z } from 'zod'
 import { useFormValidation } from '@/composables/useFormValidation'
 import { provide } from 'vue'
+
+const emits = defineEmits(['on-submit'])
 const { errors, getZodErrors } = useFormValidation()
 const { state, schema } = defineProps<{
   state: Record<string, any>
   schema: z.AnyZodObject
 }>()
-const emits = defineEmits(['on-submit'])
 const onSubmit = async () => {
   await getZodErrors(state, schema)
   if (errors.value.length) return

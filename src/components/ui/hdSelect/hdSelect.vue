@@ -82,6 +82,7 @@ function determineString() {
   }
   throw new Error('Unsupported type')
 }
+
 function determineOptions(input: Ref<Selected>) {
   if (
     isStringArray(options) &&
