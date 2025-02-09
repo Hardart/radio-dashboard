@@ -75,7 +75,9 @@
 
   &__time-list {
     display: flex;
+    gap: 7px;
     align-items: center;
+    flex-wrap: wrap;
     font-size: var(--fs-s);
   }
 
@@ -84,7 +86,8 @@
   }
 
   &__time-text {
-    padding: 8px 12px;
+    padding: 6px 12px;
+    font-size: var(--fs-xs);
     font-weight: var(--fw-m);
     border: 1px solid var(--color-border);
     border-radius: 4px;

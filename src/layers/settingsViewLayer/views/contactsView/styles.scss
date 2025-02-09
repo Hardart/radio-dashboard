@@ -1,0 +1,41 @@
+.contacts {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 40px;
+}
+
+.contacts-form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+
+  &--full-width {
+    grid-column: 1 / -1;
+  }
+
+  &__label {
+    position: absolute;
+    top: -9px;
+    padding-inline: 5px;
+    font-size: var(--fs-s);
+    background-color: hsl(var(--background));
+  }
+
+  &__controls {
+    display: none;
+    position: absolute;
+    bottom: -12px;
+    right: 15px;
+    padding-inline: 5px;
+    background-color: hsl(var(--background));
+  }
+
+  &:hover &__controls {
+    display: block;
+  }
+}

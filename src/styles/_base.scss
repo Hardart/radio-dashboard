@@ -61,7 +61,7 @@
   --color-gray: var(--color-gray-400);
   --color-success: var(--color-success-400);
   --color-danger: var(--color-danger-400);
-  --color-border: hsla(var(--color-gray-200));
+  --color-border: hsl(var(--color-gray-200));
 }
 
 @media (prefers-color-scheme: light) {
@@ -96,8 +96,8 @@
 body {
   min-height: 100vh;
   min-height: 100dvh;
-  color: hsla(var(--foreground));
-  background: hsla(var(--background));
+  color: hsl(var(--foreground));
+  background: hsl(var(--background));
   font-family: CeraRoundPro, sans-serif;
   font-size: var(--fs-default);
   font-weight: 400;
