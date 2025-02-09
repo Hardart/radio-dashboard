@@ -8,7 +8,7 @@ export const programFormSchema = z.object({
   color: z.string().optional(),
   description: z.string().optional(),
   image: z.string().optional(),
-  hosts: z.array(z.string()).min(1, 'Выберите хотя бы одного ведущего'),
+  hosts: z.array(z.string()),
   schedule: z.array(scheduleSchema),
   isPublished: z.boolean(),
 })
