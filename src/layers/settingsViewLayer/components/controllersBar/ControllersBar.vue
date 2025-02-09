@@ -8,6 +8,11 @@ defineEmits(['toggle-base', 'toggle-footer'])
   <DashboardContentControlsLayout>
     <HdButton text="Контакты" size="s" @click="$emit('toggle-base')" />
     <HdButton text="Контакты футер" size="s" @click="$emit('toggle-footer')" />
+    <HdButton
+      text="Сотрудники"
+      size="s"
+      @click="$router.push('/settings/hosts')"
+    />
   </DashboardContentControlsLayout>
 </template>
 
