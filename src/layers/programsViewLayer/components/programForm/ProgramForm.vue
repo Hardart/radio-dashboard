@@ -1,18 +1,19 @@
 <script lang="ts" setup>
+import type { EditorControls } from '@/shared/enums/editor-controls'
 import type { User } from '@/shared/schemes/user-schema'
-import HdForm from '@ui/hdForm/HdForm.vue'
-import HdInput from '@ui/hdInput/hdInput.vue'
+import { colors } from '@/shared/helpers/program-colors'
+import HdUploadImage from '@ui/hdUploadImage/hdUploadImage.vue'
+import HdFormGroup from '@ui/hdFormGroup/HdFormGroup.vue'
+import HdEditor from '@/components/editor/HdEditor.vue'
+import HdSwitch from '@ui/hdSwitch/hdSwitch.vue'
 import HdButton from '@ui/hdButton/hdButton.vue'
 import HdSelect from '@ui/hdSelect/hdSelect.vue'
-import HdSwitch from '@/components/ui/hdSwitch/hdSwitch.vue'
-import HdFormGroup from '@ui/hdFormGroup/HdFormGroup.vue'
-import HdUploadImage from '@ui/hdUploadImage/hdUploadImage.vue'
-import { colors } from '@/shared/helpers/program-colors'
+import HdInput from '@ui/hdInput/hdInput.vue'
+import HdForm from '@ui/hdForm/HdForm.vue'
 import {
   scheduleTimeToString,
   selectedIdsToWeekday,
 } from '@/shared/helpers/schedule'
-
 import {
   type ProgramForm,
   programFormSchema,
@@ -28,6 +29,14 @@ defineEmits([
   'onSaveProgram',
   'onDeleteProgram',
 ])
+
+const editorControls: (keyof typeof EditorControls)[] = [
+  'bold',
+  'italic',
+  'heading',
+  'underline',
+  'textWrap',
+]
 </script>
 
 <template>
@@ -43,7 +52,7 @@ defineEmits([
           <HdInput v-model="programFormData.title" />
         </HdFormGroup>
         <div class="program-form__group">
-          <HdFormGroup label="Ведущие" name="hosts" required>
+          <HdFormGroup label="Ведущие">
             <HdSelect
               class="program-form__select"
               v-model="programFormData.hosts"
@@ -127,6 +136,14 @@ defineEmits([
         </div>
       </li>
     </ul>
+    <div class="program-form__group">
+      <HdEditor
+        label="Описание программы"
+        v-model="programFormData.description"
+        :controls="editorControls"
+        :containerStyles="{ height: '250px' }"
+      />
+    </div>
     <div class="program-form__controls">
       <HdButton text="Назад" @click="$router.go(-1)" />
       <HdButton
