@@ -5,7 +5,7 @@ const isOpen = defineModel({ required: true })
 </script>
 
 <template>
-  <Teleport to=".dashboard" defer>
+  <Teleport to="#app" defer>
     <Transition>
       <div class="modal" v-if="isOpen" tabindex="-1">
         <HdButton
