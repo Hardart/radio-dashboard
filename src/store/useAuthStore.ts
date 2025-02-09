@@ -16,6 +16,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   const isAuth = computed(() => user.value !== null)
   const isAdmin = computed(() => user.value?.roles.includes('admin'))
+  const isCreator = computed(() => user.value?.roles.includes('creator'))
   const isReady = simplePromise
   const pending = ref(false)
 
@@ -56,6 +57,7 @@ export const useAuthStore = defineStore('auth', () => {
     isAuth,
     isReady,
     isAdmin,
+    isCreator,
     user,
     pending,
     login,
