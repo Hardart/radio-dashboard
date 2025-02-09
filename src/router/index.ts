@@ -79,8 +79,19 @@ const router = createRouter({
     },
     {
       path: '/settings',
-      component: () =>
-        import(`@/layers/settingsViewLayer/views/settingsView/index.vue`),
+      component: () => import(`@/layers/settingsViewLayer/views/index.vue`),
+      children: [
+        {
+          path: '',
+          component: () =>
+            import(`@/layers/settingsViewLayer/views/contactsView/index.vue`),
+        },
+        {
+          path: 'hosts',
+          component: () =>
+            import(`@/layers/settingsViewLayer/views/hostsView/index.vue`),
+        },
+      ],
     },
   ],
 })
