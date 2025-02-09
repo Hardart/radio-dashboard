@@ -1,16 +1,18 @@
 <script lang="ts" setup>
 import type { ArticleForm } from '@/shared/schemes/article-form-schema'
+import type { EditorControls } from '@/shared/enums/editor-controls'
 import type { Category } from '@/shared/schemes/category-schema'
 import { articleFormSchema } from '@/shared/schemes/article-form-schema'
-import HdInput from '@/components/ui/hdInput/hdInput.vue'
-import HdSwitch from '@/components/ui/hdSwitch/hdSwitch.vue'
 import HdUploadImage from '@/components/ui/hdUploadImage/hdUploadImage.vue'
-import HdButton from '@/components/ui/hdButton/hdButton.vue'
-import HdEditor from '@/components/editor/HdEditor.vue'
-import HdSelect from '@/components/ui/hdSelect/hdSelect.vue'
 import HdFormGroup from '@/components/ui/hdFormGroup/HdFormGroup.vue'
 import CalendarSelect from '../CalendarSelect/CalendarSelect.vue'
+import HdSwitch from '@/components/ui/hdSwitch/hdSwitch.vue'
+import HdButton from '@/components/ui/hdButton/hdButton.vue'
+import HdSelect from '@/components/ui/hdSelect/hdSelect.vue'
+import HdInput from '@/components/ui/hdInput/hdInput.vue'
+import HdEditor from '@/components/editor/HdEditor.vue'
 import HdForm from '@/components/ui/hdForm/HdForm.vue'
+
 const articleForm = defineModel<ArticleForm>({ required: true })
 
 defineProps<{
@@ -21,6 +23,18 @@ defineProps<{
 }>()
 
 defineEmits(['on-submit', 'on-delete'])
+
+const controls: (keyof typeof EditorControls)[] = [
+  'bold',
+  'italic',
+  'heading',
+  'blockquote',
+  'floatLeft',
+  'floatRight',
+  'textWrap',
+  'underline',
+  'uploadImage',
+]
 </script>
 
 <template>
@@ -64,7 +78,11 @@ defineEmits(['on-submit', 'on-delete'])
       </div>
 
       <div class="news-item__group">
-        <HdEditor v-model="articleForm.content" />
+        <HdEditor
+          v-model="articleForm.content"
+          :controls
+          label="Текст новости"
+        />
       </div>
     </div>
 
