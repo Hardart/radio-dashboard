@@ -23,7 +23,32 @@ export const useGalleryStore = defineStore('gallery', () => {
   }
 
   async function fetchGallery() {
-    slides.value = await galleryAPI.list()
+    const response = await galleryAPI.list()
+    sortSlides(response)
+    slides.value = response
+  }
+
+  async function saveChanges() {
+    updateSlidePriority()
+    await galleryAPI.saveAllSlides(slides)
+  }
+
+  function sortSlides(slides: Slide[]) {
+    slides.sort((a, b) => {
+      if (
+        typeof a.priority !== 'undefined' &&
+        typeof b.priority !== 'undefined'
+      ) {
+        return a.priority < b.priority ? 1 : -1
+      }
+      return 1
+    })
+  }
+
+  function updateSlidePriority() {
+    slides.value.forEach((slide, idx) => {
+      slide.priority = slides.value.length - idx
+    })
   }
 
   async function onAdd() {
@@ -90,6 +115,7 @@ export const useGalleryStore = defineStore('gallery', () => {
     onUpdate,
     onDelete,
     onCancel,
+    saveChanges,
     toggleSlideEditFormState,
   }
 })

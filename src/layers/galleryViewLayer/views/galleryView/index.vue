@@ -10,32 +10,28 @@ import HdButton from '@/components/ui/hdButton/hdButton.vue'
 import Slide from './components/Slide/Slide.vue'
 import HdModal from '@/components/ui/hdModal/HdModal.vue'
 import DashboardContentBodyLayout from '@/layouts/dashboardContentBodyLayout.vue'
+import DashboardContentFooterLayout from '@/layouts/dashboardContentFooterLayout.vue'
 const galleryStore = useGalleryStore()
 const { slides, slideFormData, isOpenSlideEditForm } = storeToRefs(galleryStore)
-const {
-  onAdd,
-  onUpdate,
-  onEdit,
-  onDelete,
-  onCancel,
-  toggleSlideEditFormState,
-  fetchGallery,
-} = galleryStore
+
 const [isShowSortable, toggle] = useToggle(true)
 onBeforeRouteLeave(() => {
   toggle()
   return
 })
-fetchGallery()
+galleryStore.fetchGallery()
 </script>
 
 <template>
   <DashboardContentLayout>
     <DashboardContentHeaderLayout>
+      <div class="dashboard__header--left">
+        <h3 class="dashboard__header-title">Слайдшоу на главной</h3>
+      </div>
       <HdButton
         text="Добавить слайд"
         color="primary"
-        @click="toggleSlideEditFormState()"
+        @click="galleryStore.toggleSlideEditFormState()"
         icon="image-add"
       />
     </DashboardContentHeaderLayout>
@@ -60,13 +56,13 @@ fetchGallery()
 
               <div class="gallery-slide__controllers">
                 <HdButton
-                  @click="onEdit(item)"
+                  @click="galleryStore.onEdit(item)"
                   icon="edit"
                   square
                   v-tooltip="{ label: 'редактировать' }"
                 />
                 <HdButton
-                  @click="onDelete(item)"
+                  @click="galleryStore.onDelete(item)"
                   icon="delete"
                   color="danger"
                   square
@@ -91,13 +87,13 @@ fetchGallery()
 
               <div class="gallery-slide__controllers">
                 <HdButton
-                  @click="onEdit(data)"
+                  @click="galleryStore.onEdit(data)"
                   icon="edit"
                   square
                   v-tooltip="{ label: 'редактировать' }"
                 />
                 <HdButton
-                  @click="onDelete(data)"
+                  @click="galleryStore.onDelete(data)"
                   icon="delete"
                   color="danger"
                   square
@@ -109,13 +105,20 @@ fetchGallery()
         </template>
       </RefSortable>
     </DashboardContentBodyLayout>
+    <DashboardContentFooterLayout>
+      <HdButton
+        text="Сохранить изменения"
+        color="success"
+        @click="galleryStore.saveChanges"
+      />
+    </DashboardContentFooterLayout>
   </DashboardContentLayout>
   <HdModal v-model="isOpenSlideEditForm">
     <Slide
       :slide="slideFormData"
-      @on-add="onAdd"
-      @on-cancel="onCancel"
-      @on-edit="onUpdate"
+      @on-add="galleryStore.onAdd"
+      @on-cancel="galleryStore.onCancel"
+      @on-edit="galleryStore.onUpdate"
     />
   </HdModal>
 </template>
