@@ -1,14 +1,13 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
 import { useDefaultStore } from '@/store/useDefaultStore'
-import HdButton from '@ui/hdButton/hdButton.vue'
-import SettingsContactsForm from '@/components/settings/SettingsContactsForm.vue'
-import DashboardContentBodyLayout from '@/layouts/dashboardContentBodyLayout.vue'
 import DashboardContentFooterLayout from '@/layouts/dashboardContentFooterLayout.vue'
+import DashboardContentBodyLayout from '@/layouts/dashboardContentBodyLayout.vue'
+import SettingsContactsForm from '@/components/settings/SettingsContactsForm.vue'
 import Addresses from '../../components/addresses/Addresses.vue'
-import Mails from '../../components/mails/Mails.vue'
 import Phones from '../../components/phones/Phones.vue'
-import HeaderBar from '../../components/headerBar/HeaderBar.vue'
+import Mails from '../../components/mails/Mails.vue'
+import HdButton from '@ui/hdButton/hdButton.vue'
 
 const store = useDefaultStore()
 const {
@@ -26,11 +25,6 @@ const {
 </script>
 
 <template>
-  <HeaderBar
-    @toggle-address="store.toggleAddressModalState"
-    @toggle-mail="store.toggleMailModalState"
-    @toggle-phone="store.togglePhoneModalState"
-  />
   <DashboardContentBodyLayout column>
     <div class="contacts">
       <div v-if="phones.length" class="contacts-form">

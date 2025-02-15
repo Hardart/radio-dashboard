@@ -1,0 +1,22 @@
+.settings-nav {
+  display: flex;
+  gap: 10px;
+  padding-inline: 20px;
+  padding-block: 10px;
+  border-bottom: 1px solid hsl(var(--foreground), 0.4);
+
+  &__item {
+    padding-inline: 10px;
+    padding-block: 5px;
+    cursor: pointer;
+    border-radius: 6px;
+
+    &--active {
+      color: hsl(var(--color-primary));
+    }
+
+    &:hover {
+      background-color: hsl(var(--foreground), 0.05);
+    }
+  }
+}

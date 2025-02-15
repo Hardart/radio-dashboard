@@ -82,14 +82,21 @@ const router = createRouter({
       component: () => import(`@/layers/settingsViewLayer/views/index.vue`),
       children: [
         {
-          path: '',
+          name: 'contacts',
+          path: 'contacts',
           component: () =>
             import(`@/layers/settingsViewLayer/views/contactsView/index.vue`),
         },
         {
+          name: 'hosts',
           path: 'hosts',
           component: () =>
             import(`@/layers/settingsViewLayer/views/hostsView/index.vue`),
+          beforeEnter(_, to, next) {
+            const authStore = useAuthStore()
+            if (authStore.isAuth && authStore.isCreator) return next()
+            next({ name: 'home' })
+          },
         },
       ],
     },

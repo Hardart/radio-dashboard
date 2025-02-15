@@ -1,7 +1,15 @@
 <script lang="ts" setup>
 import HdButton from '@/components/ui/hdButton/hdButton.vue'
 import DashboardContentHeaderLayout from '@/layouts/dashboardContentHeaderLayout.vue'
-defineEmits(['toggle-phone', 'toggle-mail', 'toggle-address'])
+defineProps<{
+  isFooterContactsOn: unknown
+}>()
+defineEmits([
+  'toggle-phone',
+  'toggle-mail',
+  'toggle-address',
+  'toggle-contacts-mode',
+])
 </script>
 
 <template>
@@ -9,7 +17,15 @@ defineEmits(['toggle-phone', 'toggle-mail', 'toggle-address'])
     <div class="dashboard__header--left">
       <h3 class="dashboard__header-title">Настройки</h3>
     </div>
-    <div class="dashboard__header--right">
+    <div
+      class="dashboard__header--right"
+      v-if="$route.fullPath.includes('contacts')"
+    >
+      <HdButton
+        :text="isFooterContactsOn ? 'Контакты футера' : 'Страница `Контакты`'"
+        @click="$emit('toggle-contacts-mode')"
+        variant="solid"
+      />
       <HdButton
         icon="phone-add"
         square
