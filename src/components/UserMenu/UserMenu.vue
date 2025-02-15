@@ -8,15 +8,39 @@ const { user } = defineProps<{
   user: User
   isOpen: boolean
 }>()
-
+const authStore = useAuthStore()
 const logout = async (navigate: () => void) => {
-  await useAuthStore().logout()
+  await authStore.logout()
   navigate()
 }
+
+const toSettings = async (navigate: () => void) => navigate()
 
 const imageAlt = computed(
   () => `${user?.lastName.charAt(0)}${user?.firstName.charAt(0)}`
 )
+
+interface INavigationItem {
+  label: string
+  to: string
+  minRole: 'admin' | 'creator' | 'host'
+  action: (navigate: () => void) => void
+}
+
+const userNavigationList: INavigationItem[] = [
+  {
+    label: 'Настройки',
+    to: '/settings',
+    minRole: 'admin',
+    action: toSettings,
+  },
+  {
+    label: 'Выйти',
+    to: '/login',
+    minRole: 'host',
+    action: logout,
+  },
+]
 </script>
 
 <template>
@@ -37,12 +61,19 @@ const imageAlt = computed(
       </div>
 
       <ul class="user-menu__list">
-        <li class="user-menu__item">Профиль</li>
-        <RouterLink custom to="/settings" v-slot="{ navigate }">
-          <li class="user-menu__item" @click="navigate">Настройки</li>
-        </RouterLink>
-        <RouterLink custom to="/login" v-slot="{ navigate }">
-          <li class="user-menu__item" @click="logout(navigate)">Выйти</li>
+        <RouterLink
+          v-for="navigationItem in userNavigationList"
+          :to="navigationItem.to"
+          v-slot="{ navigate }"
+          custom
+        >
+          <li
+            class="user-menu__item"
+            @click="navigationItem.action(navigate)"
+            v-if="authStore.hasRole(navigationItem.minRole)"
+          >
+            {{ navigationItem.label }}
+          </li>
         </RouterLink>
       </ul>
     </div>
