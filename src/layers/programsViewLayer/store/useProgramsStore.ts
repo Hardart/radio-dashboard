@@ -23,6 +23,7 @@ export const useProgramsStore = defineStore('programs', () => {
     schedule: [],
     hosts: [],
     isPublished: false,
+    showInMenu: false,
     description: '',
     slug: '',
   }

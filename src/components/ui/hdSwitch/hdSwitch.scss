@@ -36,4 +36,14 @@
       transform: translateX(20px);
     }
   }
+
+  &--disabled {
+    .hd-switch__wrapper {
+      background-color: hsla(var(--color-gray-400), 0.1);
+    }
+
+    .hd-switch__handler {
+      background-color: hsla(var(--color-gray-100), 0.1);
+    }
+  }
 }

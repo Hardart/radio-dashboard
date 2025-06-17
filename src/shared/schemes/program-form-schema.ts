@@ -11,6 +11,7 @@ export const programFormSchema = z.object({
   hosts: z.array(z.string()),
   schedule: z.array(scheduleSchema),
   isPublished: z.boolean(),
+  showInMenu: z.boolean(),
 })
 
 export type ProgramForm = z.output<typeof programFormSchema>

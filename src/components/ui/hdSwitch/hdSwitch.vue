@@ -1,10 +1,20 @@
 <script lang="ts" setup>
 const isOn = defineModel<boolean>()
-const toggleSwitch = () => (isOn.value = !isOn.value)
+const { disabled } = defineProps<{
+  disabled?: boolean
+}>()
+
+const toggleSwitch = () => {
+  if (disabled) return
+  isOn.value = !isOn.value
+}
 </script>
 
 <template>
-  <div class="hd-switch" :class="isOn && 'hd-switch--on'">
+  <div
+    class="hd-switch"
+    :class="{ 'hd-switch--on': isOn, 'hd-switch--disabled': disabled }"
+  >
     <div class="hd-switch__wrapper" @click="toggleSwitch">
       <div class="hd-switch__handler"></div>
     </div>

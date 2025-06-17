@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { watch } from 'vue'
 import type { EditorControls } from '@/shared/enums/editor-controls'
 import type { User } from '@/shared/schemes/user-schema'
 import { colors } from '@/shared/helpers/program-colors'
@@ -21,6 +22,13 @@ import {
 
 const programFormData = defineModel<ProgramForm>({ required: true })
 
+watch(
+  () => programFormData.value.isPublished,
+  () => {
+    if (!programFormData.value.isPublished)
+      programFormData.value.showInMenu = false
+  }
+)
 defineProps<{ hosts: User[] }>()
 defineEmits([
   'onAddSchedule',
@@ -73,9 +81,16 @@ const editorControls: (keyof typeof EditorControls)[] = [
           <HdFormGroup label="Опубликовано">
             <HdSwitch v-model="programFormData.isPublished" />
           </HdFormGroup>
+          <HdFormGroup label="В меню">
+            <HdSwitch
+              v-model="programFormData.showInMenu"
+              :disabled="!programFormData.isPublished"
+            />
+          </HdFormGroup>
           <div class="program-form__button">
             <HdButton
-              text="Добавить расписание"
+              text="Расписание"
+              icon="add"
               @click="$emit('onAddSchedule')"
               size="s"
             />

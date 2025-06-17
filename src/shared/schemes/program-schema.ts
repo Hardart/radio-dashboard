@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { userSchema } from './user-schema'
 import { scheduleSchema } from './schedule-schema'
 export type Program = z.output<typeof programSchema>
 
@@ -13,4 +12,5 @@ export const programSchema = z.object({
   hosts: z.array(z.string()),
   schedule: z.array(scheduleSchema),
   isPublished: z.boolean(),
+  showInMenu: z.boolean(),
 })
