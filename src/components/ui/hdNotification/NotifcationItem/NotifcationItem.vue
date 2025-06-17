@@ -49,6 +49,7 @@ function onEnter() {
 }
 
 function onLeave() {
+  if (!autoClose) return
   startAnimation()
   currentTime = 0
 }

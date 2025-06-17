@@ -11,6 +11,9 @@
   outline-style: solid;
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: default;
   overflow: hidden;
 
   &--primary {
