@@ -1,26 +1,18 @@
 <script lang="ts" setup>
 import { watch } from 'vue'
+import type { User } from '@schema/user-schema'
 import type { EditorControls } from '@/shared/enums/editor-controls'
-import type { User } from '@/shared/schemes/user-schema'
-import { colors } from '@/shared/helpers/program-colors'
-import HdUploadImage from '@ui/hdUploadImage/hdUploadImage.vue'
-import HdFormGroup from '@ui/hdFormGroup/HdFormGroup.vue'
-import HdEditor from '@/components/editor/HdEditor.vue'
-import HdSwitch from '@ui/hdSwitch/hdSwitch.vue'
-import HdButton from '@ui/hdButton/hdButton.vue'
-import HdSelect from '@ui/hdSelect/hdSelect.vue'
-import HdInput from '@ui/hdInput/hdInput.vue'
-import HdForm from '@ui/hdForm/HdForm.vue'
-import {
-  scheduleTimeToString,
-  selectedIdsToWeekday,
-} from '@/shared/helpers/schedule'
+import * as UI from '@ui'
+import { hslaColors } from '@/shared/helpers/program-colors'
 import {
   type ProgramForm,
   programFormSchema,
-} from '@/shared/schemes/program-form-schema'
+} from '@schema/program-form-schema'
 
 const programFormData = defineModel<ProgramForm>({ required: true })
+defineProps<{ hosts: User[] }>()
+
+defineEmits(['onSave', 'onDelete', 'onAdd'])
 
 watch(
   () => programFormData.value.isPublished,
@@ -29,14 +21,6 @@ watch(
       programFormData.value.showInMenu = false
   }
 )
-defineProps<{ hosts: User[] }>()
-defineEmits([
-  'onAddSchedule',
-  'onEditSchedule',
-  'onDeleteSchedule',
-  'onSaveProgram',
-  'onDeleteProgram',
-])
 
 const editorControls: (keyof typeof EditorControls)[] = [
   'bold',
@@ -45,135 +29,116 @@ const editorControls: (keyof typeof EditorControls)[] = [
   'underline',
   'textWrap',
 ]
+
+const programTypes = ['программа', 'дайджест']
 </script>
 
 <template>
-  <HdForm
+  <UI.Form
     class="program-form"
     :state="programFormData"
     :schema="programFormSchema"
-    @on-submit="$emit('onSaveProgram')"
+    @on-submit="$emit('onSave')"
   >
-    <div class="program-form__group">
-      <div>
-        <HdFormGroup label="Название программы" name="title" required>
-          <HdInput v-model="programFormData.title" />
-        </HdFormGroup>
-        <div class="program-form__group">
-          <HdFormGroup label="Ведущие">
-            <HdSelect
-              class="program-form__select"
-              v-model="programFormData.hosts"
-              :options="hosts"
-              key-attr="id"
-              option-attr="fullName"
-              multiple
-            />
-          </HdFormGroup>
-          <HdFormGroup label="Выбрать цвет">
-            <HdSelect
-              class="program-form__select"
-              v-model="programFormData.color"
-              :options="colors"
-              key-attr="option"
-            />
-          </HdFormGroup>
-          <HdFormGroup label="Опубликовано">
-            <HdSwitch v-model="programFormData.isPublished" />
-          </HdFormGroup>
-          <HdFormGroup label="В меню">
-            <HdSwitch
-              v-model="programFormData.showInMenu"
-              :disabled="!programFormData.isPublished"
-            />
-          </HdFormGroup>
-          <div class="program-form__button">
-            <HdButton
-              text="Расписание"
+    <div class="program-form__container">
+      <div class="program-form__group">
+        <div
+          class="program-form__group program-form__group--col program-form__group--full"
+        >
+          <div class="program-form__group program-form__group--full">
+            <UI.Group
+              label="Название программы"
+              name="title"
+              required
+              :style="{
+                fullWidth: true,
+              }"
+            >
+              <UI.Input v-model="programFormData.title" size="xl" />
+            </UI.Group>
+            <UI.Button
+              v-if="programFormData.schedule?.length === 0"
+              text="Добавить расписание"
               icon="add"
-              @click="$emit('onAddSchedule')"
-              size="s"
+              @click="$emit('onAdd', programFormData.id)"
+            />
+          </div>
+          <div class="program-form__group">
+            <UI.Group label="Ведущие">
+              <UI.Select
+                class="program-form__select"
+                v-model="programFormData.hosts"
+                :options="hosts"
+                key-attr="id"
+                option-attr="fullName"
+                multiple
+              />
+            </UI.Group>
+
+            <UI.Group label="Выбрать цвет">
+              <UI.Select
+                class="program-form__select"
+                v-model="programFormData.color"
+                :options="hslaColors"
+                key-attr="option"
+              />
+            </UI.Group>
+            <UI.Group label="Опубликовать">
+              <UI.Switch v-model="programFormData.isPublished" />
+            </UI.Group>
+            <UI.Group label="Показать в меню">
+              <UI.Switch
+                v-model="programFormData.showInMenu"
+                :disabled="!programFormData.isPublished"
+              />
+            </UI.Group>
+            <UI.Group label="Тип">
+              <UI.Select
+                class="program-form__select"
+                v-model="programFormData.type"
+                :options="programTypes"
+              />
+            </UI.Group>
+          </div>
+        </div>
+        <div class="program-form__media">
+          <img
+            class="program-form__image"
+            :src="programFormData.image"
+            v-if="programFormData.image"
+          />
+          <div class="program-form__upload-buttons">
+            <UI.UploadImage
+              name="PROGRAMS"
+              v-model="programFormData.image"
+              v-tooltip="{ label: 'загрузить изображение' }"
             />
           </div>
         </div>
       </div>
-      <div class="program-form__media">
-        <img
-          class="program-form__image"
-          :src="programFormData.image"
-          v-if="programFormData.image"
+      <div class="program-form__group">
+        <UI.Editor
+          label="Описание программы"
+          v-model="programFormData.description"
+          :controls="editorControls"
+          :containerStyles="{ height: '250px' }"
         />
-        <div class="program-form__upload-buttons">
-          <HdUploadImage
-            name="PROGRAMS"
-            v-model="programFormData.image"
-            v-tooltip="{ label: 'загрузить изображение' }"
-          />
-        </div>
+      </div>
+      <div class="program-form__controls">
+        <UI.Button
+          v-if="programFormData.id"
+          text="Удалить"
+          @click="$emit('onDelete', programFormData.id)"
+          color="danger"
+        />
+        <UI.Button
+          :text="programFormData.id ? 'Обновить' : 'Создать'"
+          color="success"
+          type="submit"
+        />
       </div>
     </div>
-    <ul
-      class="program-form-schedule-list"
-      v-if="programFormData.schedule.length"
-    >
-      <li
-        class="program-form-schedule"
-        v-for="(schedule, idx) in programFormData.schedule"
-      >
-        <h4 class="program-form-schedule__title">
-          {{ selectedIdsToWeekday(schedule.weekdayIds) }}
-        </h4>
-        <ul class="program-form-schedule__time-list">
-          <li
-            v-for="props in schedule.properties"
-            class="program-form-schedule__time"
-          >
-            <p class="program-form-schedule__time-text">
-              {{ scheduleTimeToString(props) }}
-            </p>
-            <div v-if="props.isReplay" class="program-form-schedule__replay">
-              повтор
-            </div>
-          </li>
-        </ul>
-        <div class="program-form-schedule__controls">
-          <HdButton
-            size="s"
-            icon="edit"
-            @click="$emit('onEditSchedule', idx)"
-          />
-          <HdButton
-            size="s"
-            icon="delete"
-            color="danger"
-            @click="$emit('onDeleteSchedule', idx)"
-          />
-        </div>
-      </li>
-    </ul>
-    <div class="program-form__group">
-      <HdEditor
-        label="Описание программы"
-        v-model="programFormData.description"
-        :controls="editorControls"
-        :containerStyles="{ height: '250px' }"
-      />
-    </div>
-    <div class="program-form__controls">
-      <HdButton text="Назад" @click="$router.go(-1)" />
-      <HdButton
-        v-if="programFormData.id"
-        text="Удалить"
-        @click="$emit('onDeleteProgram', programFormData.id)"
-        color="danger"
-      />
-      <HdButton
-        :text="programFormData.id ? 'Обновить' : 'Сохранить'"
-        color="success"
-        type="submit"
-      />
-    </div>
-  </HdForm>
+  </UI.Form>
 </template>
 
 <style lang="scss" scoped src="./styles.scss" />

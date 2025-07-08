@@ -1,163 +1,212 @@
+import { defineStore } from 'pinia'
+import type {
+  ProgramForm,
+  ProgramFormWithStringSchedule,
+} from '@schema/program-form-schema'
+import type { ScheduleWithStyle } from '@schema/schedule-schema'
+import type { ICellProps, ProgramType } from '../types'
+import { computed, reactive, ref, type Ref } from 'vue'
 import { cloneDeep } from 'lodash'
-import { computed, reactive, ref, toValue, watch } from 'vue'
-import { defineStore, storeToRefs } from 'pinia'
-import { ProgramsAPI } from '@/api/programs-api'
-import { combineNearDays } from '@/shared/helpers/schedule'
-import type { Program } from '@/shared/schemes/program-schema'
-import type { Schedule } from '@/shared/schemes/schedule-schema'
-import type { User } from '@/shared/schemes/user-schema'
+import { RadioProgramsAPI } from '@/api/radio-programs-api'
 import { useScheduleStore } from './useScheduleStore'
-import type { ProgramForm } from '@/shared/schemes/program-form-schema'
+import { useDefaultStore } from '@/store/useDefaultStore'
+import { filterProgramsByType } from '../utils/helpers'
 import transcript from '@/shared/helpers/slug-transcript'
-import router from '@/router'
 
 export const useProgramsStore = defineStore('programs', () => {
   const scheduleStore = useScheduleStore()
-  const { scheduleList, ids, isTimeEqual } = storeToRefs(scheduleStore)
+  const baseStore = useDefaultStore()
 
-  const programState: ProgramForm = {
+  const programForm: ProgramForm = reactive({
     id: '',
     title: '',
-    image: '',
-    color: '#fff',
-    schedule: [],
-    hosts: [],
-    isPublished: false,
-    showInMenu: false,
-    description: '',
-    slug: '',
-  }
+    type: 'программа',
+  })
 
-  const programs = ref<Program[]>([])
-  const programFormData = ref<ProgramForm>(cloneDeep(programState))
-  const hosts = ref<User[]>([])
-  const tempId = ref()
-  const tempSchedule = ref<Schedule>()
+  const programType = ref<ProgramType>('все')
+
+  const programs: Ref<ProgramForm[]> = ref([])
   const pending = ref(false)
+
+  const isEditMode = computed(() => !!programForm.id)
+  const programsCount = computed(() => programs.value.length)
+  const programTypes = computed(() => {
+    const types = programs.value.map((program) => program.type)
+    return new Set(types)
+  })
+
+  const isShowTypeFilter = computed(() => programTypes.value.size > 1)
+
+  const filteredPrograms = computed(() =>
+    filterProgramsByType(programs.value, programType.value)
+  )
 
   async function fetchPrograms() {
     pending.value = true
     const { programs: programsData, hosts: hostsData } =
-      await ProgramsAPI.list()
-    programs.value = programsWithTime(programsData)
-    hosts.value = hostsData
+      await RadioProgramsAPI.list()
+    baseStore.hosts = hostsData
+    programs.value = programsData
     pending.value = false
   }
 
-  function resetProgram() {
-    programFormData.value = cloneDeep(programState)
-    scheduleList.value = []
-    ids.value = []
-    tempId.value = undefined
-    isTimeEqual.value = true
+  async function deleteScheduleFromProgram(
+    programId: string,
+    scheduleId: string
+  ) {
+    const p = _findProgramById(programs, programId)
+    if (p) _removeScheduleFromProgram(p, scheduleId)
+    await RadioProgramsAPI.deleteShedule({ programId, scheduleId })
   }
 
-  function addScheduleToProgram() {
-    if (
-      typeof tempId.value !== 'undefined' &&
-      typeof tempSchedule.value !== 'undefined'
-    ) {
-      programFormData.value.schedule.splice(
-        tempId.value,
-        1,
-        ...cloneDeep(scheduleList.value)
-      )
+  async function updateProgram(program?: ProgramForm) {
+    const p = _convertScheduleToString(program ?? programForm)
+    const updatedProgram = await RadioProgramsAPI.updateOne(p)
+    if (!updatedProgram) throw new Error('Can_t update programm')
+    return updatedProgram
+  }
+
+  function createProgram(cellProps: ICellProps) {
+    _resetProgramForm()
+    scheduleStore.fillScheduleForm(cellProps)
+    _fillProgramForm()
+  }
+
+  function programToForm(program: ProgramForm) {
+    Object.assign(programForm, program)
+  }
+
+  async function addDefaultSchedule(programId: string) {
+    const p = _findProgramById(programs, programId)
+    scheduleStore.fillScheduleForm({ dayIndex: 0, timeIndex: 0 })
+    const schedule = await scheduleStore.saveSchedule()
+    p.schedule?.push(schedule)
+    updateProgram(p)
+  }
+
+  async function saveProgram(program: ProgramForm) {
+    programToForm(program)
+    programForm.slug = transcript(programForm.title)
+
+    if (isEditMode.value) {
+      const updatedProgram = await updateProgram()
+      _updateProgramInPrograms(programs, updatedProgram)
     } else {
-      programFormData.value.schedule.push(...toValue(scheduleList))
+      const program = await _saveProgram()
+      _addProgramToPrograms(programs, program)
     }
-    scheduleList.value = []
-    ids.value = []
-    tempId.value = undefined
-    isTimeEqual.value = true
-    scheduleStore.toggleScheduleModalState()
   }
 
-  function editSchedule(index: number) {
-    tempId.value = index
-    tempSchedule.value = cloneDeep(programFormData.value.schedule[index])
-    ids.value = tempSchedule.value.weekdayIds
-    scheduleList.value.push(programFormData.value.schedule[index])
-    scheduleStore.toggleScheduleModalState()
+  async function _saveProgram() {
+    const newProgram = await RadioProgramsAPI.save(programForm)
+    if (!newProgram) throw new Error('Can_t save programm')
+    return newProgram
   }
 
-  function removeSchedule(index: number) {
-    programFormData.value.schedule.splice(index, 1)
+  function _fillProgramForm() {
+    const defaultSchedule = cloneDeep(scheduleStore.scheduleForm)
+    programForm.schedule = [defaultSchedule]
   }
 
-  function cancelAddingScheduleToProgram() {
-    if (
-      typeof tempId.value !== 'undefined' &&
-      typeof tempSchedule.value !== 'undefined'
-    ) {
-      programFormData.value.schedule[tempId.value] = cloneDeep(
-        tempSchedule.value
-      )
-    }
-    tempSchedule.value = undefined
-    scheduleList.value = []
-    ids.value = []
-    tempId.value = undefined
-    isTimeEqual.value = true
-    scheduleStore.toggleScheduleModalState()
+  async function deleteProgram(programId: string) {
+    const deletedProgramId = await RadioProgramsAPI.deleteOne({ id: programId })
+    if (!deletedProgramId) throw new Error('Can_t delete program')
+    _removeProgramFromPrograms(programs, deletedProgramId)
   }
 
-  async function saveProgram() {
-    programFormData.value.slug = transcript(programFormData.value.title)
-    pending.value = true
-    const programData = await ProgramsAPI.save(programFormData.value)
-    pending.value = false
-    if (!programData) return console.warn('Данные не получены')
-    programs.value.push(prepareSchedule(programData))
-    router.push(`/programs/${programData.id}`)
+  async function createScheduleCopy(
+    schedule: ScheduleWithStyle,
+    programId: string
+  ) {
+    const program = _findProgramById(programs, programId)
+    const copiedSchedule = await scheduleStore.createCopy(schedule)
+    _addSheduleToProgram(program.id, copiedSchedule.id)
+
+    program.schedule?.push(copiedSchedule)
   }
 
-  async function deleteProgram(id: string) {
-    pending.value = true
-    const data = await ProgramsAPI.deleteOne({ id })
-    pending.value = false
-    if (!data) return console.warn('Данные не получены')
-    await router.push('/programs')
-    programs.value = programs.value.filter((item) => item.id !== id)
+  async function _addSheduleToProgram(programId: string, scheduleId: string) {
+    await RadioProgramsAPI.addShedule({ programId, scheduleId })
   }
 
-  async function updateProgram() {
-    pending.value = true
-    await ProgramsAPI.updateOne(programFormData.value)
-    pending.value = false
-  }
+  function _resetProgramForm() {
+    const keys = Object.keys(programForm) as (keyof typeof programForm)[]
+    keys.forEach((key) => delete programForm[key])
 
-  const findProgramById = (id: string) => {
-    const p = programs.value.find((programsItem) => programsItem.id === id)
-    if (!p) return
-    programFormData.value = p
+    programForm.id = ''
+    programForm.title = ''
+    programForm.type = 'программа'
   }
 
   return {
     programs,
-    programFormData,
-    hosts,
+    programForm,
     pending,
+    programsCount,
+    isEditMode,
+    programType,
+    programTypes,
+    isShowTypeFilter,
+    filteredPrograms,
     fetchPrograms,
-    addScheduleToProgram,
-    cancelAddingScheduleToProgram,
+    createScheduleCopy,
+    deleteScheduleFromProgram,
+    createProgram,
+    programToForm,
     saveProgram,
+    addDefaultSchedule,
     deleteProgram,
-    updateProgram,
-    resetProgram,
-    editSchedule,
-    removeSchedule,
-    findProgramById,
   }
 })
 
-function programsWithTime(programsData: Program[]) {
-  return programsData.map(prepareSchedule)
+function _removeProgramFromPrograms(
+  programs: Ref<ProgramForm[]>,
+  programId: string
+) {
+  programs.value = programs.value.filter((program) => program.id !== programId)
 }
 
-function prepareSchedule(program: Program) {
-  const sch = program.schedule.map((s) => {
-    const sizes = combineNearDays(s.weekdayIds)
-    return { ...s, sizes }
-  })
-  return { ...program, schedule: sch }
+function _removeScheduleFromProgram(program: ProgramForm, scheduleId: string) {
+  program.schedule = program.schedule?.filter(
+    (sItem) => sItem.id !== scheduleId
+  )
+}
+
+function _addProgramToPrograms(
+  programs: Ref<ProgramForm[]>,
+  program: ProgramForm
+) {
+  programs.value.push(program)
+}
+
+function _updateProgramInPrograms(
+  programs: Ref<ProgramForm[]>,
+  program: ProgramForm
+) {
+  for (let i = 0; i < programs.value.length; i++) {
+    if (programs.value[i].id === program.id) {
+      programs.value[i] = program
+      break
+    }
+  }
+}
+
+function _findProgramById(
+  programs: Ref<ProgramForm[]>,
+  programId: string
+): ProgramForm {
+  const p = programs.value.find((programsItem) => programsItem.id === programId)
+  if (!p) throw new Error('Can_t find program by id')
+  return p
+}
+
+function _convertScheduleToString(
+  program: ProgramForm
+): ProgramFormWithStringSchedule {
+  const scheduleIds =
+    program.schedule?.map((scheduleItem) => scheduleItem.id) || []
+  return {
+    ...program,
+    schedule: scheduleIds,
+  }
 }
