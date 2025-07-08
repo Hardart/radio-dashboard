@@ -1,14 +1,29 @@
 .program-form {
+  width: 100%;
   height: 100%;
+  background-color: hsl(var(--background), 0.7);
+
+  &__container {
+    max-width: 1000px;
+    margin-inline: auto;
+    margin-top: 4rem;
+  }
 
   &__group {
     display: flex;
-    align-items: start;
     gap: 20px;
-    margin-top: 20px;
+
+    &:not(:first-child) {
+      margin-top: 20px;
+    }
+
+    &--col {
+      flex-direction: column;
+    }
 
     &--full {
       flex-grow: 1;
+      width: 100%;
     }
   }
 
@@ -21,6 +36,8 @@
     position: relative;
     width: 150px;
     height: 150px;
+    margin-left: auto;
+    flex-shrink: 0;
     background-color: hsl(var(--foreground), 0.03);
     border-radius: 8px;
     overflow: hidden;
