@@ -1,8 +1,8 @@
-import type { ITunesResponse } from '@/shared/types/itunes'
+import type { ITunesResponse } from '@type/itunes'
 import { useHdFetch } from './base-fetch/base-fetch'
-import type { ResponseApi } from '@/shared/types/ResponseAPI'
+import type { ResponseApi } from '@type/ResponseAPI'
 import { ofetch } from 'ofetch'
-import type { Track } from '@/shared/schemes/track-schema'
+import type { Track } from '@schema/track-schema'
 
 export const trackAPI = {
   async list() {

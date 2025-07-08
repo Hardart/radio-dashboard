@@ -1,7 +1,7 @@
-import type { ResponseApi } from '@/shared/types/ResponseAPI'
+import type { ResponseApi } from '@type/ResponseAPI'
 import { useHdFetch } from './base-fetch/base-fetch'
 import { toValue, type MaybeRef } from 'vue'
-import type { Slide } from '@/shared/schemes/slide-schema'
+import type { Slide } from '@schema/slide-schema'
 
 export const galleryAPI = {
   async list() {

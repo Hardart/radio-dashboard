@@ -1,4 +1,4 @@
-import type { ResponseApi } from '@/shared/types/ResponseAPI'
+import type { ResponseApi } from '@type/ResponseAPI'
 import { useHdFetch } from './base-fetch/base-fetch'
 import { toValue } from 'vue'
 import { addFullAddressKey } from '@/shared/helpers/add-full-address'

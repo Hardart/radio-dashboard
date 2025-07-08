@@ -1,5 +1,5 @@
-import type { CategoryFormData } from '@/shared/schemes/category-form-schema'
-import type { ResponseApi } from '@/shared/types/ResponseAPI'
+import type { CategoryFormData } from '@schema/category-form-schema'
+import type { ResponseApi } from '@type/ResponseAPI'
 import { useHdFetch } from './base-fetch/base-fetch'
 
 export const categoriesAPI = {

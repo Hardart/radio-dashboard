@@ -1,6 +1,6 @@
 import { toValue, type MaybeRef } from 'vue'
-import type { Address, BaseContact, Mail, Phone } from '@/shared/types/contact'
-import type { ResponseApi } from '@/shared/types/ResponseAPI'
+import type { Address, BaseContact, Mail, Phone } from '@type/contact'
+import type { ResponseApi } from '@type/ResponseAPI'
 import { useHdFetch } from './base-fetch/base-fetch'
 import { addFullAddressKey } from '@/shared/helpers/add-full-address'
 

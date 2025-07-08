@@ -1,7 +1,7 @@
 import { useHdFetch } from './base-fetch/base-fetch'
-import type { ResponseApi } from '@/shared/types/ResponseAPI'
-import type { HostFormData } from '@/shared/schemes/host-schema'
-import type { User } from '@/shared/schemes/user-schema'
+import type { ResponseApi } from '@type/ResponseAPI'
+import type { HostFormData } from '@schema/host-schema'
+import type { User } from '@schema/user-schema'
 interface UserResponse {
   accessToken: string
   refreshToken: string

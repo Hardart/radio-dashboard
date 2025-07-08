@@ -1,6 +1,6 @@
-import { type UserLoginForm } from '@/shared/schemes/user-schema'
+import { type UserLoginForm } from '@schema/user-schema'
 import { useHdFetch } from './base-fetch/base-fetch'
-import type { ResponseApi } from '@/shared/types/ResponseAPI'
+import type { ResponseApi } from '@type/ResponseAPI'
 
 export const authAPI = {
   async registration(body: object) {

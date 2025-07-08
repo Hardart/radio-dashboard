@@ -1,8 +1,8 @@
 import { useHdFetch } from '@/api/base-fetch/base-fetch'
 import { useNotifications } from '@/components/ui/hdNotification/useNotifications'
-import type { ArticleForm } from '@/shared/schemes/article-form-schema'
-import type { Article } from '@/shared/schemes/article-schema'
-import type { ResponseApi } from '@/shared/types/ResponseAPI'
+import type { ArticleForm } from '@schema/article-form-schema'
+import type { Article } from '@schema/article-schema'
+import type { ResponseApi } from '@type/ResponseAPI'
 
 export const articlesAPI = {
   async baseData() {

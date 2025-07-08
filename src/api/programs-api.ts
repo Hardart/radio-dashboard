@@ -1,7 +1,6 @@
-import type { ResponseApi } from '@/shared/types/ResponseAPI'
+import type { ResponseApi } from '@type/ResponseAPI'
+import type { ProgramForm } from '@schema/program-form-schema'
 import { useHdFetch } from './base-fetch/base-fetch'
-import type { Program } from '@/shared/schemes/program-schema'
-import type { ProgramForm } from '@/shared/schemes/program-form-schema'
 
 export const ProgramsAPI = {
   async list() {

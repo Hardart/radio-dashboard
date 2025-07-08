@@ -1,4 +1,4 @@
-import type { ResponseApi } from '@/shared/types/ResponseAPI'
+import type { ResponseApi } from '@type/ResponseAPI'
 import { useHdFetch } from './base-fetch/base-fetch'
 import { UploadPath } from '@/shared/enums/upload-path-url'
 
