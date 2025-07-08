@@ -1,0 +1,77 @@
+@import '@/styles/includes';
+
+.hd-select {
+  position: relative;
+  display: inline-block;
+  width: clamp(200px, 15rem, 400px);
+
+  &--full-width {
+    width: 100%;
+  }
+
+  &__wrapper {
+    position: absolute;
+    width: 100%;
+    margin-top: 5px;
+    background-color: hsla(var(--background));
+    border: 1px solid var(--color-border);
+    border-radius: 5px;
+    filter: drop-shadow(5px);
+    z-index: 999;
+  }
+
+  &__list {
+    position: relative;
+    max-height: 200px;
+    padding-inline: 5px;
+    padding-block: 10px;
+    overflow-y: auto;
+  }
+
+  &:deep(.hd-input) {
+    margin-bottom: 5px;
+
+    .hd-input__field:focus {
+      outline: none;
+    }
+  }
+
+  &-item {
+    padding-top: 3px;
+    padding-bottom: 4px;
+    padding-left: 10px;
+    border-radius: 5px;
+    white-space: nowrap;
+    color: hsla(var(--foreground), 0.6);
+
+    & + & {
+      margin-top: 10px;
+    }
+
+    &:hover {
+      background-color: hsla(var(--foreground), 0.04);
+      cursor: pointer;
+    }
+
+    &--active {
+      color: hsl(var(--foreground));
+      background-color: hsl(var(--foreground), 0.03);
+
+      .select-item__title {
+        padding-right: 25px;
+
+        &::after {
+          content: '';
+          position: absolute;
+          display: inline-flex;
+          right: 0;
+          width: 24px;
+          height: 24px;
+          background-color: hsla(var(--foreground), 0.7);
+          mask: url('@/assets/icons/check.svg') no-repeat center;
+          -webkit-mask: url('@/assets/icons/check.svg') no-repeat center;
+        }
+      }
+    }
+  }
+}
