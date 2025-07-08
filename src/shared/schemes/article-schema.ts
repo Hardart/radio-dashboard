@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { categorySchema } from '@/shared/schemes/category-schema'
+import { categorySchema } from '@schema/category-schema'
 
 export const articleSchema = z.object({
   id: z.string(),

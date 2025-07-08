@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ITunesTrack } from '@/shared/types/itunes'
+import type { ITunesTrack } from '@type/itunes'
 import { inject } from 'vue'
 
 defineProps<{

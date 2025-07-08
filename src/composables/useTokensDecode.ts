@@ -1,5 +1,5 @@
 import { jwtDecode } from 'jwt-decode'
-import type { User } from '@/shared/schemes/user-schema'
+import type { User } from '@schema/user-schema'
 
 export type Tokens = {
   getAccessToken: () => string | null

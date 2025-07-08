@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
 import SvgIcon from '@/components/SvgIcon/SvgIcon.vue'
-import type { Icon } from '@/shared/types/Icon'
+import type { Icon } from '@type/Icon'
 import OpenButton from './components/openButton/OpenButton.vue'
 type Link = {
   id: number

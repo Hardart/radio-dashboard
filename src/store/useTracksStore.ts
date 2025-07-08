@@ -1,7 +1,6 @@
 import { trackAPI } from '@/api/track-api'
 import { useToggle } from '@/composables/useToggle'
-import type { Track } from '@/shared/schemes/track-schema'
-import type { ITunesTrack } from '@/shared/types/itunes'
+import type { Track } from '@schema/track-schema'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 

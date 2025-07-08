@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import HdButton from '@ui/hdButton/hdButton.vue'
+import HdButton from '@hd/hdButton/hdButton.vue'
 
 import { normalizeDate } from '@/shared/helpers/date'
 import { useCategoriesStore } from '@/store/useCategoriesStore'

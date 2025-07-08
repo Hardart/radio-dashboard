@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import HdButton from '@ui/hdButton/hdButton.vue'
+import HdButton from '@hd/hdButton/hdButton.vue'
 import { toggleSort } from '@/shared/helpers/sort-articles'
 defineProps<{
   text: string

@@ -1,22 +1,14 @@
 <script setup lang="ts">
-import type { ITunesTrack } from '@/shared/types/itunes'
-import type { Track } from '@/shared/schemes/track-schema'
-import { normalizeDate } from '@/shared/helpers/date'
+import type { ITunesTrack } from '@type/itunes'
+import type { Track } from '@schema/track-schema'
+import * as ContentLayout from '@contentLayout'
+import * as UI from '@ui'
 import { provide, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useToggle } from '@vueuse/core'
 import { trackAPI } from '@/api/track-api'
-import HdContextMenu from '@ui/hdContextMenu/hdContextMenu.vue'
-import HdPagination from '@ui/hdPagination/hdPagination.vue'
-import HdSwitch from '@ui/hdSwitch/hdSwitch.vue'
-import HdTable from '@ui/hdTable/hdTable.vue'
-import HdInput from '@ui/hdInput/hdInput.vue'
-import HdBadge from '@ui/hdBadge/hdBadge.vue'
+import { normalizeDate } from '@/shared/helpers/date'
 import TrackEditor from '../../components/trackEditor/TrackEditor.vue'
-import DashboardContentHeaderLayout from '@/layouts/dashboardContentHeaderLayout.vue'
-import DashboardContentFooterLayout from '@/layouts/dashboardContentFooterLayout.vue'
-import DashboardContentBodyLayout from '@/layouts/dashboardContentBodyLayout.vue'
-import DashboardContentLayout from '@/layouts/dashboardContentLayout.vue'
 import { initCoords, coords } from '@/components/ui/hdContextMenu/hdContextMenu'
 import { useTracksStore } from '@/store/useTracksStore'
 
@@ -112,28 +104,27 @@ function changeTrack(track: Track) {
 </script>
 
 <template>
-  <DashboardContentLayout>
-    <DashboardContentHeaderLayout>
-      <div class="dashboard__header--left">
-        <h3 class="dashboard__header-title">Треки</h3>
-        <HdBadge :label="tracksCount" type="warning" />
-      </div>
+  <ContentLayout.Root>
+    <ContentLayout.Header title="Треки">
+      <template #header>
+        <UI.Badge :label="tracksCount" type="warning" />
+      </template>
       <div class="dashboard__header--right">
-        <HdBadge
+        <UI.Badge
           :label="filteredCount"
           type="warning"
           v-if="artistFilter.trim().length"
         />
-        <HdInput
+        <UI.Input
           icon="search"
           placeholder="поиск треков"
           v-model="artistFilter"
         />
-        <HdSwitch v-model="withCover" />
+        <UI.Switch v-model="withCover" />
       </div>
-    </DashboardContentHeaderLayout>
-    <DashboardContentBodyLayout no-padding>
-      <HdTable
+    </ContentLayout.Header>
+    <ContentLayout.Body no-padding>
+      <UI.Table
         size="s"
         :data="tracksByPage"
         :columns
@@ -149,12 +140,12 @@ function changeTrack(track: Track) {
         <template #createdAt-column="{ item }">
           <span>{{ normalizeDate(item.createdAt) }}</span>
         </template>
-      </HdTable>
-    </DashboardContentBodyLayout>
-    <DashboardContentFooterLayout v-if="isShowPagination">
-      <HdPagination v-model="page" :page-count :total="filteredCount" />
-    </DashboardContentFooterLayout>
-  </DashboardContentLayout>
+      </UI.Table>
+    </ContentLayout.Body>
+    <ContentLayout.Footer v-if="isShowPagination">
+      <UI.Pagination v-model="page" :page-count :total="filteredCount" />
+    </ContentLayout.Footer>
+  </ContentLayout.Root>
   <Teleport to=".dashboard__content" defer>
     <TrackEditor
       v-if="trackItem && isOpenEditor"
@@ -164,7 +155,7 @@ function changeTrack(track: Track) {
     />
   </Teleport>
   <Teleport to=".dashboard__content" defer>
-    <HdContextMenu
+    <UI.ContextMenu
       v-model="isOpenContext"
       :coords
       @on-edit="onEdit"

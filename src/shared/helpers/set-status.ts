@@ -1,4 +1,4 @@
-import type { Article } from '@/shared/schemes/article-schema'
+import type { Article } from '@schema/article-schema'
 import { PUBLISH_STATUSES } from '@/shared/enums/article-status'
 
 export function setStatus(article: Article) {

@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import type {
-  Address,
-  BaseContactModel,
-  Mail,
-  Phone,
-} from '@/shared/types/contact'
+import type { Address, BaseContactModel, Mail, Phone } from '@type/contact'
 import HdInput from '../ui/hdInput/hdInput.vue'
 import HdSelect from '../ui/hdSelect/hdSelect.vue'
 

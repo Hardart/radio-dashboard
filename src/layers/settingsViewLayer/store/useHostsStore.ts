@@ -1,5 +1,5 @@
-import type { HostFormData } from '@/shared/schemes/host-schema'
-import type { User } from '@/shared/schemes/user-schema'
+import type { HostFormData } from '@schema/host-schema'
+import type { User } from '@schema/user-schema'
 import { reactive, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useToggle } from '@vueuse/core'
@@ -27,12 +27,7 @@ export const useHostsStore = defineStore('hosts', () => {
     (users.value = users.value.filter((item) => item.id !== id))
 
   function editUser(user: User) {
-    userFormData.id = user.id
-    userFormData.email = user.email
-    userFormData.firstName = user.firstName
-    userFormData.lastName = user.lastName
-    userFormData.avatar = user.avatar
-    userFormData.roles = user.roles
+    Object.assign(userFormData, user)
     toggleOpenState(true)
   }
 
@@ -55,26 +50,12 @@ export const useHostsStore = defineStore('hosts', () => {
   }
 
   async function addUser() {
-    pending.value = true
-    if (userFormData.avatar) {
-      userFormData.avatar = removeLocalUrl(userFormData.avatar)
-    }
-
     const user = await userAPI.addOne(userFormData)
-    pending.value = false
     if (user) users.value.push(user)
-    resetUser()
-    toggleOpenState(false)
   }
 
   async function updateUser() {
-    pending.value = true
-    if (userFormData.avatar) {
-      userFormData.avatar = removeLocalUrl(userFormData.avatar)
-    }
-    const res = await userAPI.update(userFormData)
-    pending.value = false
-    toggleOpenState(false)
+    await userAPI.update(userFormData)
   }
 
   async function deleteUser() {
@@ -90,8 +71,18 @@ export const useHostsStore = defineStore('hosts', () => {
   }
 
   async function setUser() {
-    if (userFormData.id) await updateUser()
-    else await addUser()
+    pending.value = true
+    if (userFormData.avatar) {
+      userFormData.avatar = removeLocalUrl(userFormData.avatar)
+    }
+    if (userFormData.id) {
+      await updateUser()
+    } else {
+      await addUser()
+    }
+    pending.value = false
+    resetUser()
+    toggleOpenState(false)
   }
 
   return {

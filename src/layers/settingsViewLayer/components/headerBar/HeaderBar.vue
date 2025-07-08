@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import HdButton from '@/components/ui/hdButton/hdButton.vue'
-import DashboardContentHeaderLayout from '@/layouts/dashboardContentHeaderLayout.vue'
+import DashboardContentHeaderLayout from '@/layouts/Content/dashboardContentHeaderLayout.vue'
 defineProps<{
   isFooterContactsOn: unknown
 }>()

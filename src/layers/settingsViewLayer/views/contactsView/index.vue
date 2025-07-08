@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
 import { useDefaultStore } from '@/store/useDefaultStore'
-import DashboardContentFooterLayout from '@/layouts/dashboardContentFooterLayout.vue'
-import DashboardContentBodyLayout from '@/layouts/dashboardContentBodyLayout.vue'
+import DashboardContentFooterLayout from '@/layouts/Content/dashboardContentFooterLayout.vue'
+import DashboardContentBodyLayout from '@/layouts/Content/dashboardContentBodyLayout.vue'
 import SettingsContactsForm from '@/components/settings/SettingsContactsForm.vue'
 import Addresses from '../../components/addresses/Addresses.vue'
 import Phones from '../../components/phones/Phones.vue'
 import Mails from '../../components/mails/Mails.vue'
-import HdButton from '@ui/hdButton/hdButton.vue'
+import HdButton from '@hd/hdButton/hdButton.vue'
 
 const store = useDefaultStore()
 const {

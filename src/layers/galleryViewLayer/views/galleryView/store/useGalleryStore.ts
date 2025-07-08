@@ -1,5 +1,5 @@
 import { galleryAPI } from '@/api/gallery-api'
-import type { Slide } from '@/shared/schemes/slide-schema'
+import type { Slide } from '@schema/slide-schema'
 
 import { defineStore } from 'pinia'
 import { reactive, ref } from 'vue'

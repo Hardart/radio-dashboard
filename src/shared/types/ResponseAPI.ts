@@ -1,10 +1,12 @@
-import type { Article } from '@/shared/schemes/article-schema'
-import type { Category } from '@/shared/schemes/category-schema'
-import type { User } from '@/shared/schemes/user-schema'
-import type { Slide } from '@/shared/schemes/slide-schema'
+import type { Article } from '@schema/article-schema'
+import type { Category } from '@schema/category-schema'
+import type { User } from '@schema/user-schema'
+import type { Slide } from '@schema/slide-schema'
 import type { Track } from '../schemes/track-schema'
 import type { Address, BaseContact, Mail, Phone } from './contact'
 import type { Program } from '../schemes/program-schema'
+import type { ProgramForm } from '../schemes/program-form-schema'
+import type { ScheduleWithStyle } from '../schemes/schedule-schema'
 
 export interface CustomFetchOptions {
   url: string
@@ -42,6 +44,10 @@ export declare namespace ResponseApi {
   type FileSingle = { path: string }
   type ProgramList = { programs: Program[]; hosts: User[] }
   type ProgramSngle = { program: Program }
+  type Schedule = { schedule: ScheduleWithStyle }
+  type RadioProgramList = { programs: ProgramForm[]; hosts: User[] }
+  type RadioProgramSngle = { program: ProgramForm }
+  type RadioProgramId = { id: string }
   type UserList = { users: User[] }
   type TrackList = { tracks: Track[] }
   type TrackSingle = { track: Track }

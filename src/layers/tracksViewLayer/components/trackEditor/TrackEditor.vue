@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { trackAPI } from '@/api/track-api'
-import type { ITunesTrack } from '@/shared/types/itunes'
-import { trackSchema, type Track } from '@/shared/schemes/track-schema'
+import type { ITunesTrack } from '@type/itunes'
+import { trackSchema, type Track } from '@schema/track-schema'
 import HdForm from '@/components/ui/hdForm/HdForm.vue'
 import HdInput from '@/components/ui/hdInput/hdInput.vue'
 import HdButton from '@/components/ui/hdButton/hdButton.vue'

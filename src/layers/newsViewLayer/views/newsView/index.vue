@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import HdButton from '@ui/hdButton/hdButton.vue'
+import HdButton from '@hd/hdButton/hdButton.vue'
 import { useNewsStore } from '@/layers/newsViewLayer/store/useNewsStore'
-import DashboardContentLayout from '@/layouts/dashboardContentLayout.vue'
-import DashboardContentBodyLayout from '@/layouts/dashboardContentBodyLayout.vue'
-import DashboardContentHeaderLayout from '@/layouts/dashboardContentHeaderLayout.vue'
+import DashboardContentLayout from '@/layouts/Content/dashboardContentLayout.vue'
+import DashboardContentBodyLayout from '@/layouts/Content/dashboardContentBodyLayout.vue'
+import DashboardContentHeaderLayout from '@/layouts/Content/dashboardContentHeaderLayout.vue'
 import { storeToRefs } from 'pinia'
 import HdBadge from '@/components/ui/hdBadge/hdBadge.vue'
 

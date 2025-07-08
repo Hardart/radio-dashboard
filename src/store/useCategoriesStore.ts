@@ -1,7 +1,7 @@
 import { categoriesAPI } from '@/api/categories-api'
 import { defineStore } from 'pinia'
-import type { Category } from '@/shared/schemes/category-schema'
-import type { CategoryFormData } from '@/shared/schemes/category-form-schema'
+import type { Category } from '@schema/category-schema'
+import type { CategoryFormData } from '@schema/category-form-schema'
 import { ref, computed } from 'vue'
 
 export const useCategoriesStore = defineStore('category', () => {

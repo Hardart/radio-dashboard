@@ -3,11 +3,11 @@ import { ref } from 'vue'
 import defu from 'defu'
 import { onDefaultRequest } from './onDefaultRequest'
 import { onDefaultResponseError } from './onResponseError'
-import type { CustomResponse } from '@/shared/types/ResponseAPI'
+import type { CustomResponse } from '@type/ResponseAPI'
 import {
-  useNotifications,
   type Notification,
-} from '@/components/ui/hdNotification/useNotifications'
+  useNotifications,
+} from '@hd/hdNotification/useNotifications'
 
 export const useHdFetch = async <T>(
   url: string,
@@ -15,10 +15,10 @@ export const useHdFetch = async <T>(
   toastItem?: Omit<Notification, 'id'>
 ) => {
   const data = ref<T>()
-  const error = ref()
+  const error = ref<ErrorEvent>()
   const toast = useNotifications()
   const defaultOptions: FetchOptions<'json'> = {
-    baseURL: '/api',
+    baseURL: options?.baseURL ?? '/api',
     method: 'POST',
     onRequest: onDefaultRequest,
     onResponseError: onDefaultResponseError,
@@ -38,7 +38,7 @@ export const useHdFetch = async <T>(
         ...toastItem,
       })
   } catch (err) {
-    error.value = err
+    if (err instanceof ErrorEvent) error.value = err
   }
 
   return { data, error }

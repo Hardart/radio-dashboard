@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useDefaultStore } from '@/store/useDefaultStore'
-import DashboardContentLayout from '@/layouts/dashboardContentLayout.vue'
+import DashboardContentLayout from '@/layouts/Content/dashboardContentLayout.vue'
 import HeaderBar from '../components/headerBar/HeaderBar.vue'
 
 const store = useDefaultStore()

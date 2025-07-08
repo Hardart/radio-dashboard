@@ -2,7 +2,7 @@
 import HdButton from '@/components/ui/hdButton/hdButton.vue'
 import HdInput from '@/components/ui/hdInput/hdInput.vue'
 import HdUploadImage from '@/components/ui/hdUploadImage/hdUploadImage.vue'
-import type { Slide } from '@/shared/schemes/slide-schema'
+import type { Slide } from '@schema/slide-schema'
 
 defineProps<{
   slide: Slide

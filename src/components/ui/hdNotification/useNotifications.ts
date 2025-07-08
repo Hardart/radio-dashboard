@@ -1,4 +1,4 @@
-import type { Icon } from '@/shared/types/Icon'
+import type { Icon } from '@type/Icon'
 import { ref } from 'vue'
 
 export type Notification = {

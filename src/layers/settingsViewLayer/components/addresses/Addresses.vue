@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useToggle } from '@vueuse/core'
-import type { Address } from '@/shared/types/contact'
+import type { Address } from '@type/contact'
 import HdButton from '@/components/ui/hdButton/hdButton.vue'
 import HdFormGroup from '@/components/ui/hdFormGroup/HdFormGroup.vue'
 import HdInput from '@/components/ui/hdInput/hdInput.vue'

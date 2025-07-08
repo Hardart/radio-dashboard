@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { filesAPI } from '@/api/upload-api'
-import type { Icon } from '@/shared/types/Icon'
+import type { Icon } from '@type/Icon'
 import { UploadPath } from '@/shared/enums/upload-path-url'
 import HdButton from '../hdButton/hdButton.vue'
 import { correctImageUrl } from '@/shared/helpers/utils'

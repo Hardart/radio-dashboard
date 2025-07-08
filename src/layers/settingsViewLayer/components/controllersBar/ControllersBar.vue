@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import HdButton from '@/components/ui/hdButton/hdButton.vue'
-import DashboardContentControlsLayout from '@/layouts/dashboardContentControlsLayout.vue'
+import DashboardContentControlsLayout from '@/layouts/Content/dashboardContentControlsLayout.vue'
 defineEmits(['toggle-base', 'toggle-footer'])
 </script>
 
