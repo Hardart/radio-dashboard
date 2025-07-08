@@ -1,27 +1,32 @@
+import type { CSSProperties } from 'vue'
 import { z } from 'zod'
 
 export type Schedule = z.output<typeof scheduleSchema>
-export type ScheduleProperty = z.output<typeof scheduleTimeSchema>
+export type ScheduleWithStyle = z.output<typeof scheduleSchemaWithStyle>
 
-const cellWidthSchema = z.object({
-  startFromId: z.number(),
-  width: z.number(),
-})
-
-const scheduleTimeSchema = z.object({
-  start: z.object({
-    hh: z.string(),
-    mm: z.string(),
-  }),
-  end: z.object({
-    hh: z.string(),
-    mm: z.string(),
-  }),
-  isReplay: z.boolean(),
-})
+// new schema
 
 export const scheduleSchema = z.object({
-  weekdayIds: z.array(z.number()),
-  properties: z.array(scheduleTimeSchema),
-  sizes: z.array(cellWidthSchema).optional(),
+  id: z.string(),
+  dayIndex: z.number(),
+  dayRange: z.number(),
+  duration: z.number(),
+  startTime: z.string(),
+  isReplay: z.boolean(),
+  priority: z.number().optional(),
 })
+
+// Добавляем новое поле `styles` с типом `CSSProperties`
+export const scheduleSchemaWithStyle = scheduleSchema.extend({
+  style: z.custom<CSSProperties>(
+    (value) => {
+      // Проверяем, что значение является объектом
+      return typeof value === 'object' && value !== null
+    },
+    {
+      message: 'Must be a valid CSSProperties object',
+    }
+  ),
+})
+
+// Используем тип на основе расширенной схемы
