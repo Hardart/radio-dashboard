@@ -12,8 +12,17 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
       '@icons': fileURLToPath(new URL('./src/assets/icons', import.meta.url)),
-      '@ui': fileURLToPath(new URL('./src/components/ui', import.meta.url)),
+      '@ui': fileURLToPath(
+        new URL('./src/components/ui/index.ts', import.meta.url)
+      ),
+      '@contentLayout': fileURLToPath(
+        new URL('./src/layouts/content.ts', import.meta.url)
+      ),
+      '@hd': fileURLToPath(new URL('./src/components/ui', import.meta.url)),
       '@type': fileURLToPath(new URL('./src/shared/types', import.meta.url)),
+      '@schema': fileURLToPath(
+        new URL('./src/shared/schemes', import.meta.url)
+      ),
     },
   },
   server: {
@@ -22,6 +31,11 @@ export default defineConfig({
         target: 'http://localhost:3068/api/v1/dashboard',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+      '/test_api': {
+        target: 'http://localhost:3068/api/v2/dashboard',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/test_api/, ''),
       },
     },
   },

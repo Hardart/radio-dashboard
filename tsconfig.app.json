@@ -10,8 +10,11 @@
     "paths": {
       "@/*": ["./src/*"],
       "@icons/*": ["./src/assets/icons/*"],
-      "@ui/*": ["./src/components/ui/*"],
-      "@type/*": ["./src/shared/types/*"]
+      "@ui": ["./src/components/ui/index.ts"],
+      "@contentLayout": ["./src/layouts/content.ts"],
+      "@hd/*": ["./src/components/ui/*"],
+      "@type/*": ["./src/shared/types/*"],
+      "@schema/*": ["./src/shared/schemes/*"]
     }
   }
 }
