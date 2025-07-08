@@ -10,3 +10,15 @@
     object-fit: cover;
   }
 }
+
+.content-grid {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  overflow: hidden;
+
+  &__table {
+    position: relative;
+  }
+}

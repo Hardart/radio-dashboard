@@ -3,8 +3,17 @@ export type ObjectItem = Record<string, any>
 export function isArray(input: unknown): input is any[] {
   return Array.isArray(input)
 }
+export const isType = <Type>(thing: any): thing is Type => true
+
+export function isArrayOfType<A>(
+  input: unknown,
+  typeCheck: (inputItem: unknown) => inputItem is A
+): input is A[] {
+  return Array.isArray(input) && input.every(typeCheck)
+}
+
 export function isObject(input: unknown): input is ObjectItem {
-  return typeof input === 'object' && input !== null
+  return typeof input === 'object' && input !== null && !isArray(input)
 }
 export function isString(input: unknown): input is string {
   return typeof input === 'string'
@@ -31,3 +40,7 @@ export function removeLocalUrl(src: string | undefined) {
 
 export const createArrayOfNumbers = (count: number, startFrom: number = 0) =>
   new Array(count).fill('').map((_, index) => index + startFrom)
+
+export function _clamp(min: number, max: number, curr: number) {
+  return Math.max(min, Math.min(max, curr))
+}

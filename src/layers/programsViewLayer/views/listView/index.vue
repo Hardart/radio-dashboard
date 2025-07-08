@@ -1,11 +1,21 @@
 <script setup lang="ts">
+import type { ProgramForm } from '@schema/program-form-schema'
+import type { ScheduleWithStyle } from '@schema/schedule-schema'
 import { storeToRefs } from 'pinia'
-import HdBadge from '@ui/hdBadge/hdBadge.vue'
-import HdTable from '@ui/hdTable/hdTable.vue'
-import { useProgramsStore } from '../../store/useProgramsStore'
+import { useToggle } from '@vueuse/core'
+import * as UI from '@ui'
 
-const scheduleStore = useProgramsStore()
-const { programs, pending } = storeToRefs(scheduleStore)
+import ScheduleTable from '../../components/scheduleTable.vue'
+import ProgramFormComponent from '../../components/programForm/programForm.vue'
+import { useDefaultStore } from '@/store/useDefaultStore'
+import { useProgramsStore } from '../../store/useProgramsStore'
+import { useScheduleStore } from '../../store/useScheduleStore'
+import { setLabel, setType } from '../../utils/helpers'
+
+const baseStore = useDefaultStore()
+const programStore = useProgramsStore()
+const scheduleStore = useScheduleStore()
+const { pending } = storeToRefs(programStore)
 
 const columns = [
   {
@@ -21,34 +31,95 @@ const columns = [
   {
     key: 'isPublished',
     label: 'статус',
-    class: 'width-m',
+    class: 'width-s',
   },
 ]
+
+const [isModalOpen, toggleOpenState] = useToggle()
+
+const onEditProgram = (program: ProgramForm) => {
+  programStore.programToForm(program)
+  toggleOpenState(true)
+}
+
+function onSaveProgram() {
+  programStore.saveProgram(programStore.programForm)
+  toggleOpenState(false)
+}
+
+function onCreateProgram(dayIndex: number, timeIndex: number) {
+  programStore.createProgram({ dayIndex, timeIndex })
+  toggleOpenState(true)
+}
+
+function onDeleteSchedule(programId: string, scheduleId: string) {
+  programStore.deleteScheduleFromProgram(programId, scheduleId)
+}
+
+function onAddDefaultSchedule(programId: string) {
+  programStore.addDefaultSchedule(programId)
+}
+
+function onCreateCopy(programId: string, schedule: ScheduleWithStyle) {
+  programStore.createScheduleCopy(schedule, programId)
+}
+
+function onDeleteProgram(programId: string) {
+  programStore.deleteProgram(programId)
+  toggleOpenState(false)
+}
+
+async function onUpdateSchedule(
+  schedule: ScheduleWithStyle,
+  fn: (value: boolean) => void
+) {
+  const res = await scheduleStore.updateSchedule(schedule)
+  if (res) fn(false)
+}
 </script>
 
 <template>
-  <HdTable
-    :columns
-    :data="programs"
-    :link="{ basePath: '/programs', itemKey: 'id' }"
-    :pending
-  >
-    <template #image-column="{ item }">
-      <div class="media-column">
-        <img class="media-column__image" :src="item.image" />
-      </div>
-    </template>
-    <template #title-column="{ item }">
-      <div>{{ item.title }}</div>
-    </template>
+  <div class="content-grid">
+    <div>
+      <UI.Table
+        :columns
+        :data="programStore.filteredPrograms"
+        :pending
+        @on-item="onEditProgram"
+        @on-create="onCreateProgram(0, 0)"
+      >
+        <template #image-column="{ item }">
+          <div class="media-column">
+            <img class="media-column__image" :src="item.image" />
+          </div>
+        </template>
+        <template #title-column="{ item }">
+          <div>{{ item.title }}</div>
+        </template>
 
-    <template #isPublished-column="{ item }">
-      <HdBadge
-        :label="item.isPublished ? 'опубликовано' : 'не опубликовано'"
-        :type="item.isPublished ? 'success' : 'danger'"
-      />
-    </template>
-  </HdTable>
+        <template #isPublished-column="{ item }">
+          <UI.Badge :label="setLabel(item)" :type="setType(item)" />
+        </template>
+      </UI.Table>
+    </div>
+    <ScheduleTable
+      :programs="programStore.filteredPrograms"
+      @on-create="onCreateProgram"
+      @on-delete="onDeleteSchedule"
+      @on-copy="onCreateCopy"
+      @on-update-schedule="onUpdateSchedule"
+    />
+  </div>
+
+  <UI.Modal v-model="isModalOpen">
+    <ProgramFormComponent
+      v-model="programStore.programForm"
+      @on-save="onSaveProgram"
+      @on-add="onAddDefaultSchedule"
+      @on-delete="onDeleteProgram"
+      :hosts="baseStore.hosts"
+    />
+  </UI.Modal>
 </template>
 
 <style lang="scss" scoped src="./style.scss" />
