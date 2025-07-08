@@ -1,6 +1,7 @@
 import { authAPI } from '@/api/auth-api'
 import { useTokens } from '@/composables/useTokensDecode'
-import { type User, type UserLoginForm } from '@/shared/schemes/user-schema'
+import { type User, type UserLoginForm } from '@schema/user-schema'
+import type { UserRole } from '@type/UserRole'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
@@ -17,8 +18,8 @@ export const useAuthStore = defineStore('auth', () => {
   const isAuth = computed(() => user.value !== null)
   const isAdmin = computed(() => user.value?.roles.includes('admin'))
   const isCreator = computed(() => user.value?.roles.includes('creator'))
-  const hasRole = (role: 'admin' | 'creator' | 'host') =>
-    user.value?.roles.includes(role)
+  const hasRole = (role: UserRole) => user.value?.roles.includes(role)
+  const isActiveUser = (id: string) => user.value?.id === id
   const isReady = simplePromise
   const pending = ref(false)
 
@@ -68,5 +69,6 @@ export const useAuthStore = defineStore('auth', () => {
     setUserFromToken,
     clearTokens,
     hasRole,
+    isActiveUser,
   }
 })

@@ -2,40 +2,36 @@
 import { storeToRefs } from 'pinia'
 import { useToggle } from '@vueuse/core'
 import { onBeforeRouteLeave } from 'vue-router'
-import DashboardContentLayout from '@/layouts/dashboardContentLayout.vue'
-import DashboardContentHeaderLayout from '@/layouts/dashboardContentHeaderLayout.vue'
+import * as ContentLayout from '@contentLayout'
 import { useGalleryStore } from './store/useGalleryStore'
 import RefSortable from '@/components/hdrt/sortable/RefSortable.vue'
 import HdButton from '@/components/ui/hdButton/hdButton.vue'
 import Slide from './components/Slide/Slide.vue'
 import HdModal from '@/components/ui/hdModal/HdModal.vue'
-import DashboardContentBodyLayout from '@/layouts/dashboardContentBodyLayout.vue'
-import DashboardContentFooterLayout from '@/layouts/dashboardContentFooterLayout.vue'
 const galleryStore = useGalleryStore()
 const { slides, slideFormData, isOpenSlideEditForm } = storeToRefs(galleryStore)
 
 const [isShowSortable, toggle] = useToggle(true)
+
 onBeforeRouteLeave(() => {
   toggle()
   return
 })
+
 galleryStore.fetchGallery()
 </script>
 
 <template>
-  <DashboardContentLayout>
-    <DashboardContentHeaderLayout>
-      <div class="dashboard__header--left">
-        <h3 class="dashboard__header-title">Слайдшоу на главной</h3>
-      </div>
+  <ContentLayout.Root>
+    <ContentLayout.Header title="Слайдшоу на главной">
       <HdButton
         text="Добавить слайд"
         color="primary"
         @click="galleryStore.toggleSlideEditFormState()"
         icon="image-add"
       />
-    </DashboardContentHeaderLayout>
-    <DashboardContentBodyLayout>
+    </ContentLayout.Header>
+    <ContentLayout.Body>
       <RefSortable
         v-if="isShowSortable && slides.length"
         v-model="slides"
@@ -104,15 +100,15 @@ galleryStore.fetchGallery()
           </div>
         </template>
       </RefSortable>
-    </DashboardContentBodyLayout>
-    <DashboardContentFooterLayout>
+    </ContentLayout.Body>
+    <ContentLayout.Footer>
       <HdButton
         text="Сохранить изменения"
         color="success"
         @click="galleryStore.saveChanges"
       />
-    </DashboardContentFooterLayout>
-  </DashboardContentLayout>
+    </ContentLayout.Footer>
+  </ContentLayout.Root>
   <HdModal v-model="isOpenSlideEditForm">
     <Slide
       :slide="slideFormData"

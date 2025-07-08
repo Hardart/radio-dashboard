@@ -65,16 +65,6 @@ const router = createRouter({
           component: () =>
             import(`@/layers/programsViewLayer/views/listView/index.vue`),
         },
-        {
-          path: 'create',
-          component: () =>
-            import(`@/layers/programsViewLayer/views/createView/index.vue`),
-        },
-        {
-          path: ':id',
-          component: () =>
-            import(`@/layers/programsViewLayer/views/idView/index.vue`),
-        },
       ],
     },
     {

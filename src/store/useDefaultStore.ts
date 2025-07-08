@@ -1,5 +1,6 @@
 import { BaseAPI } from '@/api/base-api'
 import { SettingsAPI } from '@/api/settings-api'
+import type { User } from '@schema/user-schema'
 import type {
   Address,
   AddressModel,
@@ -8,7 +9,7 @@ import type {
   MailModel,
   Phone,
   PhoneModel,
-} from '@/shared/types/contact'
+} from '@type/contact'
 import { useToggle } from '@vueuse/core'
 import { defineStore } from 'pinia'
 import { computed, reactive, ref } from 'vue'
@@ -17,6 +18,7 @@ export const useDefaultStore = defineStore('default', () => {
   const baseContacts = ref<BaseContact>()
   const footerContacts = ref<BaseContact>()
   const isMenuOpen = ref(false)
+  const hosts = ref<User[]>([])
 
   const phone = ref<Phone>({ number: '' })
   const mail = ref<Mail>({ address: '' })
@@ -207,5 +209,6 @@ export const useDefaultStore = defineStore('default', () => {
     isFooterContactsOn,
     toggleBaseAndFooterContacts,
     contacts,
+    hosts,
   }
 })

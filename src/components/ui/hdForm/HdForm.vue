@@ -11,7 +11,7 @@ const { state, schema } = defineProps<{
 }>()
 const onSubmit = async () => {
   await getZodErrors(state, schema)
-  if (errors.value.length) return
+  if (errors.value.length) return console.warn(errors.value)
   emits('on-submit')
 }
 

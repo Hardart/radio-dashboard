@@ -1,17 +1,10 @@
 <script lang="ts" setup>
-import type { ArticleForm } from '@/shared/schemes/article-form-schema'
+import type { ArticleForm } from '@schema/article-form-schema'
 import type { EditorControls } from '@/shared/enums/editor-controls'
-import type { Category } from '@/shared/schemes/category-schema'
-import { articleFormSchema } from '@/shared/schemes/article-form-schema'
-import HdUploadImage from '@/components/ui/hdUploadImage/hdUploadImage.vue'
-import HdFormGroup from '@/components/ui/hdFormGroup/HdFormGroup.vue'
+import type { Category } from '@schema/category-schema'
+import * as UI from '@ui'
+import { articleFormSchema } from '@schema/article-form-schema'
 import CalendarSelect from '../CalendarSelect/CalendarSelect.vue'
-import HdSwitch from '@/components/ui/hdSwitch/hdSwitch.vue'
-import HdButton from '@/components/ui/hdButton/hdButton.vue'
-import HdSelect from '@/components/ui/hdSelect/hdSelect.vue'
-import HdInput from '@/components/ui/hdInput/hdInput.vue'
-import HdEditor from '@/components/editor/HdEditor.vue'
-import HdForm from '@/components/ui/hdForm/HdForm.vue'
 
 const articleForm = defineModel<ArticleForm>({ required: true })
 
@@ -38,47 +31,47 @@ const controls: (keyof typeof EditorControls)[] = [
 </script>
 
 <template>
-  <HdForm
+  <UI.Form
     class="news-item"
     :state="articleForm"
     :schema="articleFormSchema"
     @on-submit="$emit('on-submit')"
   >
     <div class="news-item__details">
-      <HdFormGroup label="Название новости" name="title" required>
-        <HdInput v-model="articleForm.title" />
-      </HdFormGroup>
+      <UI.Group label="Название новости" name="title" required>
+        <UI.Input v-model="articleForm.title" />
+      </UI.Group>
 
       <div class="news-item__group">
-        <HdFormGroup label="Выбери категорию" name="categoryId" required>
-          <HdSelect
+        <UI.Group label="Выбери категорию" name="categoryId" required>
+          <UI.Select
             :options="categories"
             v-model="articleForm.categoryId"
             label="Категория"
             key-attr="id"
             option-attr="title"
           />
-        </HdFormGroup>
+        </UI.Group>
 
-        <HdFormGroup label="Выбери теги" name="tags">
-          <HdSelect :options="tags" v-model="articleForm.tags" label="Теги" />
-        </HdFormGroup>
+        <UI.Group label="Выбери теги" name="tags">
+          <UI.Select :options="tags" v-model="articleForm.tags" label="Теги" />
+        </UI.Group>
 
-        <HdFormGroup label="Дата публикации" name="publishAt">
+        <UI.Group label="Дата публикации" name="publishAt">
           <CalendarSelect
             v-model="articleForm.publishAt"
             :min-date="articleForm.publishAt"
             label="Дата публикации"
           />
-        </HdFormGroup>
+        </UI.Group>
 
-        <HdFormGroup label="Опубликовано" name="isPublished">
-          <HdSwitch v-model="articleForm.isPublished" />
-        </HdFormGroup>
+        <UI.Group label="Опубликовано" name="isPublished">
+          <UI.Switch v-model="articleForm.isPublished" />
+        </UI.Group>
       </div>
 
       <div class="news-item__group">
-        <HdEditor
+        <UI.Editor
           v-model="articleForm.content"
           :controls
           label="Текст новости"
@@ -94,7 +87,7 @@ const controls: (keyof typeof EditorControls)[] = [
           v-if="articleForm.image"
         />
         <div class="news-item__upload-buttons">
-          <HdUploadImage
+          <UI.UploadImage
             name="NEWS"
             v-model="articleForm.image"
             v-tooltip="{ label: 'загрузить главное изображение' }"
@@ -102,14 +95,14 @@ const controls: (keyof typeof EditorControls)[] = [
         </div>
       </div>
       <div class="news-item__actions">
-        <HdButton text="Назад" @click="$router.push('/news')" />
-        <HdButton
+        <UI.Button text="Назад" @click="$router.push('/news')" />
+        <UI.Button
           text="Удалить"
           color="danger"
           @click="$emit('on-delete', articleForm.id)"
           v-if="articleForm.id"
         />
-        <HdButton
+        <UI.Button
           :disabled="loading || isSame"
           :text="articleForm.id ? 'Обновить' : 'Сохранить'"
           color="success"
@@ -117,7 +110,7 @@ const controls: (keyof typeof EditorControls)[] = [
         />
       </div>
     </div>
-  </HdForm>
+  </UI.Form>
 </template>
 
 <style lang="scss" scoped src="./styles.scss" />

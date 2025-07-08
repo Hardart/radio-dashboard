@@ -9,6 +9,7 @@
   font-size: var(--fs-m);
   font-weight: var(--fw-m);
   line-height: 20px;
+  text-wrap: nowrap;
   border-width: 1px;
   border-style: solid;
   border-color: transparent;
@@ -238,6 +239,16 @@
     padding: 5px 12px;
     font-size: var(--fs-s);
     line-height: 10px;
+
+    &:focus:not(&:disabled) {
+      outline-width: 1px;
+    }
+  }
+
+  &--xl {
+    padding: 10px 20px;
+    font-size: var(--fs-xl);
+    line-height: 16px;
 
     &:focus:not(&:disabled) {
       outline-width: 1px;

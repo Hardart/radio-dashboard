@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import SortableButton from './components/SortableButton/SortableButton.vue'
+import HdButton from '../hdButton/hdButton.vue'
 type TableColumn = {
   key: string
   label?: string
@@ -19,13 +20,14 @@ const { page = 1, perPage = 20 } = defineProps<{
   size?: 's' | 'l'
   pending?: boolean
 }>()
-defineEmits(['on-context', 'on-item'])
+defineEmits(['on-context', 'on-item', 'on-create'])
 
 const pageNumber = computed(() => (page === 1 ? 0 : (page - 1) * perPage))
 </script>
 
 <template>
   <table
+    v-if="data.length"
     class="hd-table"
     :class="[size && `hd-table--${size}`, link && 'hd-table--link']"
   >
@@ -94,6 +96,14 @@ const pageNumber = computed(() => (page === 1 ? 0 : (page - 1) * perPage))
       </template>
     </tbody>
   </table>
+  <div class="fx fx--jcc" v-else>
+    <HdButton
+      text="создать"
+      class="width-100"
+      @click="$emit('on-create')"
+      size="xl"
+    />
+  </div>
 </template>
 
 <style lang="scss" scoped src="./hdTable.scss" />

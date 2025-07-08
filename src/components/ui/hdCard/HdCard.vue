@@ -7,7 +7,7 @@ defineProps<{
 <template>
   <div class="hd-card">
     <div class="hd-card__header" v-if="title || $slots.header">
-      <h3 class="hd-card__title">{{ title }}</h3>
+      <h3 class="hd-card__title" v-if="title">{{ title }}</h3>
       <slot name="header"></slot>
     </div>
     <div class="hd-card__body">

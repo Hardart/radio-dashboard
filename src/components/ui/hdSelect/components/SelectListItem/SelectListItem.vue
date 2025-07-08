@@ -10,7 +10,7 @@ defineEmits(['onSelect'])
 </script>
 
 <template>
-  <li class="hd-select-item" :class="isActive && 'hd-select-item--active'">
+  <li class="hd-select-item" :class="{ 'hd-select-item--active': isActive }">
     <SelectedItem :text />
   </li>
 </template>

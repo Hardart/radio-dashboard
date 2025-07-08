@@ -1,8 +1,16 @@
 <script setup lang="ts">
 import { correctImageUrl } from '@/shared/helpers/utils'
-import type { User } from '@/shared/schemes/user-schema'
+import type { User } from '@schema/user-schema'
+import type { UserRole } from '@type/UserRole'
 import { useAuthStore } from '@/store/useAuthStore'
 import { computed } from 'vue'
+
+interface INavigationItem {
+  label: string
+  to: string
+  minRole: UserRole
+  action: (navigate: () => void) => void
+}
 
 const { user } = defineProps<{
   user: User
@@ -20,24 +28,17 @@ const imageAlt = computed(
   () => `${user?.lastName.charAt(0)}${user?.firstName.charAt(0)}`
 )
 
-interface INavigationItem {
-  label: string
-  to: string
-  minRole: 'admin' | 'creator' | 'host'
-  action: (navigate: () => void) => void
-}
-
 const userNavigationList: INavigationItem[] = [
   {
     label: 'Настройки',
     to: '/settings',
-    minRole: 'admin',
+    minRole: 'superadmin',
     action: toSettings,
   },
   {
     label: 'Выйти',
     to: '/login',
-    minRole: 'host',
+    minRole: 'user',
     action: logout,
   },
 ]

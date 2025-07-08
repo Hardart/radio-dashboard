@@ -1,5 +1,5 @@
 import { useNotifications } from '@/components/ui/hdNotification/useNotifications'
-import { useTokens } from '@/composables/useTokensDecode'
+
 import { useAuthStore } from '@/store/useAuthStore'
 import {
   type FetchContext,
@@ -44,7 +44,8 @@ export const onDefaultResponseError = async ({ response }: ResponseCtx) => {
       break
 
     case 500:
-      toast.add({ text: 'Ошибка 500, пока не обработана' })
+      toast.add({ text: 'Сервер не отвечает', autoClose: false })
+
       break
     default:
       console.warn('DEFAULT ERROR')
