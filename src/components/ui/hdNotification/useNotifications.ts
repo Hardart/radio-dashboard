@@ -24,10 +24,13 @@ const isShowContainer = ref(false)
 export function useNotifications() {
   async function add(notification: Omit<Notification, 'id'>) {
     isShowContainer.value = true
-    requestAnimationFrame(() => {
+
+    requestAnimationFrame(addToast)
+
+    function addToast() {
       id++
       notifications.value.push({ id, ...notification })
-    })
+    }
   }
 
   function remove(id: number) {

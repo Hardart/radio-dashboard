@@ -3,11 +3,17 @@ import { onMounted, ref } from 'vue'
 import SvgIcon from '@/components/SvgIcon/SvgIcon.vue'
 import { type Notification, useNotifications } from '../useNotifications'
 const { removeContainer, remove } = useNotifications()
-const { duration = 5000, autoClose = true, id } = defineProps<Notification>()
+const {
+  duration = 5000,
+  autoClose = true,
+  id,
+  onHover = true,
+} = defineProps<Notification>()
+
 const progress = ref(0)
-let dismissTime: number = 0
-let currentTime: number = 0
 const rafId = ref(0)
+let dismissTime = 0
+let currentTime = 0
 
 function calcProgress() {
   progress.value = (dismissTime / duration) * 100
@@ -36,7 +42,7 @@ function startAnimation() {
 }
 
 function stopAnimation() {
-  cancelAnimationFrame(rafId.value)
+  if (onHover) cancelAnimationFrame(rafId.value)
 }
 
 function onComplete() {
