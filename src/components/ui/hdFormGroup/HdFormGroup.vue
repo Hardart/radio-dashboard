@@ -8,6 +8,9 @@ const props = defineProps<{
   required?: boolean
   label?: string
   name?: string
+  style?: {
+    fullWidth: boolean
+  }
 }>()
 const errors = inject<Ref<FormError[]> | null>('form-errors', null)
 const error = computed(() => {
@@ -20,7 +23,10 @@ provide('input-id', inputId)
 </script>
 
 <template>
-  <div class="hd-form-group">
+  <div
+    class="hd-form-group"
+    :class="{ 'hd-form-group--full-width': style?.fullWidth }"
+  >
     <div class="hd-form-group__label-container">
       <p
         class="hd-form-group__label"

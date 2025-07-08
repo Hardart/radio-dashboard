@@ -1,4 +1,8 @@
 .hd-form-group {
+  &--full-width {
+    flex-grow: 1;
+  }
+
   &__label-container {
     display: flex;
   }
