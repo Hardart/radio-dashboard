@@ -111,3 +111,35 @@ body {
   height: calc(100vh - var(--head-h));
   height: calc(100dvh - var(--head-h));
 }
+
+.fx {
+  display: flex;
+
+  &--aic {
+    align-items: center;
+  }
+
+  &--jcc {
+    justify-content: center;
+  }
+
+  &--g2 {
+    gap: 2px;
+  }
+
+  &--g10 {
+    gap: 10px;
+  }
+
+  &--g12 {
+    gap: 12px;
+  }
+
+  &--g16 {
+    gap: 16px;
+  }
+}
+
+.width-100 {
+  width: 100%;
+}

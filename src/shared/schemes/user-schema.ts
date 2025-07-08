@@ -16,6 +16,7 @@ export const userSchema = z.object({
   firstName: z
     .string({ required_error: 'Обязательное поле' })
     .min(3, 'Минимум 3 знака'),
+  role: z.enum(['admin', 'host', 'superadmin', 'creator']),
   lastName: z
     .string({ required_error: 'Обязательное поле' })
     .min(3, 'Минимум 3 знака'),
@@ -40,6 +41,7 @@ export const userFormDataSchema = userSchema
       }),
     password_new: z.string().optional(),
     roles: z.array(z.string()).optional(),
+    role: z.string(),
   })
 
 export const userLoginSchema = z.object({

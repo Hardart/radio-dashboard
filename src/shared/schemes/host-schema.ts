@@ -14,24 +14,9 @@ export const hostFormSchema = z.object({
   lastName: z
     .string({ required_error: 'Обязательное поле' })
     .min(3, 'Минимум 3 знака'),
-  password: z
-    .string({ required_error: 'Обязательное поле' })
-    .trim()
-    .min(3, 'Минимум 7 знаков'),
-  password_new: z
-    .string({ required_error: 'Обязательное поле' })
-    .trim()
-    .min(3, 'Минимум 7 знаков'),
+  password: z.string().trim(),
+  password_new: z.string().trim(),
 })
-
-function isEmpty(val: string, ctx: z.RefinementCtx) {
-  if (val == '') {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: 'Обязательное поле',
-    })
-  }
-}
 
 function minError(val: string, ctx: z.RefinementCtx) {
   if (val.length < 7) {

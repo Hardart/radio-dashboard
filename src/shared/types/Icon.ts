@@ -7,6 +7,7 @@ export type Icon =
   | 'check'
   | 'clock-digital'
   | 'close'
+  | 'copy'
   | 'dashboard'
   | 'delete'
   | 'edit'
@@ -44,3 +45,4 @@ export type Icon =
   | 'sort-up'
   | 'sort'
   | 'team'
+  | 'trash'
