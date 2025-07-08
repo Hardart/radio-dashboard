@@ -1,13 +1,14 @@
-import { isShowTooltip, showTooltip } from '@/components/ui/hdTooltip/state'
 import { type DirectiveBinding } from 'vue'
+import { isShowTooltip, showTooltip } from '@/components/ui/hdTooltip/state'
 
 export default {
   name: 'tooltip',
   mounted(el: HTMLElement, binding: DirectiveBinding) {
-    const title = binding.value?.label || null
+    const title = binding.value?.label || ''
+    const to = binding.value?.to || '#app'
 
     el.onmouseenter = (event: Event) => {
-      showTooltip(event.target as HTMLElement, title)
+      showTooltip(event.target as HTMLElement, title, to)
     }
     el.onmouseleave = () => (isShowTooltip.value = false)
     el.onmousedown = () => (isShowTooltip.value = false)
