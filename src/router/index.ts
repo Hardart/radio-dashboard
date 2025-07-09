@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/layers/mainViewLayer/views/mainView/index.vue'
 import LoginView from '@/layers/loginViewLayer/views/loginView/index.vue'
 import { useAuthStore } from '@/store/useAuthStore'
@@ -89,6 +89,11 @@ const router = createRouter({
           },
         },
       ],
+    },
+    {
+      path: '/files',
+      component: () =>
+        import(`@/layers/filesViewLayer/views/filesView/index.vue`),
     },
   ],
 })

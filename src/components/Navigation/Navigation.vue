@@ -22,6 +22,7 @@ const links: Link[] = [
   { id: 4, icon: 'music-library', label: 'Треки', to: '/tracks' },
   { id: 5, icon: 'gallery', label: 'Галерея', to: '/gallery' },
   { id: 6, icon: 'radio-show', label: 'Программы', to: '/programs' },
+  { id: 6, icon: 'folders', label: 'Файлы', to: '/files' },
 ]
 </script>
 
