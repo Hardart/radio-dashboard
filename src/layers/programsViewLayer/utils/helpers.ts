@@ -1,13 +1,13 @@
-import type { ExtendedSchedule } from '@schema/schedule-schema'
+import type { ProgramType } from '../types'
+import type { ScheduleWithStyle } from '@schema/schedule-schema'
+import type { ProgramForm } from '@schema/program-form-schema'
 import type { CSSProperties } from 'vue'
 import { cloneDeep, isNumber } from 'lodash'
 import { MAX_FACTOR, MIN_FACTOR, MIN_HEIGHT } from './constants'
 import { _clamp } from '@/shared/helpers/utils'
 import { minutesToTime, timeToMinutes } from './timeUtils'
-import type { NewProgramForm } from '@schema/program-form-schema'
-import type { ProgramType } from '../types'
 
-export function generateScheduleCopy(schedule: ExtendedSchedule) {
+export function generateScheduleCopy(schedule: ScheduleWithStyle) {
   const copy = cloneDeep(schedule)
   copy.id = createTempId()
 
@@ -36,16 +36,16 @@ export function generateDefaultStyles(): CSSProperties {
   }
 }
 
-export function setLabel(program: NewProgramForm) {
+export function setLabel(program: ProgramForm) {
   return program.isPublished ? 'опубликовано' : 'не опубликовано'
 }
 
-export function setType(program: NewProgramForm) {
+export function setType(program: ProgramForm) {
   return program.isPublished ? 'success' : 'danger'
 }
 
 export function filterProgramsByType(
-  programs: NewProgramForm[],
+  programs: ProgramForm[],
   type: ProgramType
 ) {
   if (type === 'все') {
