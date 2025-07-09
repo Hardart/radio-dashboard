@@ -1,4 +1,4 @@
-export enum UploadFolder {
+export enum ImagesFolder {
   NEWS = 'news',
   GALLERY = 'gallery',
   PROGRAMS = 'programs',

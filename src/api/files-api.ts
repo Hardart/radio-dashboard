@@ -2,6 +2,17 @@ import type { ResponseApi } from '@type/ResponseAPI'
 import { useHdFetch } from './base-fetch/base-fetch'
 import { UploadPath } from '@/shared/enums/upload-path-url'
 
+export declare namespace API {
+  type Files = {
+    list: (path: string) => Promise<string[] | undefined>
+    single: (url: UploadPath, body: FormData) => Promise<string | undefined>
+    deleteSingle: (
+      url: keyof typeof UploadPath,
+      body: { path: string }
+    ) => Promise<object | undefined>
+  }
+}
+
 export const filesAPI = {
   async list(path: string) {
     const { data } = await useHdFetch<ResponseApi.FileList>('/files', {

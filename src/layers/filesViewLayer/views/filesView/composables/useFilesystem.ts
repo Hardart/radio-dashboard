@@ -2,8 +2,9 @@ import { computed, reactive, ref, type Ref } from 'vue'
 import { createSharedComposable } from '@vueuse/core'
 import { isImage } from '../utils'
 import { isArray } from 'lodash'
+import type { API } from '@/api/files-api'
 
-const _useFilesystem = () => {
+const _useFilesystem = (filesAPI: API.Files) => {
   const paths = ref<string[]>()
   const folderDepth = ref(0)
   const selectedPreviewImagePath = ref('')
@@ -49,6 +50,24 @@ const _useFilesystem = () => {
     return path.replace(/.*\//, '')
   }
 
+  async function getFiles(path: string = '') {
+    if (isImage(path)) return
+    paths.value = await filesAPI.list(path)
+    setHistoryByDepth(paths)
+  }
+
+  async function onDeleteImage() {
+    const res = await filesAPI.deleteSingle('DELETE_IMAGE', {
+      path: selectedPreviewImagePath.value,
+    })
+    if (!res) return console.warn('no res on delete image')
+
+    paths.value = paths.value?.filter(
+      (item) => item !== selectedPreviewImagePath.value
+    )
+    resetSelectedPreviewImagePath()
+  }
+
   return {
     paths,
     folderDepth,
@@ -61,6 +80,8 @@ const _useFilesystem = () => {
     getFolderTitle,
     isShowBackButton,
     resetSelectedPreviewImagePath,
+    getFiles,
+    onDeleteImage,
   }
 }
 

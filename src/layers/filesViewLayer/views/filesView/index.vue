@@ -1,49 +1,27 @@
 <script setup lang="ts">
-import * as UI from '@ui'
+import { filesAPI } from '@/api/files-api'
 import * as ContentLayout from '@contentLayout'
 import SvgIcon from '@/components/SvgIcon/SvgIcon.vue'
-import { filesAPI } from '@/api/files-api'
-import { computed, reactive, ref } from 'vue'
-import { isArray } from 'lodash'
 import { correctImageUrl } from '@/shared/helpers/utils'
-import { isImage } from './utils'
-import { useFilesystem } from './composables/useFilesystem'
 import HdButton from '@/components/ui/hdButton/hdButton.vue'
+import { useFilesystem } from './composables/useFilesystem'
+import { isImage } from './utils'
 
 const minLevel = 1
 
 const {
   paths,
-  setHistoryByDepth,
   goBack,
   isShowBackButton,
   onItem,
   getFolderTitle,
   selectedOriginalImagePath,
   selectedPreviewImagePath,
-  resetSelectedPreviewImagePath,
-} = useFilesystem()
+  getFiles,
+  onDeleteImage,
+} = useFilesystem(filesAPI)
 
-async function getFiles(path: string = '') {
-  if (isImage(path)) return
-
-  paths.value = await filesAPI.list(path)
-  setHistoryByDepth(paths)
-}
-
-getFiles()
-
-const onDeleteImage = async () => {
-  const res = await filesAPI.deleteSingle('DELETE_IMAGE', {
-    path: selectedPreviewImagePath.value,
-  })
-  if (!res) return console.warn('no res on delete image')
-
-  paths.value = paths.value?.filter(
-    (item) => item !== selectedPreviewImagePath.value
-  )
-  resetSelectedPreviewImagePath()
-}
+getFiles('/images')
 </script>
 
 <template>
