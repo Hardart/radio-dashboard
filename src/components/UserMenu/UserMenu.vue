@@ -8,7 +8,7 @@ import { computed } from 'vue'
 interface INavigationItem {
   label: string
   to: string
-  minRole: UserRole
+  minRole?: UserRole
   action: (navigate: () => void) => void
 }
 
@@ -38,7 +38,6 @@ const userNavigationList: INavigationItem[] = [
   {
     label: 'Выйти',
     to: '/login',
-    minRole: 'user',
     action: logout,
   },
 ]
@@ -71,7 +70,7 @@ const userNavigationList: INavigationItem[] = [
           <li
             class="user-menu__item"
             @click="navigationItem.action(navigate)"
-            v-if="authStore.hasRole(navigationItem.minRole)"
+            v-if="authStore.hasRole(navigationItem?.minRole)"
           >
             {{ navigationItem.label }}
           </li>

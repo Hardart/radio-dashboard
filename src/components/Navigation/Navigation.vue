@@ -3,13 +3,15 @@ import { RouterLink } from 'vue-router'
 import SvgIcon from '@/components/SvgIcon/SvgIcon.vue'
 import type { Icon } from '@type/Icon'
 import OpenButton from './components/openButton/OpenButton.vue'
+import { useAuthStore } from '@/store/useAuthStore'
 type Link = {
   id: number
   icon: Icon
   label: string
   to: string
+  auth?: boolean
 }
-
+const { isAdmin } = useAuthStore()
 defineProps<{
   isOpen: boolean
 }>()
@@ -22,7 +24,7 @@ const links: Link[] = [
   { id: 4, icon: 'music-library', label: 'Треки', to: '/tracks' },
   { id: 5, icon: 'gallery', label: 'Галерея', to: '/gallery' },
   { id: 6, icon: 'radio-show', label: 'Программы', to: '/programs' },
-  { id: 6, icon: 'folders', label: 'Файлы', to: '/files' },
+  { id: 6, icon: 'folders', label: 'Файлы', to: '/files', auth: true },
 ]
 </script>
 
@@ -39,6 +41,7 @@ const links: Link[] = [
         class="nav-list__item"
         :class="isActive && 'nav-list__item--active'"
         @click="navigate"
+        v-if="isAdmin || !item.auth"
       >
         <SvgIcon :icon="item.icon" class="nav-list__icon" />
         <span class="nav-list__link">{{ item.label }}</span>

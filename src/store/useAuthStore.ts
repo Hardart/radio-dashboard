@@ -18,7 +18,8 @@ export const useAuthStore = defineStore('auth', () => {
   const isAuth = computed(() => user.value !== null)
   const isAdmin = computed(() => user.value?.roles.includes('admin'))
   const isCreator = computed(() => user.value?.roles.includes('creator'))
-  const hasRole = (role: UserRole) => user.value?.roles.includes(role)
+  const hasRole = (role?: UserRole) =>
+    role ? user.value?.roles.includes(role) : true
   const isActiveUser = (id: string) => user.value?.id === id
   const isReady = simplePromise
   const pending = ref(false)
