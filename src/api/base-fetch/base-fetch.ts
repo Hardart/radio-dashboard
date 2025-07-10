@@ -22,8 +22,6 @@ export const useHdFetch = async <T>(
     method: 'POST',
     onRequest: onDefaultRequest,
     onResponseError: onDefaultResponseError,
-    retryStatusCodes: [401],
-    retry: 1,
   }
 
   const fetchOptions = defu(options, defaultOptions)

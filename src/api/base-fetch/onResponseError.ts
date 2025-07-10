@@ -44,7 +44,7 @@ export const onDefaultResponseError = async ({ response }: ResponseCtx) => {
       break
 
     case 500:
-      toast.add({ text: 'Сервер не отвечает', autoClose: false })
+      toast.add({ text: 'Сервер не отвечает' })
 
       break
     default:
