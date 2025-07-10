@@ -69,6 +69,7 @@ getFiles('/images')
         </ul>
         <div class="files__preview" v-if="selectedPreviewImagePath">
           <img
+            v-if="isImage(selectedPreviewImagePath)"
             class="files__preview-image"
             :src="correctImageUrl(selectedOriginalImagePath)"
             alt=""

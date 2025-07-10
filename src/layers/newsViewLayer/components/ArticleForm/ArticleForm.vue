@@ -5,7 +5,6 @@ import type { Category } from '@schema/category-schema'
 import * as UI from '@ui'
 import { articleFormSchema } from '@schema/article-form-schema'
 import CalendarSelect from '../CalendarSelect/CalendarSelect.vue'
-import HdSelectImage from '@/components/ui/hdSelectImage/hdSelectImage.vue'
 
 const articleForm = defineModel<ArticleForm>({ required: true })
 
@@ -94,7 +93,7 @@ const controls: (keyof typeof EditorControls)[] = [
             v-model="articleForm.image"
             v-tooltip="{ label: 'загрузить главное изображение' }"
           />
-          <HdSelectImage
+          <UI.SelectImage
             name="NEWS"
             v-model="articleForm.image"
             tooltip-label="выбрать главное изображение"

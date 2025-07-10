@@ -69,6 +69,7 @@ const _useFilesystem = (filesAPI: API.Files) => {
     if (isImage(path)) return
     paths.value = await filesAPI.list(path)
     setHistoryByDepth(paths, path)
+    resetSelectedPreviewImagePath()
   }
 
   async function onDeleteImage() {

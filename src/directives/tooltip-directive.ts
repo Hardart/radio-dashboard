@@ -4,7 +4,8 @@ import { isShowTooltip, showTooltip } from '@/components/ui/hdTooltip/state'
 export default {
   name: 'tooltip',
   mounted(el: HTMLElement, binding: DirectiveBinding) {
-    const title = binding.value?.label || ''
+    const title = binding.value?.label
+    if (!title) return
     const to = binding.value?.to || '#app'
 
     el.onmouseenter = (event: Event) => {

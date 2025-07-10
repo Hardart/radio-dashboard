@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { EditorControlsV2 } from '@/shared/enums/editor-controls'
+import type { EditorControls } from '@/shared/enums/editor-controls'
 import { Image } from './extensions/Image'
 import StarterKit from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
@@ -45,7 +45,7 @@ const id = inject<string | undefined>('input-id', undefined)
 
 defineProps<{
   label: string
-  controls: (keyof typeof EditorControlsV2)[]
+  controls: (keyof typeof EditorControls)[]
   containerStyles?: CSSProperties
 }>()
 defineOptions({
