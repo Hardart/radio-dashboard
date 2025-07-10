@@ -1,4 +1,5 @@
 import { galleryAPI } from '@/api/gallery-api'
+import { correctImageUrl, removeLocalUrl } from '@/shared/helpers/utils'
 import type { Slide } from '@schema/slide-schema'
 
 import { defineStore } from 'pinia'
@@ -51,24 +52,22 @@ export const useGalleryStore = defineStore('gallery', () => {
     })
   }
 
+  function correctImageSrc() {
+    slideFormData.src = slideFormData.src.replace('350x150', '1536x658')
+    slideFormData.src = removeLocalUrl(slideFormData.src)
+  }
+
   async function onAdd() {
     slideFormData.priority = slides.value.length
-    slideFormData.src = slideFormData.src.replace('350x150', '1536x658')
+    correctImageSrc()
     const res = await galleryAPI.addOne(slideFormData)
     if (typeof res === 'undefined') return onCancel()
-
     slides.value?.push(res)
     onCancel()
   }
 
   function onEdit(slide: Slide) {
-    const keys = Object.entries(slide) as [keyof typeof slide, any][]
-
-    keys.forEach(([key, value]) => {
-      if (typeof value === 'undefined') delete slide[key]
-      else (slideFormData[key] as any) = value
-    })
-
+    Object.assign(slideFormData, slide)
     toggleSlideEditFormState(true)
   }
 
@@ -78,7 +77,6 @@ export const useGalleryStore = defineStore('gallery', () => {
       if (slideFormData[key] === '' || slideFormData[key] === undefined)
         delete slideFormData[key]
     })
-
     const idx = slides.value.findIndex((item) => item.id === slideFormData.id)
     slides.value.splice(idx, 1, { ...slideFormData })
 
@@ -86,8 +84,13 @@ export const useGalleryStore = defineStore('gallery', () => {
   }
 
   async function onDelete(slide: Slide) {
-    await galleryAPI.deleteOne({ id: slide.id })
-    slides.value = slides.value.filter((item) => item.id !== slide.id)
+    const deletedId = await galleryAPI.deleteOne({
+      id: slide.id,
+      path: slide.src,
+    })
+
+    if (!deletedId) throw new Error('can_t delete image from gallery')
+    slides.value = slides.value.filter((item) => item.id !== deletedId)
   }
 
   function onCancel() {

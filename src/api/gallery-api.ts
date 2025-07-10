@@ -30,7 +30,7 @@ export const galleryAPI = {
     return data.value?.slide
   },
 
-  async deleteOne(body: { id: string }) {
+  async deleteOne(body: { id: string; path: string }) {
     body = toValue(body)
 
     const { data } = await useHdFetch<ResponseApi.SlideDelete>(
@@ -39,6 +39,6 @@ export const galleryAPI = {
       { text: 'Слайд успешно удален' }
     )
 
-    return data.value
+    return data.value?.id
   },
 }

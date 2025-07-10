@@ -1,12 +1,8 @@
 <script lang="ts" setup>
-import HdButton from '@/components/ui/hdButton/hdButton.vue'
-import HdInput from '@/components/ui/hdInput/hdInput.vue'
-import HdUploadImage from '@/components/ui/hdUploadImage/hdUploadImage.vue'
+import * as UI from '@ui'
 import type { Slide } from '@schema/slide-schema'
 
-defineProps<{
-  slide: Slide
-}>()
+defineProps<{ slide: Slide }>()
 defineEmits(['onAdd', 'onEdit', 'onCancel'])
 </script>
 
@@ -14,35 +10,42 @@ defineEmits(['onAdd', 'onEdit', 'onCancel'])
   <div class="slide">
     <div class="slide__header">
       <div class="slide__media">
-        <img v-if="slide.src" class="slide__image" :src="slide.src" alt="" />
-        <div v-else class="slide__placeholder"></div>
+        <div class="slide__wrapper">
+          <img v-if="slide.src" class="slide__image" :src="slide.src" alt="" />
+          <div v-else class="slide__placeholder"></div>
+        </div>
         <div class="slide__controllers">
-          <HdUploadImage
+          <UI.UploadImage
             name="GALLERY"
             icon="image-add"
             v-model="slide.src"
             v-tooltip="{ label: 'загрузить изображение' }"
           />
+          <UI.SelectImage
+            name="GALLERY"
+            v-model="slide.src"
+            tooltip-label="выбрать изображение"
+          />
         </div>
       </div>
     </div>
     <div class="slide__body">
-      <HdInput placeholder="Ссылка" v-model="slide.to" />
+      <UI.Input placeholder="Ссылка" v-model="slide.to" />
     </div>
     <div class="slide__footer">
-      <HdButton
+      <UI.Button
         text="Отменить"
         color="danger"
         @click="$emit('onCancel', slide)"
       />
 
-      <HdButton
+      <UI.Button
         v-if="slide.id"
         text="Изменить"
         color="success"
         @click="$emit('onEdit', slide)"
       />
-      <HdButton
+      <UI.Button
         v-else
         text="Добавить"
         color="success"

@@ -8,6 +8,7 @@ import RefSortable from '@/components/hdrt/sortable/RefSortable.vue'
 import HdButton from '@/components/ui/hdButton/hdButton.vue'
 import Slide from './components/Slide/Slide.vue'
 import HdModal from '@/components/ui/hdModal/HdModal.vue'
+import { correctImageUrl } from '@/shared/helpers/utils'
 const galleryStore = useGalleryStore()
 const { slides, slideFormData, isOpenSlideEditForm } = storeToRefs(galleryStore)
 
@@ -43,7 +44,7 @@ galleryStore.fetchGallery()
               <img
                 @dragstart.prevent
                 class="gallery-slide__image"
-                :src="item.src"
+                :src="correctImageUrl(item.src)"
                 alt=""
                 v-if="item.src"
               />
