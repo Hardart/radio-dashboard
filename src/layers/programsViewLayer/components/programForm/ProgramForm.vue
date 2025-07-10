@@ -22,12 +22,12 @@ watch(
   }
 )
 
-const editorControls: (keyof typeof EditorControls)[] = [
-  'bold',
-  'italic',
-  'heading',
-  'underline',
-  'textWrap',
+const controls: (keyof typeof EditorControls)[] = [
+  'Heading',
+  'Bold',
+  'Italic',
+  'Underline',
+  'TextWrap',
 ]
 
 const programTypes = ['программа', 'дайджест']
@@ -120,7 +120,7 @@ const programTypes = ['программа', 'дайджест']
         <UI.Editor
           label="Описание программы"
           v-model="programFormData.description"
-          :controls="editorControls"
+          :controls
           :containerStyles="{ height: '250px' }"
         />
       </div>

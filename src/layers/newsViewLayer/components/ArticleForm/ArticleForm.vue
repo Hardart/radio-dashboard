@@ -5,6 +5,7 @@ import type { Category } from '@schema/category-schema'
 import * as UI from '@ui'
 import { articleFormSchema } from '@schema/article-form-schema'
 import CalendarSelect from '../CalendarSelect/CalendarSelect.vue'
+import HdSelectImage from '@/components/ui/hdSelectImage/hdSelectImage.vue'
 
 const articleForm = defineModel<ArticleForm>({ required: true })
 
@@ -18,15 +19,16 @@ defineProps<{
 defineEmits(['on-submit', 'on-delete'])
 
 const controls: (keyof typeof EditorControls)[] = [
-  'bold',
-  'italic',
-  'heading',
-  'blockquote',
-  'floatLeft',
-  'floatRight',
-  'textWrap',
-  'underline',
-  'uploadImage',
+  'Heading',
+  'Bold',
+  'Italic',
+  'Underline',
+  'Blockquote',
+  'FloatLeft',
+  'FloatRight',
+  'TextWrap',
+  'UploadImage',
+  'SelectImage',
 ]
 </script>
 
@@ -91,6 +93,11 @@ const controls: (keyof typeof EditorControls)[] = [
             name="NEWS"
             v-model="articleForm.image"
             v-tooltip="{ label: 'загрузить главное изображение' }"
+          />
+          <HdSelectImage
+            name="NEWS"
+            v-model="articleForm.image"
+            tooltip-label="выбрать главное изображение"
           />
         </div>
       </div>

@@ -2,7 +2,7 @@
 import HdButton from '@/components/ui/hdButton/hdButton.vue'
 import HdUploadImage from '@/components/ui/hdUploadImage/hdUploadImage.vue'
 
-const src = defineModel<string>({ required: true })
+const src = defineModel<string>('src', { required: true })
 </script>
 
 <template>
