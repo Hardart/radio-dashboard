@@ -1,15 +1,16 @@
 export type ObjectItem = Record<string, any>
 
-export function isArray(input: unknown): input is any[] {
-  return Array.isArray(input)
-}
 export const isType = <Type>(thing: any): thing is Type => true
 
 export function isArrayOfType<A>(
   input: unknown,
   typeCheck: (inputItem: unknown) => inputItem is A
 ): input is A[] {
-  return Array.isArray(input) && input.every(typeCheck)
+  return isArray(input) && input.every(typeCheck)
+}
+
+export function isArray(input: unknown): input is any[] {
+  return Array.isArray(input)
 }
 
 export function isObject(input: unknown): input is ObjectItem {
@@ -29,12 +30,12 @@ export function toString(value: unknown): string {
 }
 
 export function correctImageUrl(src: string | undefined) {
-  if (!src) return undefined
+  if (!src) throw new Error('can_t correct local URL')
   return import.meta.env.DEV ? `http://localhost:3068/images/home${src}` : src
 }
 
 export function removeLocalUrl(src: string | undefined) {
-  if (!src) return undefined
+  if (!src) throw new Error('can_t remove local URL')
   return src.replace('http://localhost:3068/images/home', '')
 }
 
@@ -43,4 +44,9 @@ export const createArrayOfNumbers = (count: number, startFrom: number = 0) =>
 
 export function _clamp(min: number, max: number, curr: number) {
   return Math.max(min, Math.min(max, curr))
+}
+
+export function replaceOriginalImage(src: string | undefined, quality: number) {
+  const correctSrc = correctImageUrl(src)
+  return correctSrc.replace('orig', `${quality}`)
 }
