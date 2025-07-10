@@ -1,34 +1,47 @@
+import type { API } from '@/api/files-api'
+import { isArray } from 'lodash'
 import { computed, reactive, ref, type Ref } from 'vue'
 import { createSharedComposable } from '@vueuse/core'
 import { isImage } from '../utils'
-import { isArray } from 'lodash'
-import type { API } from '@/api/files-api'
+import { correctImageUrl } from '@/shared/helpers/utils'
 
 const _useFilesystem = (filesAPI: API.Files) => {
   const paths = ref<string[]>()
   const folderDepth = ref(0)
   const selectedPreviewImagePath = ref('')
-  const folderHistory = reactive<Record<number, string[]>>({})
+  const folderHistory = reactive<
+    Record<number, { paths: string[]; folder: string }>
+  >({})
 
   const selectedOriginalImagePath = computed(() =>
     selectedPreviewImagePath.value.replace('_preview', '_orig')
   )
 
+  const currentFolder = computed(
+    () => folderHistory[folderDepth.value]?.folder ?? ''
+  )
+
   function onItem(path: string) {
-    if (isImage(path)) selectedPreviewImagePath.value = path
+    selectedPreviewImagePath.value = path
+    if (isImage(path)) {
+      return correctImageUrl(selectedOriginalImagePath.value) ?? ''
+    } else {
+      return selectedPreviewImagePath.value
+    }
   }
 
   function goBack() {
     delete folderHistory[folderDepth.value]
     decreaseDepth()
-    paths.value = folderHistory[folderDepth.value]
+    paths.value = folderHistory[folderDepth.value].paths
     resetSelectedPreviewImagePath()
   }
 
-  function setHistoryByDepth(paths: Ref<string[] | undefined>) {
+  function setHistoryByDepth(paths: Ref<string[] | undefined>, path: string) {
     if (!isArray(paths.value)) return
     increaseDepth()
-    folderHistory[folderDepth.value] = paths.value
+
+    folderHistory[folderDepth.value] = { paths: paths.value, folder: path }
   }
 
   function resetSelectedPreviewImagePath() {
@@ -42,25 +55,27 @@ const _useFilesystem = (filesAPI: API.Files) => {
   function decreaseDepth() {
     folderDepth.value--
   }
+
   function isShowBackButton(minDepth: number = 1) {
     return folderDepth.value > minDepth
   }
 
   function getFolderTitle(path: string) {
-    return path.replace(/.*\//, '')
+    const folder = path.replace(/.*\//, '')
+    return folder
   }
 
   async function getFiles(path: string = '') {
     if (isImage(path)) return
     paths.value = await filesAPI.list(path)
-    setHistoryByDepth(paths)
+    setHistoryByDepth(paths, path)
   }
 
   async function onDeleteImage() {
-    const res = await filesAPI.deleteSingle('DELETE_IMAGE', {
-      path: selectedPreviewImagePath.value,
-    })
-    if (!res) return console.warn('no res on delete image')
+    const path = selectedPreviewImagePath.value
+    const url = isImage(path) ? 'DELETE_IMAGE' : 'DELETE_FOLDER'
+    const res = await filesAPI.deleteSingle(url, { path })
+    if (!res) return console.warn('no res on delete item')
 
     paths.value = paths.value?.filter(
       (item) => item !== selectedPreviewImagePath.value
@@ -74,6 +89,7 @@ const _useFilesystem = (filesAPI: API.Files) => {
     selectedPreviewImagePath,
     folderHistory,
     selectedOriginalImagePath,
+
     onItem,
     goBack,
     setHistoryByDepth,
@@ -82,6 +98,7 @@ const _useFilesystem = (filesAPI: API.Files) => {
     resetSelectedPreviewImagePath,
     getFiles,
     onDeleteImage,
+    currentFolder,
   }
 }
 
