@@ -11,4 +11,12 @@ export const filesAPI = {
     const path = data.value?.path || undefined
     return { path }
   },
+  async singleV2(body: FormData) {
+    const { data } = await useHdFetch<ResponseApi.FileSingle>('/image', {
+      body,
+      baseURL: '/test_api',
+    })
+    const path = data.value?.path || undefined
+    return { path }
+  },
 }

@@ -4,8 +4,10 @@ import { type User, type UserLoginForm } from '@schema/user-schema'
 import type { UserRole } from '@type/UserRole'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 export const useAuthStore = defineStore('auth', () => {
+  const router = useRouter()
   const { decodeAccessToken, setAccessToken, cleanAccessToken } = useTokens()
 
   let dispatchIsReady: (value: boolean) => void
@@ -32,6 +34,7 @@ export const useAuthStore = defineStore('auth', () => {
   function clearTokens() {
     cleanAccessToken()
     user.value = null
+    router.push('/login')
   }
 
   async function login(userData: UserLoginForm) {
@@ -46,6 +49,7 @@ export const useAuthStore = defineStore('auth', () => {
   async function loginAuto() {
     const { data } = await authAPI.checkToken()
     if (data.value?.userId) user.value = decodeAccessToken()
+
     dispatchIsReady(true)
   }
 

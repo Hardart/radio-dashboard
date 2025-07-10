@@ -17,16 +17,17 @@ const imageAlt = computed(
 
 <template>
   <div class="dashboard__aside--bottom">
-    <div class="user" @click="toggle()" ref="userBtn">
+    <div class="user" @click="toggle()" ref="userBtn" v-if="user">
       <div class="user__logo">
         <img
-          :src="correctImageUrl(user?.avatar)"
+          :src="correctImageUrl(user.avatar)"
           class="user__avatar"
           :alt="imageAlt"
         />
       </div>
-      <div class="user__name">{{ user?.fullName }}</div>
+      <div class="user__name">{{ user.fullName }}</div>
     </div>
+    <div v-else class="image-placeholder"></div>
   </div>
   <Teleport defer to="#app">
     <UserMenu v-if="user" :is-open="isOpen" :user />
