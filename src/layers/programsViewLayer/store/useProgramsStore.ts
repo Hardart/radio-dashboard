@@ -67,13 +67,11 @@ export const useProgramsStore = defineStore('programs', () => {
   }
 
   function createProgram(cellProps: ICellProps) {
-    _resetProgramForm()
     scheduleStore.fillScheduleForm(cellProps)
     _fillProgramForm()
   }
 
   function programToForm(program: ProgramForm) {
-    _resetProgramForm()
     Object.assign(programForm, program)
   }
 
@@ -96,6 +94,7 @@ export const useProgramsStore = defineStore('programs', () => {
       const program = await _saveProgram()
       _addProgramToPrograms(programs, program)
     }
+    _resetProgramForm()
   }
 
   async function _saveProgram() {
