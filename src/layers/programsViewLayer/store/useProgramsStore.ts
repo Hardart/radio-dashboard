@@ -73,6 +73,7 @@ export const useProgramsStore = defineStore('programs', () => {
   }
 
   function programToForm(program: ProgramForm) {
+    _resetProgramForm()
     Object.assign(programForm, program)
   }
 
@@ -136,6 +137,7 @@ export const useProgramsStore = defineStore('programs', () => {
     programForm.id = ''
     programForm.title = ''
     programForm.type = 'программа'
+    programForm.image = ''
   }
 
   return {

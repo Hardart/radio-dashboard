@@ -102,16 +102,23 @@ const programTypes = ['программа', 'дайджест']
           </div>
         </div>
         <div class="program-form__media">
-          <img
-            class="program-form__image"
-            :src="programFormData.image"
-            v-if="programFormData.image"
-          />
+          <div class="program-form__wrapper">
+            <img
+              class="program-form__image"
+              :src="programFormData.image"
+              v-if="programFormData.image"
+            />
+          </div>
           <div class="program-form__upload-buttons">
             <UI.UploadImage
               name="PROGRAMS"
               v-model="programFormData.image"
               v-tooltip="{ label: 'загрузить изображение' }"
+            />
+            <UI.SelectImage
+              name="PROGRAMS"
+              v-model="programFormData.image"
+              tooltip-label="загрузить изображение"
             />
           </div>
         </div>

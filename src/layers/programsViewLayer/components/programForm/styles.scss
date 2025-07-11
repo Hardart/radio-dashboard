@@ -39,8 +39,13 @@
     margin-left: auto;
     flex-shrink: 0;
     background-color: hsl(var(--foreground), 0.03);
-    border-radius: 8px;
+  }
+
+  &__wrapper {
     overflow: hidden;
+    border-radius: 8px;
+    width: inherit;
+    height: inherit;
   }
 
   &__image {
