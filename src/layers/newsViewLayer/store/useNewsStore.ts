@@ -70,13 +70,13 @@ export const useNewsStore = defineStore('news', () => {
     pending.value = false
   }
 
-  async function updateArticle(input: ArticleForm) {
-    if (article.value) input.id = article.value.id
+  async function updateArticle() {
+    if (article.value && article.value.id) articleForm.id = article.value.id
     pending.value = true
-    const articleData = await articlesAPI.updateOne(input)
+    const articleData = await articlesAPI.updateOne(articleForm)
     pending.value = false
-    if (!articleData) return
-    articles.value = articles.value.filter((item) => item.id !== input.id)
+    if (!articleData) throw new Error('can_t update article')
+    articles.value = articles.value.filter((item) => item.id !== articleForm.id)
     articles.value.push(articleData)
   }
 
