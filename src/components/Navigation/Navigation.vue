@@ -11,7 +11,7 @@ type Link = {
   to: string
   auth?: boolean
 }
-const { isAdmin } = useAuthStore()
+const { isSuperadmin } = useAuthStore()
 defineProps<{
   isOpen: boolean
 }>()
@@ -41,7 +41,7 @@ const links: Link[] = [
         class="nav-list__item"
         :class="isActive && 'nav-list__item--active'"
         @click="navigate"
-        v-if="isAdmin || !item.auth"
+        v-if="isSuperadmin || !item.auth"
       >
         <SvgIcon :icon="item.icon" class="nav-list__icon" />
         <span class="nav-list__link">{{ item.label }}</span>

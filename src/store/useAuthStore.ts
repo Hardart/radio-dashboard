@@ -18,10 +18,14 @@ export const useAuthStore = defineStore('auth', () => {
   const user = ref<User | null>(null)
 
   const isAuth = computed(() => user.value !== null)
-  const isAdmin = computed(() => user.value?.roles.includes('admin'))
-  const isCreator = computed(() => user.value?.roles.includes('creator'))
+
   const hasRole = (role?: UserRole) =>
     role ? user.value?.roles.includes(role) : true
+
+  const isSuperadmin = computed(() => hasRole('superadmin'))
+  const isAdmin = computed(() => hasRole('admin'))
+  const isCreator = computed(() => hasRole('creator'))
+
   const isActiveUser = (id: string) => user.value?.id === id
   const isReady = simplePromise
   const pending = ref(false)
@@ -66,6 +70,7 @@ export const useAuthStore = defineStore('auth', () => {
     isReady,
     isAdmin,
     isCreator,
+    isSuperadmin,
     user,
     pending,
     login,
