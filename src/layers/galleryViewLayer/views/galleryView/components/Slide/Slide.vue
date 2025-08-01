@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import * as UI from '@ui'
 import type { Slide } from '@schema/slide-schema'
+import { replaceGalleryImage } from '@/shared/helpers/utils'
 
 defineProps<{ slide: Slide }>()
 defineEmits(['onAdd', 'onEdit', 'onCancel'])
@@ -11,7 +12,12 @@ defineEmits(['onAdd', 'onEdit', 'onCancel'])
     <div class="slide__header">
       <div class="slide__media">
         <div class="slide__wrapper">
-          <img v-if="slide.src" class="slide__image" :src="slide.src" alt="" />
+          <img
+            v-if="slide.src"
+            class="slide__image"
+            :src="replaceGalleryImage(slide.src, 'md')"
+            alt=""
+          />
           <div v-else class="slide__placeholder"></div>
         </div>
         <div class="slide__controllers">

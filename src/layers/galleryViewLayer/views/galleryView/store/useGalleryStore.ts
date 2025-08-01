@@ -1,6 +1,6 @@
 import { galleryAPI } from '@/api/gallery-api'
-import { correctImageUrl, removeLocalUrl } from '@/shared/helpers/utils'
-import type { Slide } from '@schema/slide-schema'
+import { removeLocalUrl } from '@/shared/helpers/utils'
+import type { ExtendedSlide, Slide } from '@schema/slide-schema'
 
 import { defineStore } from 'pinia'
 import { reactive, ref } from 'vue'
@@ -29,9 +29,9 @@ export const useGalleryStore = defineStore('gallery', () => {
     slides.value = response
   }
 
-  async function saveChanges() {
-    updateSlidePriority()
-    await galleryAPI.saveAllSlides(slides)
+  async function saveChanges(extendedSlides: ExtendedSlide[]) {
+    updateSlidePriority(extendedSlides)
+    await galleryAPI.saveAllSlides(extendedSlides)
   }
 
   function sortSlides(slides: Slide[]) {
@@ -46,9 +46,9 @@ export const useGalleryStore = defineStore('gallery', () => {
     })
   }
 
-  function updateSlidePriority() {
-    slides.value.forEach((slide, idx) => {
-      slide.priority = slides.value.length - idx
+  function updateSlidePriority(slides: ExtendedSlide[]) {
+    slides.forEach((slide, idx) => {
+      slide.priority = slides.length - idx
     })
   }
 
