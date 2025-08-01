@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { correctImageUrl } from '@/shared/helpers/utils'
-import type { User } from '@schema/user-schema'
 import type { UserRole } from '@type/UserRole'
-import { useAuthStore } from '@/store/useAuthStore'
+import type { User } from '@schema/user-schema'
 import { computed } from 'vue'
+import { useAuthStore } from '@/store/useAuthStore'
+import { replaceOriginalImage } from '@/shared/helpers/utils'
 
 interface INavigationItem {
   label: string
@@ -49,7 +49,7 @@ const userNavigationList: INavigationItem[] = [
       <div class="user-menu__info">
         <div class="user-menu__media">
           <img
-            :src="correctImageUrl(user.avatar)"
+            :src="replaceOriginalImage(user.avatar, 75)"
             class="user-menu__image"
             :alt="imageAlt"
           />

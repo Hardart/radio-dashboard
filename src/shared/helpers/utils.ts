@@ -31,7 +31,12 @@ export function toString(value: unknown): string {
 
 export function correctImageUrl(src: string | undefined) {
   if (!src) throw new Error('can_t correct local URL')
-  return import.meta.env.DEV ? `http://localhost:3068/images/home${src}` : src
+  return import.meta.env.DEV ? 'https://radioshtani.ru' + src : src
+}
+
+export function correctLocalImageUrl(src: string | undefined) {
+  if (!src) throw new Error('can_t correct local URL')
+  return import.meta.env.DEV ? 'http://localhost:3068/images/home' + src : src
 }
 
 export function removeLocalUrl(src: string | undefined) {
@@ -49,4 +54,16 @@ export function _clamp(min: number, max: number, curr: number) {
 export function replaceOriginalImage(src: string | undefined, quality: number) {
   const correctSrc = correctImageUrl(src)
   return correctSrc.replace('orig', `${quality}`)
+}
+enum ImageQuality {
+  'xs' = '350x150',
+  'sm' = '420x180',
+  'md' = '624x267',
+}
+export function replaceGalleryImage(
+  src: string | undefined,
+  quality: keyof typeof ImageQuality = 'xs'
+) {
+  const correctSrc = correctImageUrl(src)
+  return correctSrc.replace('1536x658', `${ImageQuality[quality]}`)
 }

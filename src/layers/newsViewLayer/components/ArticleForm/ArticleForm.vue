@@ -5,6 +5,7 @@ import type { Category } from '@schema/category-schema'
 import * as UI from '@ui'
 import { articleFormSchema } from '@schema/article-form-schema'
 import CalendarSelect from '../CalendarSelect/CalendarSelect.vue'
+import { correctImageUrl } from '@/shared/helpers/utils'
 
 const articleForm = defineModel<ArticleForm>({ required: true })
 
@@ -84,7 +85,7 @@ const controls: (keyof typeof EditorControls)[] = [
       <div class="news-item__media">
         <img
           class="news-item__image"
-          :src="articleForm.image"
+          :src="correctImageUrl(articleForm.image)"
           v-if="articleForm.image"
         />
         <div class="news-item__upload-buttons">

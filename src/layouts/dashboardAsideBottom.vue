@@ -2,7 +2,7 @@
 import UserMenu from '@/components/UserMenu/UserMenu.vue'
 import { useClickOutside } from '@/composables/useClickOutside'
 import { useToggle } from '@/composables/useToggle'
-import { correctImageUrl } from '@/shared/helpers/utils'
+import { replaceOriginalImage } from '@/shared/helpers/utils'
 import { useAuthStore } from '@/store/useAuthStore'
 import { storeToRefs } from 'pinia'
 import { computed, ref } from 'vue'
@@ -20,7 +20,7 @@ const imageAlt = computed(
     <div class="user" @click="toggle()" ref="userBtn" v-if="user">
       <div class="user__logo">
         <img
-          :src="correctImageUrl(user.avatar)"
+          :src="replaceOriginalImage(user.avatar, 75)"
           class="user__avatar"
           :alt="imageAlt"
         />

@@ -2,7 +2,7 @@
 import { filesAPI } from '@/api/files-api'
 import * as ContentLayout from '@contentLayout'
 import SvgIcon from '@/components/SvgIcon/SvgIcon.vue'
-import { correctImageUrl } from '@/shared/helpers/utils'
+import { correctLocalImageUrl } from '@/shared/helpers/utils'
 import HdButton from '@/components/ui/hdButton/hdButton.vue'
 import { useFilesystem } from './composables/useFilesystem'
 import { isImage } from './utils'
@@ -59,11 +59,10 @@ getFiles('/images')
               {{ getFolderTitle(pathItem) }}
             </p>
             <img
-              @pointerdown.prevent
               v-if="isImage(pathItem)"
               class="folder__image"
-              :src="correctImageUrl(pathItem)"
-              alt=""
+              :src="correctLocalImageUrl(pathItem)"
+              @pointerdown.prevent
             />
           </li>
         </ul>
@@ -71,8 +70,7 @@ getFiles('/images')
           <img
             v-if="isImage(selectedPreviewImagePath)"
             class="files__preview-image"
-            :src="correctImageUrl(selectedOriginalImagePath)"
-            alt=""
+            :src="correctLocalImageUrl(selectedOriginalImagePath)"
           />
           <div>
             <HdButton
