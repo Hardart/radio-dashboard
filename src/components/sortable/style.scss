@@ -1,0 +1,91 @@
+.grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  outline: 1px solid red;
+  gap: 20px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  color: hsl(0, 5%, 84%);
+  background-color: hsl(0, 5%, 24%);
+}
+
+.card--selected {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.clone {
+  position: absolute;
+  pointer-events: none;
+}
+
+.gallery-slide {
+  display: flex;
+  width: inherit;
+  background-color: hsl(var(--foreground), 0.1);
+  aspect-ratio: 7 / 3;
+
+  &:hover {
+    .gallery-slide__handle {
+      transform: translate(-50%, 0);
+    }
+  }
+
+  &__media {
+    position: relative;
+    width: inherit;
+    height: inherit;
+  }
+
+  &__controllers {
+    position: absolute;
+    display: flex;
+    gap: 10px;
+    top: 2px;
+    right: 2px;
+  }
+
+  &__handle {
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    width: 50px;
+    height: 20px;
+    border-radius: 4px;
+    background-color: hsl(var(--color-primary));
+    transform: translate(-50%, -20px);
+    transition: transform 0.3s ease;
+    cursor: all-scroll;
+
+    &--active {
+      transform: translate(-50%, 0);
+    }
+  }
+
+  &__image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+
+  &__placeholder {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-border);
+  }
+
+  &__title {
+    position: absolute;
+    top: 0;
+    z-index: 2;
+  }
+}

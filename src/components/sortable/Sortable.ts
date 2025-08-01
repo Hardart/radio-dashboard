@@ -1,389 +1,299 @@
-import { ref, toValue, type Ref } from 'vue'
-
-type PoolItemElement = HTMLElement | (Window & typeof globalThis)
-
-type PoolItem = {
-  event: keyof HTMLElementEventMap
-  element: PoolItemElement
-  fn: EventListener
-}
+import { useElementBounding, type UseElementBoundingReturn } from '@vueuse/core'
+import {
+  computed,
+  nextTick,
+  reactive,
+  shallowRef,
+  toValue,
+  type CSSProperties,
+} from 'vue'
+import type { ExtendedSlide } from '@schema/slide-schema'
+import { EventsPool } from '../../shared/helpers/EventsPool'
 
 type Point = { x: number; y: number }
 
-type SortableOptions = {
-  handle?: string
-  selector: string
-}
+class Draggable {
+  startPoint = reactive<Point>({ x: 0, y: 0 })
+  point = reactive<Point>({ x: 0, y: 0 })
+  isDragStart = false
+  isAnimationInAction = false
+  isTransitionInAction = false
 
-const DEFAULT_OPTIONS: SortableOptions = {
-  selector: '[sortable-item]',
-}
-
-class EventsPool {
-  #pool: PoolItem[] = []
-
-  add(
-    element: PoolItemElement,
-    event: keyof HTMLElementEventMap,
-    fn: EventListener,
-    options?: AddEventListenerOptions
-  ) {
-    this.#toggleEventInPool(element, event, fn, true, options)
+  updatePointToEvent(evt: PointerEvent) {
+    this.point.x = evt.clientX
+    this.point.y = evt.clientY
   }
 
-  remove(
-    element: PoolItemElement,
-    event: keyof HTMLElementEventMap,
-    fn: EventListener,
-    options?: AddEventListenerOptions
-  ) {
-    this.#toggleEventInPool(element, event, fn, false, options)
+  equalizeStartPointToPoint() {
+    this.startPoint.x = this.point.x
+    this.startPoint.y = this.point.y
   }
 
-  #toggleEventInPool(
-    element: PoolItemElement,
-    event: keyof HTMLElementEventMap,
-    fn: EventListener,
-    toAdd: boolean,
-    options?: AddEventListenerOptions
-  ) {
-    if (toAdd) {
-      this.#pool.push({ element, event, fn })
-    } else {
-      this.#pool = this.#pool.filter(
-        (item) =>
-          item.element !== element || item.event !== event || item.fn !== fn
-      )
+  get startPointsAndPointOffset() {
+    return {
+      xOffset: this.startPoint.x - this.point.x,
+      yOffset: this.startPoint.y - this.point.y,
     }
-
-    element[toAdd ? 'addEventListener' : 'removeEventListener'](
-      event,
-      fn,
-      options
-    )
-  }
-
-  removeByEvent(event: keyof HTMLElementEventMap) {
-    this.#pool.forEach((item) =>
-      item.element.removeEventListener(event, item.fn)
-    )
-    this.#pool = this.#pool.filter((item) => item.event !== event)
-  }
-
-  clearPool() {
-    this.#pool.forEach((item) => {
-      const { element, event, fn } = item
-      this.remove(element, event, fn)
-    })
-  }
-
-  showPool() {
-    console.log(this.#pool)
   }
 }
 
-class Coordinates {
-  point: Point = { x: 0, y: 0 }
-  bounds: Partial<DOMRect> = {}
+class RootElement {
+  element: HTMLElement | undefined
+  bounds?: UseElementBoundingReturn
+  position = reactive({
+    left: 0,
+    top: 0,
+    width: 0,
+    height: 0,
+  })
 
-  getPointsOffset(event: Event) {
-    const pointerEvent = event as PointerEvent
-    const x = pointerEvent.clientX - this.point.x
-    const y = pointerEvent.clientY - this.point.y
-    return { x, y }
+  initElement(element: HTMLElement | undefined) {
+    this.element = element
+    this.bounds = useElementBounding(element)
   }
 
-  initPoint(event: Event) {
-    const pointerEvent = event as PointerEvent
-    this.point.x = pointerEvent.clientX
-    this.point.y = pointerEvent.clientY
-  }
-
-  initBounds(elem: HTMLElement) {
-    this.bounds = elem.getBoundingClientRect()
-  }
-
-  setPosition(elem: HTMLElement, event: Event) {
-    const { left, top } = this.bounds
-    if (typeof left !== 'number' || typeof top !== 'number') return
-    const { x, y } = this.getPointsOffset(event)
-    elem.style.left = `${left + x}px`
-    elem.style.top = `${top + y}px`
+  get isElementInit() {
+    return !!this.element
   }
 }
 
-class Clone {
-  sortableInstance: Sortable
+class SlideElement {
+  slide?: ExtendedSlide
+  draggable = new Draggable()
   events = new EventsPool()
-  $clone: HTMLElement | null = null
+  bounds?: UseElementBoundingReturn
+  position = reactive({
+    left: 0,
+    top: 0,
+    width: 0,
+    height: 0,
+  })
 
-  constructor(sortableInstance: Sortable) {
-    this.sortableInstance = sortableInstance
+  isSelected(id: string) {
+    return this.slide?.id === id
   }
 
-  create() {
-    if (this.$clone) return
-    this.$clone = this.sortableInstance.$sortable?.cloneNode(
-      true
-    ) as HTMLElement
-
-    this.$clone.classList.add('sortable__clone')
-    this.setDefaultStyles()
-    document.body.insertAdjacentElement('beforeend', this.$clone)
-    this.events.add(this.$clone, 'transitionend', this.onCloneTransitionEnd)
+  initElement(slide: ExtendedSlide, bounds?: UseElementBoundingReturn) {
+    this.slide = slide
+    this.bounds = bounds
   }
 
-  private setDefaultStyles() {
-    const { width, height, left, top } =
-      this.sortableInstance.$sortable!.getBoundingClientRect()
-    const styles: Partial<CSSStyleDeclaration> = {
-      position: 'fixed',
-      width: `${width}px`,
-      height: `${height}px`,
-      top: `${top}px`,
-      left: `${left}px`,
-      margin: '0',
-      pointerEvents: 'none',
-    }
-    setStyleAttributes(this.$clone!, styles)
+  updatePoints(evt: PointerEvent) {
+    this.draggable.updatePointToEvent(evt)
+    this.draggable.equalizeStartPointToPoint()
   }
 
-  private onCloneTransitionEnd = (e: Event) => {
-    if ((e as TransitionEvent).propertyName === 'transform') return
-    if (!this.$clone) throw new Error('element CLONE is not defined')
-    this.events.remove(this.$clone, 'transitionend', this.onCloneTransitionEnd)
-    this.removeClone()
-    this.$clone = null
-    this.sortableInstance.$sortable?.removeAttribute('style')
-    this.sortableInstance.removeTransitionListener()
+  setStyleFromBounds() {
+    if (!this.bounds?.width || !this.bounds.height) return
+    this.position.width = toValue(this.bounds.width)
+    this.position.height = toValue(this.bounds.height)
+    this.position.top = toValue(this.bounds.top)
+    this.position.left = toValue(this.bounds.left)
   }
 
-  private removeClone() {
-    if (!this.$clone) throw new Error('element CLONE is not defined')
-    if (!this.sortableInstance.$sortable)
-      throw new Error('ELEMENT is not defined')
-    this.$clone.remove()
-    this.sortableInstance.$sortable.classList.remove('sortable__item--selected')
+  updateStyleOnMove(evt: Event) {
+    this.draggable.updatePointToEvent(evt as PointerEvent)
+    const { xOffset, yOffset } = this.draggable.startPointsAndPointOffset
+    if (xOffset || yOffset) this.draggable.isTransitionInAction = true
+
+    this.position.left -= xOffset
+    this.position.top -= yOffset
+    this.draggable.equalizeStartPointToPoint()
   }
 
-  setStyles(
-    $items: HTMLElement[],
-    $container: HTMLElement,
-    itemsBounds: Partial<DOMRect>[]
-  ) {
-    if (!this.sortableInstance.$sortable)
-      throw new Error('ELEMENT is not defined')
-
-    const id = $items.indexOf(this.sortableInstance.$sortable)
-
-    const { top, left } = itemsBounds[id]
-
-    if (typeof top !== 'number' || typeof left !== 'number') return
-
-    const containerBounds = $container.getBoundingClientRect()
-    const styles = {
-      top: `${containerBounds.top + top}px`,
-      left: `${containerBounds.left + left}px`,
+  style = computed<CSSProperties>(() => {
+    const transitionStyle = {
       transitionProperty: 'top, left',
-      transitionDuration: '170ms',
-      transitionTimingFunction: 'ease-out',
+      transitionDuration: '150ms',
+      transitionTimingFunction: 'ease-in-out',
+    }
+    const baseStyle = {
+      left: `${this.position.left}px`,
+      top: `${this.position.top}px`,
+      width: `${this.position.width}px`,
+      height: `${this.position.height}px`,
     }
 
-    requestAnimationFrame(() => {
-      if (!this.$clone) throw new Error('element CLONE is not defined')
-      setStyleAttributes(this.$clone, styles)
+    return this.draggable.isDragStart
+      ? baseStyle
+      : Object.assign(baseStyle, transitionStyle)
+  })
+
+  get isCloneInit() {
+    return !!this.slide
+  }
+}
+
+class PointerEvents {
+  sortable: Sortable
+
+  constructor(sortable: Sortable) {
+    this.sortable = sortable
+  }
+
+  onPointerDown(evt: Event, idx: number) {
+    if (this.sortable.clone.draggable.isAnimationInAction) return
+    this.sortable.clone.updatePoints(evt as PointerEvent)
+    this.sortable.initClone(idx)
+
+    const onUp = this._onPointerUp.bind(this)
+    const onMove = this._onPointerMove.bind(this)
+    this.sortable.clone.events.add(window, 'pointerup', onUp)
+    this.sortable.clone.events.add(window, 'pointermove', onMove, {
+      passive: true,
     })
+
+    this.sortable.clone.draggable.isDragStart = true
+  }
+
+  onPointerEnter(slide: ExtendedSlide, idx: number) {
+    if (!this.sortable.clone.draggable.isDragStart) return
+    if (!this.sortable.clone.isCloneInit) return
+    this.animation(slide, idx)
+  }
+
+  async animation(slide: ExtendedSlide, idx: number) {
+    const slideId = this.sortable.clone.slide!.id
+    if (slide.id === slideId) return
+    const selectedSlideIdx = this.sortable.findSlideIndex(slideId)
+    this.sortable.setWidthAndHeight()
+    this._setStyle()
+    this.sortable.clone.draggable.isAnimationInAction = false
+    const [removable] = this.sortable.slides.splice(selectedSlideIdx, 1)
+    this.sortable.slides.splice(idx, 0, removable)
+    await nextTick()
+    this._setStyle(true)
+  }
+
+  private _setStyle(isTransition: boolean = false) {
+    this.sortable.slides.forEach((slide, slideIndex) => {
+      const { top, left, height, width } = this.sortable.bounds![slideIndex]
+      slide.style.position = 'absolute'
+      slide.style.top = `${top}px`
+      slide.style.left = `${left}px`
+      slide.style.width = `${width}px`
+      slide.style.height = `${height}px`
+      if (!isTransition) return
+      slide.style.transitionProperty = 'top, left'
+      slide.style.transitionDuration = '200ms'
+      slide.style.transitionTimingFunction = 'ease'
+      slide.style.pointerEvents = 'none'
+      this.sortable.clone.draggable.isAnimationInAction = true
+    })
+  }
+
+  private _removeStyle() {
+    this.sortable.slides.forEach((slide) => {
+      slide.style = {}
+    })
+  }
+
+  onSLideTransitionEnd() {
+    this.sortable.clone.draggable.isAnimationInAction = false
+    this.sortable.resetStyleHeight()
+    this._removeStyle()
+  }
+
+  onCloneTransitionEnd() {
+    this.sortable.clone.draggable.isTransitionInAction = false
+    this.sortable.deleteClone()
+  }
+
+  private _onPointerMove(evt: Event) {
+    if (!this.sortable.clone.draggable.isDragStart) return
+    this.sortable.clone.updateStyleOnMove(evt)
+  }
+
+  private _onPointerUp() {
+    const slide = this.sortable.clone.slide
+    const idx = this.sortable.findSlideIndex(slide!.id)
+    const { left, top } = this.sortable.bounds![idx]
+    this.sortable.clone.position.left = toValue(left)
+    this.sortable.clone.position.top = toValue(top)
+    this.sortable.clone.draggable.isDragStart = false
+    this.sortable.clone.draggable.isAnimationInAction = false
+    if (!this.sortable.clone.draggable.isTransitionInAction)
+      this.sortable.deleteClone()
+    this.sortable.clone.events.clearPool()
   }
 }
 
 export class Sortable {
-  $container = ref<HTMLElement | null>(null)
-  $sortable: HTMLElement | undefined
-  private $cross: HTMLElement | undefined
-  private events = new EventsPool()
-  private coords?: Coordinates
-  private clone?: Clone
-  private handle?: string
-  private selector?: string
-  private $items: HTMLElement[] = []
-  private itemsBounds: Partial<DOMRect>[] = []
-  private isDragStart = false
+  _root = new RootElement()
+  clone = new SlideElement()
+  events = new PointerEvents(this)
+  slides: ExtendedSlide[] = []
+  bounds?: UseElementBoundingReturn[]
+  position = reactive({
+    left: 0,
+    top: 0,
+    width: 0,
+    height: 0,
+  })
 
-  private initOptions(options?: SortableOptions) {
-    options = { ...DEFAULT_OPTIONS, ...options }
-    const keys = Object.keys(options) as (keyof typeof options)[]
-    keys.forEach((key) => (this[key] = options[key]))
+  init(element: HTMLElement | undefined, slides: ExtendedSlide[]) {
+    this._root.initElement(element)
+    this.slides = slides
+    this.initBounds()
   }
 
-  init(container: Ref<HTMLElement | null>, options?: SortableOptions) {
-    if (!container.value) return
-    this.initOptions(options)
-    this.$container.value = container.value
-    this.$items = [...container.value.children] as HTMLElement[]
-    this.events.add(container.value, 'pointerdown', this.onPointerDown)
-  }
+  initBounds() {
+    if (!this._root.element) return
+    const children = Array.from(this._root.element.children) as HTMLElement[]
 
-  refresh() {
-    const container = HTMLElementGuard(this.$container)
-    queueMicrotask(
-      () => (this.$items = [...container.children] as HTMLElement[])
-    )
-  }
-
-  removeTransitionListener() {
-    const container = HTMLElementGuard(this.$container)
-    this.events.remove(container, 'transitionend', this.onTransitionEnd)
-  }
-
-  removeListeners() {
-    this.events.clearPool()
-  }
-
-  private onPointerDown = (e: Event) => {
-    if (this.clone?.$clone) return
-    const target = e.target as HTMLElement
-    const isHandle =
-      this.handle &&
-      !target.classList.contains(this.handle) &&
-      !target.hasAttribute(this.handle)
-    if (isHandle) return
-    const sortableCard = target.closest(`${this.selector}`) as HTMLElement
-    if (!sortableCard) return
-    const container = HTMLElementGuard(this.$container)
-    this.$sortable = sortableCard
-    this.coords = new Coordinates()
-    this.clone = new Clone(this)
-    this.coords.initPoint(e)
-    this.coords.initBounds(this.$sortable)
-    this.itemsBounds = calcOffsetFromParent(container, this.$items)
-    this.$items.forEach((item) =>
-      this.events.add(item, 'pointerenter', this.onPointerEnter)
-    )
-
-    this.events.add(container, 'transitionend', this.onTransitionEnd)
-    this.events.add(window, 'pointerup', this.onPointerUp)
-    this.events.add(window, 'pointermove', this.onPointerMove, {
-      passive: true,
-    })
-    this.isDragStart = true
-  }
-
-  private onPointerMove = (e: Event) => {
-    if (!this.isDragStart) return
-    if (!this.$sortable) throw new Error('element SORTABLE is not defined')
-    this.clone?.create()
-    if (!this.clone?.$clone) throw new Error('element SORTABLE is not defined')
-    this.coords?.setPosition(this.clone.$clone, e)
-    setStyleAttributes(this.$sortable, { opacity: '0' })
-  }
-
-  private onPointerEnter = (e: Event) => {
-    if (!this.isDragStart) return
-    this.$cross = e.target as HTMLElement
-    if (this.$cross == this.$sortable) return
-
-    this.setStyleForContainer()
-    this.setStylesForItems({ position: 'absolute', pointerEvents: 'none' })
-    this.swapItems()
-    requestAnimationFrame(() =>
-      this.setStylesForItems({
-        transitionProperty: 'top, left',
-        transitionDuration: '150ms',
-        transitionTimingFunction: 'ease',
-      })
-    )
-  }
-
-  private onPointerUp = () => {
-    if (!this.$sortable) throw new Error('element SORTABLE is not defined')
-
-    this.$items.forEach((item) =>
-      this.events.remove(item, 'pointerenter', this.onPointerEnter)
-    )
-    this.events.remove(window, 'pointermove', this.onPointerMove)
-    this.events.remove(window, 'pointerup', this.onPointerUp)
-
-    if (!this.clone?.$clone) return
-    this.clone.$clone.classList.remove('sortable__clone')
-    const container = HTMLElementGuard(this.$container)
-    this.clone.setStyles(this.$items, container, this.itemsBounds)
-  }
-
-  private onTransitionEnd = (e: Event) => {
-    if (!this.isDragStart) return
-
-    if ((e as TransitionEvent).propertyName === 'transform') return
-    const container = HTMLElementGuard(this.$container)
-    this.$items.forEach((item) => {
-      item.removeAttribute('style')
-      container.appendChild(item)
-    })
-    container.removeAttribute('style')
-    if (!this.$sortable) throw new Error('element SORTABLE is not defined')
-    setStyleAttributes(this.$sortable, { opacity: '0' })
-  }
-
-  private swapItems() {
-    if (!this.$sortable) throw new Error('element SORTABLE is not defined')
-    if (!this.$cross) throw new Error('element CROSS is not defined')
-    const selectedId = this.$items.indexOf(this.$sortable)
-    const crossId = this.$items.indexOf(this.$cross)
-    const [removable] = this.$items.splice(selectedId, 1)
-    this.$items.splice(crossId, 0, removable)
-  }
-
-  private setStyleForContainer() {
-    const container = HTMLElementGuard(this.$container)
-    const { height } = container.getBoundingClientRect()
-
-    setStyleAttributes(container, {
-      height: `${height}px`,
-    })
-  }
-
-  private setStylesForItems(styles?: Partial<CSSStyleDeclaration>) {
-    this.$items.forEach((item, idx) => {
-      const { top, left, width, height } = this.itemsBounds[idx]
-
-      const props: Partial<CSSStyleDeclaration> = {
-        top: `${top}px`,
-        left: `${left}px`,
-        width: `${width}px`,
-        height: `${height}px`,
-        margin: '0',
+    this.bounds = children.map((child) => {
+      const childBounds = useElementBounding(child)
+      return {
+        ...childBounds,
+        left: shallowRef(
+          toValue(childBounds.left) - toValue(this._root.bounds!.left)
+        ),
+        top: shallowRef(
+          toValue(childBounds.top) - toValue(this._root.bounds!.top)
+        ),
       }
-      if (styles) Object.assign(props, styles)
-
-      setStyleAttributes(item, props)
     })
   }
-}
 
-function setStyleAttributes(
-  elem: HTMLElement,
-  styles: Partial<CSSStyleDeclaration>
-) {
-  Object.entries(styles).forEach(([key, value]) => {
-    if (typeof value !== 'string') return
-    ;(elem.style[key as keyof CSSStyleDeclaration] as string) = value
-  })
-}
+  isRootInit() {
+    return typeof this._root.element !== 'undefined'
+  }
 
-function calcOffsetFromParent($parent: HTMLElement, $elems: HTMLElement[]) {
-  const parentBounds = $parent.getBoundingClientRect()
+  initClone(idx: number) {
+    const child = this.slides[idx]
+    const bounds = this.bounds![idx]
+    this.clone.initElement(child, bounds)
+    this.clone.setStyleFromBounds()
+  }
 
-  return $elems.map((el) => {
-    const { left, top, width, height } = el.getBoundingClientRect()
-    return {
-      left: left - parentBounds.left,
-      top: top - parentBounds.top,
-      width,
-      height,
-    }
-  })
-}
+  setWidthAndHeight() {
+    const { width, height } = this._root.bounds!
 
-function HTMLElementGuard(elem: Ref<HTMLElement | null>) {
-  if (elem.value == null) throw new Error(`Element is null`)
-  return toValue(elem) as HTMLElement
+    this.position.width = toValue(width)
+    this.position.height = toValue(height)
+  }
+
+  resetStyleHeight() {
+    this.position.height = 0
+  }
+
+  deleteClone() {
+    this.clone.slide = undefined
+  }
+
+  findSlideIndex(id: string) {
+    const slideIdx = this.slides.findIndex((slide) => slide.id === id)
+    if (slideIdx === -1) throw new Error('can_t find slide by id')
+    return slideIdx
+  }
+
+  get style(): CSSProperties {
+    if (this.position.height)
+      return {
+        position: 'absolute',
+        width: `${this.position.width}px`,
+        height: `${this.position.height}px`,
+      }
+    else return {}
+  }
 }
