@@ -1,11 +1,8 @@
 <script setup lang="ts">
-import HdButton from '@hd/hdButton/hdButton.vue'
+import * as UI from '@ui'
+import * as ContentLayout from '@contentLayout'
 import { useNewsStore } from '@/layers/newsViewLayer/store/useNewsStore'
-import DashboardContentLayout from '@/layouts/Content/dashboardContentLayout.vue'
-import DashboardContentBodyLayout from '@/layouts/Content/dashboardContentBodyLayout.vue'
-import DashboardContentHeaderLayout from '@/layouts/Content/dashboardContentHeaderLayout.vue'
 import { storeToRefs } from 'pinia'
-import HdBadge from '@/components/ui/hdBadge/hdBadge.vue'
 
 const newsStore = useNewsStore()
 newsStore.fetchArticles()
@@ -14,24 +11,23 @@ const { articlesCount } = storeToRefs(newsStore)
 </script>
 
 <template>
-  <DashboardContentLayout>
-    <DashboardContentHeaderLayout>
-      <div class="dashboard__header--left">
-        <h3 class="dashboard__header-title">Новости</h3>
-        <HdBadge :label="articlesCount" type="warning" />
-      </div>
-      <HdButton
+  <ContentLayout.Root>
+    <ContentLayout.Header title="Новости">
+      <template #header>
+        <UI.Badge :label="articlesCount" type="warning" />
+      </template>
+      <UI.Button
         icon="news"
         text="Создать"
         color="primary"
         variant="link"
         @click="$router.push('/news/create')"
       />
-    </DashboardContentHeaderLayout>
-    <DashboardContentBodyLayout no-padding>
+    </ContentLayout.Header>
+    <ContentLayout.Body no-padding>
       <RouterView />
-    </DashboardContentBodyLayout>
-  </DashboardContentLayout>
+    </ContentLayout.Body>
+  </ContentLayout.Root>
 </template>
 
 <style lang="scss" scoped src="./style.scss" />
