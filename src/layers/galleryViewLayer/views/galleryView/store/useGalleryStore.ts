@@ -60,10 +60,11 @@ export const useGalleryStore = defineStore('gallery', () => {
   async function onAdd() {
     slideFormData.priority = slides.value.length
     correctImageSrc()
-    const res = await galleryAPI.addOne(slideFormData)
-    if (typeof res === 'undefined') return onCancel()
-    slides.value?.push(res)
+    const slide = await galleryAPI.addOne(slideFormData)
+    if (typeof slide === 'undefined') throw new Error('can_t add new slide')
+    slides.value?.push(slide)
     onCancel()
+    return slide
   }
 
   function onEdit(slide: Slide) {

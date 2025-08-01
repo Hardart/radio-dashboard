@@ -24,6 +24,14 @@ async function initSlides() {
   await nextTick()
   sortable.value.init(rootElement.value, slidesWithStyle.value)
 }
+
+async function addSlide() {
+  const slide = await galleryStore.onAdd()
+  slidesWithStyle.value.push({ ...slide, style: {} })
+  await nextTick()
+  sortable.value.init(rootElement.value, slidesWithStyle.value)
+}
+
 initSlides()
 useResizeObserver(rootElement, () => sortable.value.initBounds())
 </script>
@@ -109,7 +117,7 @@ useResizeObserver(rootElement, () => sortable.value.initBounds())
       <UI.Modal v-model="galleryStore.isOpenSlideEditForm">
         <Slide
           :slide="galleryStore.slideFormData"
-          @on-add="galleryStore.onAdd"
+          @on-add="addSlide"
           @on-cancel="galleryStore.onCancel"
           @on-edit="galleryStore.onUpdate"
         />
