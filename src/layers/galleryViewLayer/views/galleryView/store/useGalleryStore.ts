@@ -52,17 +52,17 @@ export const useGalleryStore = defineStore('gallery', () => {
     })
   }
 
-  function correctImageSrc() {
+  function _correctImageSrc() {
     slideFormData.src = slideFormData.src.replace('350x150', '1536x658')
     slideFormData.src = removeLocalUrl(slideFormData.src)
   }
 
   async function onAdd() {
-    slideFormData.priority = slides.value.length
-    correctImageSrc()
+    slideFormData.priority = 0
+    _correctImageSrc()
     const slide = await galleryAPI.addOne(slideFormData)
     if (typeof slide === 'undefined') throw new Error('can_t add new slide')
-    slides.value?.push(slide)
+    slides.value.push(slide)
     onCancel()
     return slide
   }
