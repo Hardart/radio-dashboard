@@ -11,6 +11,7 @@ import { useDefaultStore } from '@/store/useDefaultStore'
 import { useProgramsStore } from '../../store/useProgramsStore'
 import { useScheduleStore } from '../../store/useScheduleStore'
 import { setLabel, setType } from '../../utils/helpers'
+import { replaceOriginalImage } from '@/shared/helpers/utils'
 
 const baseStore = useDefaultStore()
 const programStore = useProgramsStore()
@@ -90,7 +91,10 @@ async function onUpdateSchedule(
       >
         <template #image-column="{ item }">
           <div class="media-column">
-            <img class="media-column__image" :src="item.image" />
+            <img
+              class="media-column__image"
+              :src="replaceOriginalImage(item.image, 50)"
+            />
           </div>
         </template>
         <template #title-column="{ item }">

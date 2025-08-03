@@ -53,7 +53,7 @@ export function _clamp(min: number, max: number, curr: number) {
 
 export function replaceOriginalImage(src: string | undefined, quality: number) {
   const correctSrc = correctImageUrl(src)
-  return correctSrc.replace('orig', `${quality}`)
+  return correctSrc.replace(/(?<=_)[^_\.]+(?=\.)/g, `${quality}`)
 }
 enum ImageQuality {
   'xs' = '350x150',
