@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { ProgramForm } from '@schema/program-form-schema'
+import type { ProgramForm as ProgramFormType } from '@schema/program-form-schema'
 import type { ScheduleWithStyle } from '@schema/schedule-schema'
 import { storeToRefs } from 'pinia'
 import { useToggle } from '@vueuse/core'
 import * as UI from '@ui'
 
 import ScheduleTable from '../../components/scheduleTable.vue'
-import ProgramFormComponent from '../../components/programForm/programForm.vue'
+import ProgramForm from '../../components/programForm/programForm.vue'
 import { useDefaultStore } from '@/store/useDefaultStore'
 import { useProgramsStore } from '../../store/useProgramsStore'
 import { useScheduleStore } from '../../store/useScheduleStore'
@@ -38,7 +38,7 @@ const columns = [
 
 const [isModalOpen, toggleOpenState] = useToggle()
 
-const onEditProgram = (program: ProgramForm) => {
+const onEditProgram = (program: ProgramFormType) => {
   programStore.programToForm(program)
   toggleOpenState(true)
 }
@@ -116,7 +116,7 @@ async function onUpdateSchedule(
   </div>
 
   <UI.Modal v-model="isModalOpen">
-    <ProgramFormComponent
+    <ProgramForm
       v-model="programStore.programForm"
       @on-save="onSaveProgram"
       @on-add="onAddDefaultSchedule"
