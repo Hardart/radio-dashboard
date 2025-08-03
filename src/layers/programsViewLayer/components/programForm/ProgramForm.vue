@@ -8,6 +8,7 @@ import {
   type ProgramForm,
   programFormSchema,
 } from '@schema/program-form-schema'
+import { replaceOriginalImage } from '@/shared/helpers/utils'
 
 const programFormData = defineModel<ProgramForm>({ required: true })
 defineProps<{ hosts: User[] }>()
@@ -105,7 +106,7 @@ const programTypes = ['программа', 'дайджест']
           <div class="program-form__wrapper">
             <img
               class="program-form__image"
-              :src="programFormData.image"
+              :src="replaceOriginalImage(programFormData.image, 250)"
               v-if="programFormData.image"
             />
           </div>
