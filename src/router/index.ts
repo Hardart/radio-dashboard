@@ -47,9 +47,15 @@ const router = createRouter({
     },
     {
       path: '/categories',
-      name: 'categories',
       component: () =>
         import(`@/layers/categoriesViewLayer/views/categoriesView/index.vue`),
+      children: [
+        {
+          path: '',
+          component: () =>
+            import(`@/layers/categoriesViewLayer/views/listView/index.vue`),
+        },
+      ],
     },
     {
       path: '/login',

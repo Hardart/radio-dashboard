@@ -1,33 +1,27 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import * as UI from '@ui'
-import * as ContentLayout from '@contentLayout'
+import HdButton from '@hd/hdButton/hdButton.vue'
 
 import { normalizeDate } from '@/shared/helpers/date'
 import { useCategoriesStore } from '@/store/useCategoriesStore'
+import HdTable from '@/components/ui/hdTable/hdTable.vue'
 
 const categoriesStore = useCategoriesStore()
-const { categories } = storeToRefs(categoriesStore)
+const { loading, categories } = storeToRefs(categoriesStore)
 categoriesStore.fetchCategories()
+const columns = [
+  {
+    key: 'title',
+    label: 'Название категории',
+  },
+  {
+    key: 'createdAt',
+    label: 'Дата создания',
+  },
+]
 </script>
 
 <template>
-  <ContentLayout.Root>
-    <ContentLayout.Header title="Категории">
-      <template #header>
-        <UI.Badge :label="categories.length" type="warning" />
-      </template>
-      <!-- <UI.Button icon="news" text="Добавить" color="primary" variant="link" />  -->
-    </ContentLayout.Header>
-    <ContentLayout.Body no-padding>
-      <RouterView />
-    </ContentLayout.Body>
-  </ContentLayout.Root>
-</template>
-
-<style lang="scss" scoped src="./style.scss" />
-
-<!-- <template>
   <div class="categories">
     <div class="categories__header">
       <h3 class="categories__title">Категории</h3>
@@ -50,4 +44,6 @@ categoriesStore.fetchCategories()
       </HdTable>
     </div>
   </div>
-</template> -->
+</template>
+
+<style lang="scss" scoped src="./style.scss" />
