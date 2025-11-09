@@ -26,6 +26,8 @@ async function onChange(e: Event) {
   body.append(correctName.trim().toLowerCase(), file, file.name)
 
   const { path } = await filesAPI.single(props.name, body)
+  if (typeof path === 'undefined') throw new Error('image path is undefined')
+  console.log(path)
   src.value = correctImageUrl(path) // MAYBE UNDEFINED
 }
 </script>
