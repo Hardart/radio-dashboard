@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { ExtendedSlide } from '@schema/slide-schema'
-import { nextTick, ref } from 'vue'
+import { nextTick, ref, watch } from 'vue'
 import * as ContentLayout from '@contentLayout'
 import * as UI from '@ui'
 import { useResizeObserver } from '@vueuse/core'
@@ -15,24 +15,35 @@ const slidesWithStyle = ref<ExtendedSlide[]>([])
 
 const galleryStore = useGalleryStore()
 
-async function initSlides() {
-  await galleryStore.fetchGallery()
+function extendSlides() {
   slidesWithStyle.value = galleryStore.slides.map((slide) => ({
     ...slide,
     style: {},
   }))
+}
+
+async function updateSortable() {
   await nextTick()
   sortable.value.init(rootElement.value, slidesWithStyle.value)
 }
+
+galleryStore.fetchGallery()
 
 async function addSlide() {
   const slide = await galleryStore.onAdd()
   slidesWithStyle.value.push({ ...slide, style: {} })
-  await nextTick()
-  sortable.value.init(rootElement.value, slidesWithStyle.value)
+  updateSortable()
 }
 
-initSlides()
+watch(
+  () => galleryStore.slides,
+  async () => {
+    extendSlides()
+    updateSortable()
+  },
+  { deep: true },
+)
+
 useResizeObserver(rootElement, () => sortable.value.initBounds())
 </script>
 
@@ -95,6 +106,8 @@ useResizeObserver(rootElement, () => sortable.value.initBounds())
             </div>
           </div>
         </template>
+
+        <!-- CLONE -->
         <div
           class="card clone"
           v-if="sortable.clone.isCloneInit"
@@ -114,6 +127,7 @@ useResizeObserver(rootElement, () => sortable.value.initBounds())
           </div>
         </div>
       </div>
+
       <UI.Modal v-model="galleryStore.isOpenSlideEditForm">
         <Slide
           :slide="galleryStore.slideFormData"

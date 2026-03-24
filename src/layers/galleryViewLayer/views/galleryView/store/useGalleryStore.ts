@@ -6,16 +6,16 @@ import { defineStore } from 'pinia'
 import { reactive, ref } from 'vue'
 
 export const useGalleryStore = defineStore('gallery', () => {
-  const pending = ref(false)
-  const isOpenSlideEditForm = ref(false)
-  const slides = ref<Slide[]>([])
-
   const slideFormData = reactive<Slide>({
     title: undefined,
     subtitle: undefined,
     src: '',
     id: '',
   })
+
+  const pending = ref(false)
+  const isOpenSlideEditForm = ref(false)
+  const slides = ref<Slide[]>([])
 
   function toggleSlideEditFormState(state?: boolean) {
     return (isOpenSlideEditForm.value = state
