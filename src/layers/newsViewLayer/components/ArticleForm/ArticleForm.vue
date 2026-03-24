@@ -29,6 +29,7 @@ const controls: (keyof typeof EditorControls)[] = [
   'TextWrap',
   'UploadImage',
   'SelectImage',
+  'Link',
 ]
 </script>
 

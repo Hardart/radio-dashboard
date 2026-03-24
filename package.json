@@ -12,11 +12,11 @@
   },
   "dependencies": {
     "@formkit/tempo": "^0.1.2",
+    "@tiptap/extension-link": "^3.20.4",
     "@tiptap/extension-underline": "^2.10.2",
     "@tiptap/pm": "^2.9.1",
     "@tiptap/starter-kit": "^2.9.1",
     "@tiptap/vue-3": "^2.9.1",
-    "@types/lodash": "^4.17.13",
     "@vueuse/core": "^13.5.0",
     "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",
@@ -28,6 +28,7 @@
   "devDependencies": {
     "@tsconfig/node20": "^20.1.4",
     "@types/node": "^20.14.5",
+    "@types/lodash": "^4.17.13",
     "@vitejs/plugin-vue": "^5.0.5",
     "@vue/tsconfig": "^0.5.1",
     "defu": "^6.1.4",

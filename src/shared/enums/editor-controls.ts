@@ -9,4 +9,5 @@ export enum EditorControls {
   TextWrap = 'textWrap',
   UploadImage = 'uploadImage',
   SelectImage = 'selectImage',
+  Link = 'link',
 }

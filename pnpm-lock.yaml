@@ -11,6 +11,9 @@ importers:
       '@formkit/tempo':
         specifier: ^0.1.2
         version: 0.1.2
+      '@tiptap/extension-link':
+        specifier: ^3.20.4
+        version: 3.20.4(@tiptap/core@2.9.1(@tiptap/pm@2.9.1))(@tiptap/pm@2.9.1)
       '@tiptap/extension-underline':
         specifier: ^2.10.2
         version: 2.10.2(@tiptap/core@2.9.1(@tiptap/pm@2.9.1))
@@ -74,7 +77,7 @@ importers:
         version: 10.0.0(stylelint@16.9.0(typescript@5.4.5))
       stylelint-config-recommended-scss:
         specifier: ^14.1.0
-        version: 14.1.0(postcss@8.4.47)(stylelint@16.9.0(typescript@5.4.5))
+        version: 14.1.0(postcss@8.4.49)(stylelint@16.9.0(typescript@5.4.5))
       stylelint-config-recommended-vue:
         specifier: ^1.5.0
         version: 1.5.0(postcss-html@1.7.0)(stylelint@16.9.0(typescript@5.4.5))
@@ -350,46 +353,55 @@ packages:
     resolution: {integrity: sha512-F4DgRk//u604Np1eFoGUzE9TgGE6LMvjnX2tM24ePB34JlED9utc4T3iK5x8CWC/agH+zuN7q/hJF5AtWR+JOA==}
     cpu: [arm]
     os: [linux]
+    libc: [glibc]
 
   '@rollup/rollup-linux-arm-musleabihf@4.22.1':
     resolution: {integrity: sha512-Gl5pbijcb6QOJRvHkmU/O1G65ZnKxwSHhPQRuGdmcxmX/mBM+wNHoai7wvpCoPVsdhkc+KUqgu/MydP8wovGAA==}
     cpu: [arm]
     os: [linux]
+    libc: [musl]
 
   '@rollup/rollup-linux-arm64-gnu@4.22.1':
     resolution: {integrity: sha512-GsvZqPloVOrh3G2nmZmwNSNGqWLf3L3a0nFDO1zecwucAYxEFgZkrvqQrVMT+zUjChaHPBp0eoTOQMWSKFcV8w==}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   '@rollup/rollup-linux-arm64-musl@4.22.1':
     resolution: {integrity: sha512-+vZ1jrJeEEYLbMqeKDfgcl8v7zjymdAGTr7xUdQL6c4nC+S+BZHo3Mrp/9ij2qpAveC0Iaz9DIiFplcO0joapQ==}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   '@rollup/rollup-linux-powerpc64le-gnu@4.22.1':
     resolution: {integrity: sha512-6psD9nKw+wLj9bMhArTkzKt5etA6kb+cBJQws4MovI9gQSRkdX4nyYZofBfgTtaZtymQl7uRfe1I75guePal5A==}
     cpu: [ppc64]
     os: [linux]
+    libc: [glibc]
 
   '@rollup/rollup-linux-riscv64-gnu@4.22.1':
     resolution: {integrity: sha512-xzbqImk1h5abj0bPU5XQVrqBhLHl2zTygG6+vES2TrgmNSiaPzn39aqI8QtdqmGYz507ZVI2qocTTfVwW23SmQ==}
     cpu: [riscv64]
     os: [linux]
+    libc: [glibc]
 
   '@rollup/rollup-linux-s390x-gnu@4.22.1':
     resolution: {integrity: sha512-Hz5iwqYv08PpEC75z0GAgLlOY+cLAb0PVx578mLW0naugNfG0WQqoDzQoJWiivmtTdgmwoH5YXDnjZJb7MDlhA==}
     cpu: [s390x]
     os: [linux]
+    libc: [glibc]
 
   '@rollup/rollup-linux-x64-gnu@4.22.1':
     resolution: {integrity: sha512-ot1DPlQZGGiZYNyE/PF3jbT6juuG0W5oiguHQEvjoZZ3+FSxMfdJnBz1P71QeqICSOlSFG9Z31oA/uXyuxDEVw==}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@rollup/rollup-linux-x64-musl@4.22.1':
     resolution: {integrity: sha512-euksHNkKlXS9RKKHSBBPtloSEUGPg1eRVGfOkXSSIj5W9LdkMfOefsTlVf2g8kuayZW/98nIJ83Fnou9OaZNXA==}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   '@rollup/rollup-win32-arm64-msvc@4.22.1':
     resolution: {integrity: sha512-jDS/ShZxlA3HKtgm25CcbApOVsr/0Zkdu/E+3xK4UO0PT912yqyh7jNpTmZZJAiPDQoSDI9FOqrjSbnlpW6IFg==}
@@ -492,6 +504,12 @@ packages:
     resolution: {integrity: sha512-VkNA6Vz96+/+7uBlsgM7bDXXx4b62T1fDam/3UKifA72aD/fZckeWrbT7KrtdUbzuIniJSbA0lpTs5FY29+86Q==}
     peerDependencies:
       '@tiptap/core': ^2.7.0
+
+  '@tiptap/extension-link@3.20.4':
+    resolution: {integrity: sha512-JNDSkWrVdb8NSvbQXwHWvK5tCMbTWwOHFOweknQZ1JPK4dei9FJVofYQaHyW4bJBdcCjds3NZSnXE8DM9iAWmg==}
+    peerDependencies:
+      '@tiptap/core': ^3.20.4
+      '@tiptap/pm': ^3.20.4
 
   '@tiptap/extension-list-item@2.9.1':
     resolution: {integrity: sha512-6O4NtYNR5N2Txi4AC0/4xMRJq9xd4+7ShxCZCDVL0WDVX37IhaqMO7LGQtA6MVlYyNaX4W1swfdJaqrJJ5HIUw==}
@@ -1014,6 +1032,9 @@ packages:
 
   linkify-it@5.0.0:
     resolution: {integrity: sha512-5aHCbzQRADcdP+ATqnDuhhJ/MRIqDkZX5pyjFHRRysS8vZ5AbqGEoFIb6pYHPZ+L/OC2Lc+xT8uHVVR5CAK/wQ==}
+
+  linkifyjs@4.3.2:
+    resolution: {integrity: sha512-NT1CJtq3hHIreOianA8aSXn6Cw0JzYOuDQbOrSPe7gqFnCpKP++MQe3ODgO3oh2GJFORkAAdqredOa60z63GbA==}
 
   lodash.truncate@4.4.2:
     resolution: {integrity: sha512-jttmRe7bRse52OsWIMDLaXxWqRAmtIUccAQ3garviCqJjafXOfNMO0yMfNpdD6zbGaTU0P5Nz7e7gAT6cKmJRw==}
@@ -1804,6 +1825,12 @@ snapshots:
     dependencies:
       '@tiptap/core': 2.9.1(@tiptap/pm@2.9.1)
 
+  '@tiptap/extension-link@3.20.4(@tiptap/core@2.9.1(@tiptap/pm@2.9.1))(@tiptap/pm@2.9.1)':
+    dependencies:
+      '@tiptap/core': 2.9.1(@tiptap/pm@2.9.1)
+      '@tiptap/pm': 2.9.1
+      linkifyjs: 4.3.2
+
   '@tiptap/extension-list-item@2.9.1(@tiptap/core@2.9.1(@tiptap/pm@2.9.1))':
     dependencies:
       '@tiptap/core': 2.9.1(@tiptap/pm@2.9.1)
@@ -2366,6 +2393,8 @@ snapshots:
     dependencies:
       uc.micro: 2.1.0
 
+  linkifyjs@4.3.2: {}
+
   lodash.truncate@4.4.2: {}
 
   lodash@4.17.21: {}
@@ -2494,9 +2523,9 @@ snapshots:
     dependencies:
       postcss: 8.4.47
 
-  postcss-scss@4.0.9(postcss@8.4.47):
+  postcss-scss@4.0.9(postcss@8.4.49):
     dependencies:
-      postcss: 8.4.47
+      postcss: 8.4.49
 
   postcss-selector-parser@6.1.2:
     dependencies:
@@ -2725,14 +2754,14 @@ snapshots:
       stylelint: 16.9.0(typescript@5.4.5)
       stylelint-order: 6.0.4(stylelint@16.9.0(typescript@5.4.5))
 
-  stylelint-config-recommended-scss@14.1.0(postcss@8.4.47)(stylelint@16.9.0(typescript@5.4.5)):
+  stylelint-config-recommended-scss@14.1.0(postcss@8.4.49)(stylelint@16.9.0(typescript@5.4.5)):
     dependencies:
-      postcss-scss: 4.0.9(postcss@8.4.47)
+      postcss-scss: 4.0.9(postcss@8.4.49)
       stylelint: 16.9.0(typescript@5.4.5)
       stylelint-config-recommended: 14.0.1(stylelint@16.9.0(typescript@5.4.5))
       stylelint-scss: 6.7.0(stylelint@16.9.0(typescript@5.4.5))
     optionalDependencies:
-      postcss: 8.4.47
+      postcss: 8.4.49
 
   stylelint-config-recommended-vue@1.5.0(postcss-html@1.7.0)(stylelint@16.9.0(typescript@5.4.5)):
     dependencies:

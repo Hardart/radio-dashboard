@@ -2,6 +2,7 @@
 import type { EditorControls } from '@/shared/enums/editor-controls'
 import { Image } from './extensions/Image'
 import StarterKit from '@tiptap/starter-kit'
+import Link from '@tiptap/extension-link'
 import Underline from '@tiptap/extension-underline'
 import { EditorContent, useEditor } from '@tiptap/vue-3'
 import { inject, provide, reactive, watch, type CSSProperties } from 'vue'
@@ -12,7 +13,7 @@ const content = defineModel<string | undefined>({ required: true })
 
 const editor = useEditor({
   content: content.value,
-  extensions: [StarterKit, Image, Underline],
+  extensions: [StarterKit, Image, Underline, Link],
   editorProps: {
     attributes: {
       class: 'hd-editor__textarea',
@@ -34,7 +35,7 @@ watch(
   () => image.src,
   () => {
     editor.value?.chain().focus().setImage({ src: image.src }).run()
-  }
+  },
 )
 watch(content, () => {
   if (!content.value) editor.value?.chain().clearContent().run()
