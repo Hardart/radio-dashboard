@@ -6,7 +6,7 @@ import { useToggle } from '@vueuse/core'
 import * as UI from '@ui'
 
 import ScheduleTable from '../../components/scheduleTable.vue'
-import ProgramForm from '../../components/programForm/programForm.vue'
+import ProgramForm from '../../components/programForm/ProgramForm.vue'
 import { useDefaultStore } from '@/store/useDefaultStore'
 import { useProgramsStore } from '../../store/useProgramsStore'
 import { useScheduleStore } from '../../store/useScheduleStore'
@@ -72,7 +72,7 @@ function onDeleteProgram(programId: string) {
 
 async function onUpdateSchedule(
   schedule: ScheduleWithStyle,
-  fn: (value: boolean) => void
+  fn: (value: boolean) => void,
 ) {
   const res = await scheduleStore.updateSchedule(schedule)
   if (res) fn(false)
