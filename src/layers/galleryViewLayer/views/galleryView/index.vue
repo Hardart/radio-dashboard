@@ -30,8 +30,7 @@ async function updateSortable() {
 galleryStore.fetchGallery()
 
 async function addSlide() {
-  const slide = await galleryStore.onAdd()
-  slidesWithStyle.value.push({ ...slide, style: {} })
+  await galleryStore.onAdd()
   updateSortable()
 }
 
